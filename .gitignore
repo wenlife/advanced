@@ -29,7 +29,7 @@ Thumbs
 
 # composer vendor dir
 
-/runtime
+/backend/runtime
 
 # composer itself is not needed
 
