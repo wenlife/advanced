@@ -1,0 +1,61 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+	padding-top: 0px;	
+}
+.navbar{
+	background:#913FC8;
+	height:20px;
+	margin:0;
+}
+
+.my .jumbotron{
+	height:150px;
+	margin:0 0 10px 0;
+	background:#fff url(/images/wali.png) repeat-x;	
+}
+
+.breadcrumb{
+	margin:0px;
+	background:#fff;
+}
+
+.my .panel{
+	border:none;
+}
+.my .panel-heading{
+	padding:0;
+	margin:0;
+	border:0;	
+}
+.my .panel-notice{
+    height:36px;
+	background:#fff url(/images/notice.png) no-repeat;
+}
+
+.my .panel-student{
+	height:36px;
+	background:#fff url(/images/panel.jpg) no-repeat;
+}
+
+.my .panel-school{
+	height:36px;
+	background:#fff url(/images/school.png) no-repeat;
+}
+.my .panel-title{
+	line-height:36px;
+}
+.my .panel-title img{
+	margin:10px 10px 0 0;
+}
+
+.my .panel-body{
+	min-height:150px;
+	
+}
+
+.my .media img{
+	height:100px;
+	width:100px;	
+}
+
