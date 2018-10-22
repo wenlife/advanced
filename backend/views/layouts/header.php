@@ -18,13 +18,14 @@ use yii\helpers\Html;
         <div class="navbar-custom-menu">
 
             <ul class="nav navbar-nav">
-                <li><a href="">系统设置</a></li>
-                 <li><a href="">学生管理</a></li>
-                 <li><a href="">教师管理</a></li>
-                 <li><a href="">内容管理</a></li>
-                 <li><a href="">信息技术</a></li>
-                 <li><a href="">选科指导</a></li>
-                 <li><a href="">成绩分析</a></li>
+                <li><?=Html::a('系统设置',['/site/center'])?></li>
+                <li><?=Html::a('用户管理',['/guest'])?></li>
+                 <li><?=Html::a('学生管理',['/guest/user'])?></li>
+                 <li><?=Html::a('教师管理',['/guest/teacher'])?></li>
+                 <li><?=Html::a('内容管理',['/content'])?></li>
+                 <li><?=Html::a('信息技术',['/test'])?></li>
+                 <li><?=Html::a('选科指导',['/#'])?></li>
+                 <li><?=Html::a('成绩分析',['/testService'])?></li>
 
 
                 <!-- Messages: style can be found in dropdown.less-->
