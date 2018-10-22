@@ -18,6 +18,14 @@ use yii\helpers\Html;
         <div class="navbar-custom-menu">
 
             <ul class="nav navbar-nav">
+                <li><a href="">系统设置</a></li>
+                 <li><a href="">学生管理</a></li>
+                 <li><a href="">教师管理</a></li>
+                 <li><a href="">内容管理</a></li>
+                 <li><a href="">信息技术</a></li>
+                 <li><a href="">选科指导</a></li>
+                 <li><a href="">成绩分析</a></li>
+
 
                 <!-- Messages: style can be found in dropdown.less-->
                 <li class="dropdown messages-menu">
