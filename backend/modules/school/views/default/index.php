@@ -6,7 +6,10 @@
         in the "<?= $this->context->module->id ?>" module.
     </p>
     <p>
-        You may customize this page by editing the following file:<br>
-        <code><?= __FILE__ ?></code>
+        该模块主要用于管理学校各项事物
+        如：
+        学期设置，任教设置
+        学生信息表格
+        教师信息表格
     </p>
 </div>

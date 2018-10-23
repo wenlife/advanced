@@ -6,7 +6,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
-use backend\modules\school\models\UserBanji;
+use backend\modules\school\models\TeachClass;
 
 /**
  * User model
@@ -209,8 +209,8 @@ class User extends ActiveRecord implements IdentityInterface
        ];
    }
 
-   public function getBanji()
+   public function getTeachclass()
    {
-     return $this->hasOne(UserBanji::className(), ['id' => 'class']);
+     return $this->hasOne(TeachClass::className(), ['id' => 'class']);
    }
 }

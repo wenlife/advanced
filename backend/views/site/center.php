@@ -101,24 +101,7 @@ $this->title = 'center';
                   </tr>
                   </thead>
                   <tbody>
-                  <?php
-                    foreach ($tasks as $key => $task) {
-                  ?>
-                  <tr>
-                    <td><a"><?=$task->id?></td>
-                    <td><?=$task->title?></td>
-                    <td><?=$task->paper->title?></td>
-                    <td>
-                      <span class="label label-success"><?=$taskCount[$task->id]?></span>
-                    </td>
-                    <td>
-                      <a href="<?=Url::toRoute(['/test/testpaper/score','testid'=>$task->paper->id])?>" class="">查看</a>
-                    </td>
-                  </tr>
-                  <?php
 
-                    }
-                  ?>
              
                 
                   </tbody>
@@ -171,30 +154,22 @@ $this->title = 'center';
 
         <div class="col-md-4">
 
-          <?php
-            $color=['bg-green','bg-yellow','bg-red','bg-aqua'];
-            $icon = ['ion-ios-heart-outline','ion-ios-pricetag-outline','ion-ios-cloud-download-outline','ion-ios-cloud-download-outline'];
-              foreach ($classes as $key => $class) {
-          ?>
-          <div class="info-box <?=$color[array_rand($color)]?>">
-            <span class="info-box-icon"><i class="ion <?=$icon[array_rand($icon)]?>"></i></span>
+          <div class="info-box ">
+            <span class="info-box-icon"><i class="icon"></i></span>
 
             <div class="info-box-content">
-              <a href="index.php?r=site/myclass" class="boxlink"><span class="info-box-text"><?=$class->title?></span></a>
-              <span class="info-box-number"><?=$classDetail[$class->id]['studentCount']?>人</span>
+              <a href="index.php?r=site/myclass" class="boxlink"><span class="info-box-text"></span></a>
+              <span class="info-box-number">人</span>
 
               <div class="progress">
                 <div class="progress-bar" style="width: 20%"></div>
               </div>
               <span class="progress-description">
-                    未完成当前任务人数<?=$classDetail[$class->id]['submitYet']?>，平均分<?=$classDetail[$class->id]['avg']?>
+                    未完成当前任务人数
                   </span>
             </div>
             <!-- /.info-box-content -->
           </div>
-        <?php   
-              }
-          ?>
 
      </div>
      </div>   

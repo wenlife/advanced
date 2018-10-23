@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = 'index';
             'username',
             'name',
             ['attribute'=>'gender','value'=>function($model){return $model->gender==1?'男':'女';}],
-            ['attribute'=>'class','value'=>function($model){return $model->banji->title;}],
+            ['attribute'=>'class','value'=>function($model){return $model->teachclass->title;}],
             ['attribute'=>'status','value'=>function($model){return $model->status==10?'正常':'锁定';}],
             ['attribute'=>'type','value'=>function($model){return $model->status==1?'普通':'其他';}],
             // 'auth_key',

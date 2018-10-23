@@ -20,6 +20,7 @@ use yii\helpers\Html;
             <ul class="nav navbar-nav">
                 <li><?=Html::a('系统设置',['/site/center'])?></li>
                 <li><?=Html::a('用户管理',['/guest'])?></li>
+                 <li><?=Html::a('学校管理',['/school'])?></li>
                  <li><?=Html::a('学生管理',['/guest/user'])?></li>
                  <li><?=Html::a('教师管理',['/guest/teacher'])?></li>
                  <li><?=Html::a('内容管理',['/content'])?></li>

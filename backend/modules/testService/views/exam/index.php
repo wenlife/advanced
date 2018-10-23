@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
               'template'=>'{view}{update}{delete}',
               'buttons'=>[
                 'view'=>function($url,$model,$key){
-                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span',['/testService/default/index','id'=>$model->id],['title'=>'添加']);
+                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span',['/testService/analysis/index','id'=>$model->id],['title'=>'添加']);
                 },
               ],
               'headerOptions'=>['width'=>'180']
