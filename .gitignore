@@ -29,7 +29,8 @@
 
 # composer vendor dir
 
-/backend/runtime
+#/backend/runtime
+#/backend/web/assets
 
 # composer itself is not needed
 
