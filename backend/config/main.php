@@ -71,6 +71,10 @@ return [
         'school' => [
             'class' => 'backend\modules\school\Module',
         ],
+        'guidance' => [
+
+            'class' => 'backend\modules\guidance\Module',
+        ],
 
     ],
     'params' => $params,
