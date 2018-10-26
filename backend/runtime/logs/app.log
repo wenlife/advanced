@@ -10850,3 +10850,104 @@ $_SERVER = [
     'REQUEST_TIME_FLOAT' => 1540308352.922
     'REQUEST_TIME' => 1540308352
 ]
+2018-10-27 00:51:18 [::1][-][-][error][yii\base\ErrorException:8] yii\base\ErrorException: Undefined offset: 12 in E:\program\web\backend\modules\testService\controllers\AnalysisController.php:619
+Stack trace:
+#0 E:\program\web\backend\modules\testService\controllers\AnalysisController.php(619): yii\base\ErrorHandler->handleError(8, 'Undefined offse...', 'E:\\program\\web\\...', 619, Array)
+#1 [internal function]: backend\modules\testService\controllers\AnalysisController->actionImport('6')
+#2 E:\program\web\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#3 E:\program\web\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#4 E:\program\web\vendor\yiisoft\yii2\base\Module.php(523): yii\base\Controller->runAction('import', Array)
+#5 E:\program\web\vendor\yiisoft\yii2\web\Application.php(102): yii\base\Module->runAction('testService/ana...', Array)
+#6 E:\program\web\vendor\yiisoft\yii2\base\Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#7 E:\program\web\backend\web\index.php(18): yii\base\Application->run()
+#8 {main}
+2018-10-27 00:51:18 [::1][-][-][info][application] $_GET = [
+    'r' => 'testService/analysis/import'
+    'id' => '6'
+]
+
+$_POST = [
+    '_adminCSRF' => '5z65lj96vtdJWETlB9gQkfxJph7shl3A0Zs58xtNmaNWqfualkZZteRPXwl6eKrWdaOAVwm6_jiL8ETBo5qUMA=='
+    'UploadXml' => [
+        'exam' => '6'
+        'type' => '2'
+        'file' => ''
+    ]
+]
+
+$_FILES = [
+    'UploadXml' => [
+        'name' => [
+            'file' => 'wkcj.xlsx'
+        ]
+        'type' => [
+            'file' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        ]
+        'tmp_name' => [
+            'file' => 'D:\\xampp\\tmp\\php257.tmp'
+        ]
+        'error' => [
+            'file' => 0
+        ]
+        'size' => [
+            'file' => 49292
+        ]
+    ]
+]
+
+$_COOKIE = [
+    '_identity-backend' => '1da9ed03be64974b23961d9509362f1e4eb691fe54b6118967ff36404b65bf52a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[1,\"KygM_8fZ6d8efxKy2tzeZltyEk0MnRZV\",2592000]\";}'
+    '_identity' => '86f9601bd83cb8dc9510d2d3f5bd421a5ab11c20fbaa9acb0284c84dc7144d14a:2:{i:0;s:9:\"_identity\";i:1;s:46:\"[1,\"qgwY92tUajedvdJJrePzzkSLFkjm_RHF\",2592000]\";}'
+    'PHPBACKSESSION' => 'c9b757d56pchmcrisbtrc1635i'
+    '_adminCSRF' => '9255053a60c38c6facfed4276cb23889849a61d9b57e2ddf29d54ac281f8c940a:2:{i:0;s:10:\"_adminCSRF\";i:1;s:32:\"±—B©<çb­ì} ºG‰ê&Iå<£øZk}2¸×“\";}'
+]
+
+$_SERVER = [
+    'MIBDIRS' => 'D:/xampp/php/extras/mibs'
+    'MYSQL_HOME' => '\\xampp\\mysql\\bin'
+    'OPENSSL_CONF' => 'D:/xampp/apache/bin/openssl.cnf'
+    'PHP_PEAR_SYSCONF_DIR' => '\\xampp\\php'
+    'PHPRC' => '\\xampp\\php'
+    'TMP' => '\\xampp\\tmp'
+    'HTTP_HOST' => 'localhost:83'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'CONTENT_LENGTH' => '50034'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_ORIGIN' => 'http://localhost:83'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'CONTENT_TYPE' => 'multipart/form-data; boundary=----WebKitFormBoundaryQmYxAnlciQxUc8Sk'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
+    'HTTP_REFERER' => 'http://localhost:83/index.php?r=testService%2Fanalysis%2Fimport&id=6'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7'
+    'HTTP_COOKIE' => '_identity-backend=1da9ed03be64974b23961d9509362f1e4eb691fe54b6118967ff36404b65bf52a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B1%2C%22KygM_8fZ6d8efxKy2tzeZltyEk0MnRZV%22%2C2592000%5D%22%3B%7D; _identity=86f9601bd83cb8dc9510d2d3f5bd421a5ab11c20fbaa9acb0284c84dc7144d14a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A46%3A%22%5B1%2C%22qgwY92tUajedvdJJrePzzkSLFkjm_RHF%22%2C2592000%5D%22%3B%7D; PHPBACKSESSION=c9b757d56pchmcrisbtrc1635i; _adminCSRF=9255053a60c38c6facfed4276cb23889849a61d9b57e2ddf29d54ac281f8c940a%3A2%3A%7Bi%3A0%3Bs%3A10%3A%22_adminCSRF%22%3Bi%3A1%3Bs%3A32%3A%22%B1%97B%0C%A9%3C%E7b%AD%17%1B%EC%7D%A0%BAG%89%EA%26I%E5%3C%A3%F8Zk%7D2%B8%D7%0D%93%22%3B%7D'
+    'PATH' => 'C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;E:\\xampp\\php;E:\\xampp\\php\\ext;C:\\bin;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Program Files\\Git\\cmd;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\Program Files\\dotnet\\;C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\;C:\\ProgramData\\ComposerSetup\\bin;C:\\python\\Scripts\\;C:\\python\\;D:\\xampp\\php\\ext;D:\\xampp\\php;C:\\Users\\Lolita\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\Lolita\\AppData\\Roaming\\Composer\\vendor\\bin'
+    'SystemRoot' => 'C:\\WINDOWS'
+    'COMSPEC' => 'C:\\WINDOWS\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\WINDOWS'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.29 (Win32) OpenSSL/1.0.2l PHP/7.1.11 Server at localhost Port 83</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.29 (Win32) OpenSSL/1.0.2l PHP/7.1.11'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '83'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => 'E:/program/web/backend/web'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => 'E:/program/web/backend/web'
+    'SERVER_ADMIN' => 'postmaster@localhost'
+    'SCRIPT_FILENAME' => 'E:/program/web/backend/web/index.php'
+    'REMOTE_PORT' => '8770'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'POST'
+    'QUERY_STRING' => 'r=testService%2Fanalysis%2Fimport&id=6'
+    'REQUEST_URI' => '/index.php?r=testService%2Fanalysis%2Fimport&id=6'
+    'SCRIPT_NAME' => '/index.php'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1540572678.541
+    'REQUEST_TIME' => 1540572678
+]
