@@ -39,7 +39,8 @@ AppAsset::register($this);
 
     echo Nav::widget([
         'items'=>[
-            ['label' => '个人中心', 'url' => ['/center']], 
+            ['label' => '个人中心', 'url' => ['/center']],
+            ['label' => '选科指导中心', 'url' => ['/center']], 
         ],
         'options'=>['class'=>'navbar-nav'],
     ]);

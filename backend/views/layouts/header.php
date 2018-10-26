@@ -25,7 +25,7 @@ use yii\helpers\Html;
                  <li><?=Html::a('教师管理',['/guest/teacher'])?></li>
                  <li><?=Html::a('内容管理',['/content'])?></li>
                  <li><?=Html::a('信息技术',['/test'])?></li>
-                 <li><?=Html::a('选科指导',['/#'])?></li>
+                 <li><?=Html::a('选科指导',['/guidance'])?></li>
                  <li><?=Html::a('成绩分析',['/testService'])?></li>
 
 

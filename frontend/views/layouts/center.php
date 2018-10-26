@@ -37,7 +37,8 @@ NavBar::begin([
 
 echo Nav::widget([
     'items'=>[
-        ['label' => '个人中心', 'url' => ['/center']], 
+        ['label' => '个人中心', 'url' => ['/center']],
+        ['label' => '选科指导中心', 'url' => ['/guidance']], 
     ],
     'options'=>['class'=>'navbar-nav'],
 ]);

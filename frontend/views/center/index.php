@@ -35,7 +35,7 @@ if(file_exists("avatar/1/$id.png"))
               <div class="col-sm-8">
                 <ul class="nameplate">
                   <li><a href=<?=url::to(['detail'])?>><?=$user->name?></a></li>
-                  <li><?=$user->banji->title?></li>
+                  <li><?=$user->teachclass->title?></li>
                   <li>
                     <i class="glyphicon glyphicon-star text-danger"></i>
                     <i class="glyphicon glyphicon-star text-danger"></i>
