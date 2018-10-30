@@ -61,7 +61,7 @@ if(file_exists("avatar/1/$id.png"))
             <?php if ($task) {  ?>
             <table class="table table-condensed">
                 <tbody>
-                <tr><th style="width: 10px"><?=$task->title?></th></tr>
+                <tr><th><?=$task->title?></th></tr>
                 <tr><td><?=$task->content?></td></tr>
                 <tr><td><?=$task->feedback?></td></tr>
                 <tr><td><?=$task->enddate?></td></tr>
@@ -87,15 +87,15 @@ if(file_exists("avatar/1/$id.png"))
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
 
-              <li class=""><a href="#content" data-toggle="tab" aria-expanded="false">学习内容</a></li>
-               <li class=""><a href="#test" data-toggle="tab" aria-expanded="false">测试内容</a></li>
+              <li class=""><a href="#content" data-toggle="tab" aria-expanded="false">信息技术学习</a></li>
+               <li class=""><a href="#test" data-toggle="tab" aria-expanded="false">选科指导中心</a></li>
 
-              <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">Settings</a></li>
+              <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">视频中心</a></li>
             </ul>
             <div class="tab-content">
 
-              <div class="tab-pane active" id="content">
-                                 <?php
+            <div class="tab-pane active" id="content">
+            <?php
             if ($section1) {
             foreach ($section1 as $key1 => $section_1) {
               //exit(var_export($section_1));
@@ -106,25 +106,24 @@ if(file_exists("avatar/1/$id.png"))
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-                              <?php 
-                                  $dataProvider = new ActiveDataProvider([
-                                    'query' => Information::find()->where(['infoitem'=>$section_1->itemid]),
-                                    'pagination' => [
-                                        'pageSize' =>10,
-                                    ],
-                                  ]);
-                                  echo ListView::widget([
-                                    'dataProvider' => $dataProvider,
-                                    'itemView' => 'item',
-                                    'layout'=> "{items}",
-                                  ]);
+              <?php 
+                  $dataProvider = new ActiveDataProvider([
+                    'query' => Information::find()->where(['infoitem'=>$section_1->itemid]),
+                    'pagination' => [
+                        'pageSize' =>10,
+                    ],
+                  ]);
+                  echo ListView::widget([
+                    'dataProvider' => $dataProvider,
+                    'itemView' => 'item',
+                    'layout'=> "{items}",
+                  ]);
 
-                              ?>
+              ?>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                    1212
-              
+                  <a href="#" class="small-box-footer">More info<i class="fa fa-arrow-circle-right"></i></a>
             </div>
             <!-- /.box-footer-->
           </div>
@@ -139,57 +138,7 @@ if(file_exists("avatar/1/$id.png"))
 
 
               <div class="tab-pane" id="settings">
-                <form class="form-horizontal">
-                  <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Name</label>
-
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputName" placeholder="Name">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Name</label>
-
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName" placeholder="Name">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
-
-                    <div class="col-sm-10">
-                      <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
-
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <button type="submit" class="btn btn-danger">Submit</button>
-                    </div>
-                  </div>
-                </form>
+                  
               </div>
               <!-- /.tab-pane -->
             </div>
