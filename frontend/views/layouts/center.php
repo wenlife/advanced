@@ -1,7 +1,4 @@
 <?php
-
-/* @var $this \yii\web\View */
-/* @var $content string */
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -69,32 +66,30 @@ echo Nav::widget([
 ]);
 NavBar::end();
 ?>
-<div class="container">
-    
-       
-            <div class="row my">
-            <div class="jumbotron"></div>
-                <?php
-                $setting = new Indexsetting();
-                $notice = $setting->find()->where(['type'=>3])->one();
-                if($notice){
-            ?>
+<div class="container">    
+    <div class="row my">
+        <div class="jumbotron"></div>
+        <?php
+        $setting = new Indexsetting();
+        $notice = $setting->find()->where(['type'=>3])->one();
+        if($notice){
+        ?>
 
 
-            <div class="alert alert-success alert-dismissible" role="alert" style="margin:0px; height:auto">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-               <div class="notice">
-                 <?=$notice->content?>
-             </div>
-    
-            </div>
-            <?php
-              }
-            ?>
+        <div class="alert alert-success alert-dismissible" role="alert" style="margin:0px; height:auto">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+           <div class="notice">
+             <?=$notice->content?>
+         </div>
+
         </div>
+        <?php
+          }
+        ?>
+    </div>
 
 
-<section class="content-header">
+    <section class="content-header">
         <?php if (isset($this->blocks['content-header'])) { ?>
             <h1><?= $this->blocks['content-header'] ?></h1>
         <?php } else { ?>
