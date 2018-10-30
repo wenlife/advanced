@@ -39,7 +39,6 @@ echo Nav::widget([
     'options'=>['class'=>'navbar-nav'],
 ]);
 $menuItems = [
-   // ['label'=>'学习中心','url'=>['learn']],
     ['label'=>'查询成绩','url'=>['center/score']],
     ['label'=>'任务列表','url'=>['center/task']],
     ['label'=>'个人信息','url'=>['center/detail']],
