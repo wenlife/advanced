@@ -1,5 +1,6 @@
 <?php
 /* @var $this yii\web\View */
+$this->title = "title";
 ?>
 <div class="row">
 <a class="btn btn-app"><span class="badge bg-green">300</span><i class="fa fa-barcode"></i> Products</a>

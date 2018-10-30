@@ -11,6 +11,7 @@ use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
 use common\models\Indexsetting;
 AppAsset::register($this);
+dmstr\web\AdminLteAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -22,10 +23,10 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body>
+<body class="hold-transition skin-blue layout-top-nav">
 <?php $this->beginBody() ?>
 
-<div class="wrap">
+<div class="content-wrapper">
 <?php
 NavBar::begin([
     'brandLabel' => '攀枝花七中校内网',
@@ -71,6 +72,29 @@ echo Nav::widget([
 NavBar::end();
 ?>
 <div class="container">
+    <section class="content-header">
+        <?php if (isset($this->blocks['content-header'])) { ?>
+            <h1><?= $this->blocks['content-header'] ?></h1>
+        <?php } else { ?>
+            <h1>
+                <?php
+                if ($this->title !== null) {
+                    echo \yii\helpers\Html::encode($this->title);
+                } else {
+                    echo \yii\helpers\Inflector::camel2words(
+                        \yii\helpers\Inflector::id2camel($this->context->module->id)
+                    );
+                    echo ($this->context->module->id !== \Yii::$app->id) ? '<small>Module</small>' : '';
+                } ?>
+            </h1>
+        <?php } ?>
+
+        <?=
+        Breadcrumbs::widget(
+            [
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            ]
+        ) ?>
         <div class="row my">
             <div class="jumbotron"></div>
                 <?php
@@ -89,16 +113,19 @@ NavBar::end();
               }
             ?>
         </div>
+    </section>
+     <section class="content">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
-    </div>
+    </section>
+</div>
 </div>
 
 
-<div class="footer" style="clear:both;height: auto">
+<div class="main-footer">
     <div class="container">
         <p class="text-center">攀枝花七中信息技术教研组 倾力制作</p>
         <p class="text-center">Yii powerd</p>
