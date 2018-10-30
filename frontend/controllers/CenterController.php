@@ -13,7 +13,8 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
 use common\models\user;
-use backend\modules\school\models\userBanji;
+use backend\modules\school\models\TeachClass;
+use backend\modules\school\models\TeachManage;
 
 use backend\modules\test\models\Task;
 use backend\modules\content\models\Information;
@@ -44,8 +45,11 @@ class CenterController extends \yii\web\Controller
             $user = User::findByUsername($username);
         }
 
-        $class = userBanji::find()->where(['id'=>$user->class])->one();
-        $teacherID = $class->xx;
+
+       // $class = TeachClass::find()->where(['id'=>$user->class])->one();
+
+
+        $teacherID = TeachManage::find()->where(['class_id'=>$user->class,'subject'=>'xx'])->one();// $class->xx;
 
         $taskModel = new Task();
         $task = $taskModel->find()->where(['creator'=>$teacherID,'state'=>1])->orderBy('createdate desc')->one();
@@ -159,7 +163,7 @@ class CenterController extends \yii\web\Controller
     public function actionTask()
     {    
         $userStu = User::findByUsername(Yii::$app->user->identity->username);
-        $class = userBanji::find($userStu->class)->one();
+        $class = TeachClass::find($userStu->class)->one();
         $teacherID = $class->xx;
         $tasks = Task::find()->where(['creator'=>$teacherID])->orderBy('state')->all();
          return $this->render('task',['tasks'=>$tasks]);
@@ -170,7 +174,7 @@ class CenterController extends \yii\web\Controller
     {   
         //$this->layout = false;
         $userStu = User::findByUsername(Yii::$app->user->identity->username);
-        $class = userBanji::find()->where(['id'=>$userStu->class])->one();
+        $class = TeachClass::find()->where(['id'=>$userStu->class])->one();
 
         return $this->render('detail',['detail'=>$userStu,'class'=>$class]);
     }

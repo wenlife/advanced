@@ -9,7 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use  yii\db\Exception;
-use backend\modules\school\models\UserBanji;
+use backend\modules\school\models\TeachClass;
 use PHPExcel;
 use backend\modules\guest\forms\UploadOnly;
 use yii\web\UploadedFile;
@@ -64,7 +64,7 @@ class UserController extends Controller
      public function actionImport()
     {
         $model = new UploadOnly();
-        $classes = UserBanji::find()->orderby('grade desc,serial')->all();
+        $classes = TeachClass::find()->orderby('grade desc,serial')->all();
         //exit(var_export($classes));
 
         if($post=Yii::$app->request->post())

@@ -34,7 +34,8 @@ NavBar::begin([
 echo Nav::widget([
     'items'=>[
         ['label' => '个人中心', 'url' => ['/center']],
-        ['label' => '选科指导中心', 'url' => ['/guidance']], 
+        ['label' => '选科指导中心', 'url' => ['/guidance']],
+        ['label' => '视频中心', 'url' => ['/video']],
     ],
     'options'=>['class'=>'navbar-nav'],
 ]);
@@ -80,7 +81,6 @@ NavBar::end();
            <div class="notice">
              <?=$notice->content?>
          </div>
-
         </div>
         <?php
           }
@@ -88,22 +88,10 @@ NavBar::end();
     </div>
 
 
-    <section class="content-header">
-        <?php if (isset($this->blocks['content-header'])) { ?>
-            <h1><?= $this->blocks['content-header'] ?></h1>
-        <?php } else { ?>
-            <h1>
-                <?php
-                if ($this->title !== null) {
-                    echo \yii\helpers\Html::encode($this->title);
-                } else {
-                    echo \yii\helpers\Inflector::camel2words(
-                        \yii\helpers\Inflector::id2camel($this->context->module->id)
-                    );
-                    echo ($this->context->module->id !== \Yii::$app->id) ? '<small>Module</small>' : '';
-                } ?>
-            </h1>
-        <?php } ?>
+
+<div class="row">
+        <section class="content-header">
+
 
         <?=
         Breadcrumbs::widget(
@@ -112,18 +100,18 @@ NavBar::end();
             ]
         ) ?>
     </section>
-
      <section class="content">
         <?= Alert::widget() ?>
         <?= $content ?>
     </section>
 </div>
 </div>
+</div>
 
 
 <div class="main-footer">
     <div class="container">
-        <p class="text-center">攀枝花七中信息技术教研组 倾力制作</p>
+        <p class="text-center">攀枝花七中信息技术教研组</p>
         <p class="text-center">Yii powerd</p>
     </div>
 </div>
