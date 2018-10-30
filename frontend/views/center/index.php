@@ -5,7 +5,7 @@ use yii\widgets\ListView;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 use yii\helpers\Url;
-$this->title = '';
+$this->title = '学生首页';
 //$this->params['breadcrumbs'][] = $this->title;
 $id = Yii::$app->user->identity->username;
 if(file_exists("avatar/1/$id.png"))
@@ -123,7 +123,7 @@ if(file_exists("avatar/1/$id.png"))
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                  <a href="#" class="small-box-footer">More info<i class="fa fa-arrow-circle-right"></i></a>
+                  <a href="<?=Url::toRoute(['/site/list','cate'=>$section_1->itemid])?>" class="small-box-footer pull-right">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
             <!-- /.box-footer-->
           </div>
