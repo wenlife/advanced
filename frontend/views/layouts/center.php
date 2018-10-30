@@ -2,15 +2,13 @@
 
 /* @var $this \yii\web\View */
 /* @var $content string */
-
-use backend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
 use common\models\Indexsetting;
-AppAsset::register($this);
+frontend\assets\AppAsset::register($this);
 dmstr\web\AdminLteAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -32,7 +30,7 @@ NavBar::begin([
     'brandLabel' => '攀枝花七中校内网',
     'brandUrl' =>'http://www.pzhqz.com', //Yii::$app->homeUrl,
     'options' => [
-        'class' => 'my navbar-inverse navbar-fixed-top',
+        'class' => 'navbar navbar-static-top navbar-custom',
     ],
 ]);
 
@@ -72,7 +70,31 @@ echo Nav::widget([
 NavBar::end();
 ?>
 <div class="container">
-    <section class="content-header">
+    
+       
+            <div class="row my">
+            <div class="jumbotron"></div>
+                <?php
+                $setting = new Indexsetting();
+                $notice = $setting->find()->where(['type'=>3])->one();
+                if($notice){
+            ?>
+
+
+            <div class="alert alert-success alert-dismissible" role="alert" style="margin:0px; height:auto">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <div class="notice">
+                 <?=$notice->content?>
+             </div>
+    
+            </div>
+            <?php
+              }
+            ?>
+        </div>
+
+
+<section class="content-header">
         <?php if (isset($this->blocks['content-header'])) { ?>
             <h1><?= $this->blocks['content-header'] ?></h1>
         <?php } else { ?>
@@ -95,29 +117,9 @@ NavBar::end();
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]
         ) ?>
-        <div class="row my">
-            <div class="jumbotron"></div>
-                <?php
-                $setting = new Indexsetting();
-                $notice = $setting->find()->where(['type'=>3])->one();
-                if($notice){
-            ?>
-            <div class="alert alert-info alert-dismissible" role="alert" style="margin:0px; height:auto">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-               <div class="notice">
-                 <?=$notice->content?>
-             </div>
-    
-            </div>
-            <?php
-              }
-            ?>
-        </div>
     </section>
+
      <section class="content">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
     </section>
