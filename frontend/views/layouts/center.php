@@ -1,16 +1,12 @@
 <?php
-
-/* @var $this \yii\web\View */
-/* @var $content string */
-
-use backend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
 use common\models\Indexsetting;
-AppAsset::register($this);
+frontend\assets\AppAsset::register($this);
+dmstr\web\AdminLteAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -22,28 +18,28 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body>
+<body class="hold-transition skin-blue layout-top-nav">
 <?php $this->beginBody() ?>
 
-<div class="wrap">
+<div class="content-wrapper">
 <?php
 NavBar::begin([
     'brandLabel' => '攀枝花七中校内网',
     'brandUrl' =>'http://www.pzhqz.com', //Yii::$app->homeUrl,
     'options' => [
-        'class' => 'my navbar-inverse navbar-fixed-top',
+        'class' => 'navbar navbar-static-top navbar-custom',
     ],
 ]);
 
 echo Nav::widget([
     'items'=>[
         ['label' => '个人中心', 'url' => ['/center']],
-        ['label' => '选科指导中心', 'url' => ['/guidance']], 
+        ['label' => '选科指导中心', 'url' => ['/guidance']],
+        ['label' => '视频中心', 'url' => ['/video']],
     ],
     'options'=>['class'=>'navbar-nav'],
 ]);
 $menuItems = [
-   // ['label'=>'学习中心','url'=>['learn']],
     ['label'=>'查询成绩','url'=>['center/score']],
     ['label'=>'任务列表','url'=>['center/task']],
     ['label'=>'个人信息','url'=>['center/detail']],
@@ -70,37 +66,52 @@ echo Nav::widget([
 ]);
 NavBar::end();
 ?>
-<div class="container">
-        <div class="row my">
-            <div class="jumbotron"></div>
-                <?php
-                $setting = new Indexsetting();
-                $notice = $setting->find()->where(['type'=>3])->one();
-                if($notice){
-            ?>
-            <div class="alert alert-info alert-dismissible" role="alert" style="margin:0px; height:auto">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-               <div class="notice">
-                 <?=$notice->content?>
-             </div>
-    
-            </div>
-            <?php
-              }
-            ?>
+<div class="container">    
+    <div class="row my">
+        <div class="jumbotron"></div>
+        <?php
+        $setting = new Indexsetting();
+        $notice = $setting->find()->where(['type'=>3])->one();
+        if($notice){
+        ?>
+
+
+        <div class="alert alert-success alert-dismissible" role="alert" style="margin:0px; height:auto">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+           <div class="notice">
+             <?=$notice->content?>
+         </div>
         </div>
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
+        <?php
+          }
+        ?>
+    </div>
+
+
+
+<div class="row">
+        <section class="content-header">
+
+
+        <?=
+        Breadcrumbs::widget(
+            [
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            ]
+        ) ?>
+    </section>
+     <section class="content">
         <?= Alert::widget() ?>
         <?= $content ?>
-    </div>
+    </section>
+</div>
+</div>
 </div>
 
 
-<div class="footer" style="clear:both;height: auto">
+<div class="main-footer">
     <div class="container">
-        <p class="text-center">攀枝花七中信息技术教研组 倾力制作</p>
+        <p class="text-center">攀枝花七中信息技术教研组</p>
         <p class="text-center">Yii powerd</p>
     </div>
 </div>

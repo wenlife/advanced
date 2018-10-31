@@ -11,5 +11,6 @@ use yii\helpers\HtmlPurifier;
 	.item{
 		padding-bottom: 5px;
 		border-bottom: 1px solid #eee;
+		text-indent: 15px;
 	}
 </style>

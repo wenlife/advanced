@@ -1,6 +1,5 @@
 <?php
 namespace frontend\controllers;
-
 use Yii;
 use common\models\FrontendLoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -13,10 +12,6 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
-use common\models\user;
-use common\models\userBanji;
-
-use backend\modules\test\models\Task;
 use backend\modules\content\models\Information;
 use backend\modules\content\models\infoitem;
 use backend\modules\content\models\Videolist;
@@ -45,6 +40,8 @@ class SiteController extends Controller
     /**
      * @inheritdoc
      */
+    public $layout = 'center';
+
     public function behaviors()
     {
         return [
@@ -94,7 +91,7 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public $layout ='center';
+
     public function actionIndex()
     {
         return $this->redirect(['login']);
@@ -123,7 +120,6 @@ class SiteController extends Controller
      */
     public function actionCenter()
     {
-        $this->layout ='center';
 
         $userStu = User::findByUsername(Yii::$app->user->identity->username);
         $class = userBanji::find($userStu->class)->one();
@@ -212,7 +208,7 @@ class SiteController extends Controller
 
     public function actionList($cate)
     {
-        $this->layout = "content";
+        //$this->layout = "content";
         $content = new ContentMenu();
         if (is_numeric($cate)) {
             $items = $content->find()->where(['menuid'=>$cate])->all();
@@ -222,7 +218,7 @@ class SiteController extends Controller
 
     public function actionDetail($id)
     {
-        $this->layout = "content";
+       // $this->layout = "content";
         return $this->render('detail',['model'=>Information::findOne($id)]);
     }
 
@@ -321,7 +317,7 @@ class SiteController extends Controller
 
     public function actionLogin()
     {
-        $this->layout = "content";
+       // $this->layout = "content";
         if (!\Yii::$app->user->isGuest) {
            // return $this->goHome();
             return $this->redirect(['/center']);

@@ -20,7 +20,7 @@ $papers = $paperModel->find()->where(['state'=>1])->All();
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'content')->widget('pjkui\kindeditor\KindEditor',['clientOptions'=>['allowFileManager'=>'true','allowUpload'=>'true']]) ?>
+    <?= $form->field($model, 'content')->widget('kucha\ueditor\UEditor',['clientOptions' => ['initialFrameHeight' => '200',]]); ?>
 
     <?= $form->field($model, 'feedback')->textarea(['rows' => 6]) ?>
 
