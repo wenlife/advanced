@@ -8,23 +8,23 @@ use yii\data\ActiveDataProvider;
 use backend\modules\testService\models\Taskline;
 
 /**
- * TasklineSearch represents the model behind the search form of `backend\modules\testService\models\Taskline`.
+ * TasklineSearch represents the model behind the search form about `backend\modules\testService\models\Taskline`.
  */
 class TasklineSearch extends Taskline
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'line1', 'line2', 'line3', 'line4'], 'integer'],
-            [['grade', 'title', 'note'], 'safe'],
+            [['id', 'banji', 'line1', 'line2', 'line3', 'line4'], 'integer'],
+            [['grade', 'note'], 'safe'],
         ];
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function scenarios()
     {
@@ -43,8 +43,6 @@ class TasklineSearch extends Taskline
     {
         $query = Taskline::find();
 
-        // add conditions that should always apply here
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -57,9 +55,9 @@ class TasklineSearch extends Taskline
             return $dataProvider;
         }
 
-        // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'banji' => $this->banji,
             'line1' => $this->line1,
             'line2' => $this->line2,
             'line3' => $this->line3,
@@ -67,7 +65,6 @@ class TasklineSearch extends Taskline
         ]);
 
         $query->andFilterWhere(['like', 'grade', $this->grade])
-            ->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'note', $this->note]);
 
         return $dataProvider;

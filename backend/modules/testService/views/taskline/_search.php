@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'grade') ?>
 
-    <?= $form->field($model, 'title') ?>
+    <?= $form->field($model, 'banji') ?>
 
     <?= $form->field($model, 'line1') ?>
 

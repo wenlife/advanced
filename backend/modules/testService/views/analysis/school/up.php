@@ -22,6 +22,7 @@ foreach ($subjects as $keys => $subject) {
     color:red;
   }
 </style>
+<div class="table-responsive">
 <table class="table table-bordered table-hover dataTable" style="width: 100%">
   <thead>
         <tr>
@@ -68,6 +69,7 @@ foreach ($subjects as $keys => $subject) {
 	?>
   </tbody>
 </table>
+</div>
 <?php
 if ($type=='lk') {
  // var_export($teacherArr);

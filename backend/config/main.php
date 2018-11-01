@@ -25,6 +25,10 @@ return [
         'user' => [
             'identityClass' => 'common\models\Adminuser',
             'enableAutoLogin' => true,
+            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+        ],
+        'session' => [
+            'name' => 'advanced-backend',
         ],
         'session'=>[
             'name'=>'PHPBACKSESSION',

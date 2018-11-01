@@ -3,16 +3,23 @@
 body{
 	padding-top: 0px;	
 }
-.navbar{
-	background:#913FC8;
+.navbar-custom{
+    background:#3c8dbc;
+    font-color:#fff;
 	height:20px;
 	margin:0;
+}
+.navbar-custom a{
+	color:#fff;
+}
+.navbar-custom button{
+	color:#fff;
 }
 
 .my .jumbotron{
 	height:150px;
-	margin:0 0 10px 0;
-	background:#fff url(/images/heimao.png) repeat-x;	
+	margin:10px 0 10px 0;
+	background:#fff url(/images/wali.png) repeat-x;	
 }
 
 .breadcrumb{
@@ -58,3 +65,4 @@ body{
 	height:100px;
 	width:100px;	
 }
+

@@ -19,6 +19,7 @@ foreach ($subjects as $keys => $subject) {
     background-color: gray;
   }
 </style>
+<div class="table-responsive">
 <table class="table table-bordered table-hover dataTable" style="width: 100%">
   <thead>
     		<tr>
@@ -76,6 +77,7 @@ $i = 1;
 ?>
   </tbody>
 </table>
+</div>
 <?php
   foreach ($subjects as $key => $subject) {
     foreach ($bjs as $keybj => $bj) {

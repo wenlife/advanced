@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'grade',
-            'title',
+            'banji',
             'line1',
             'line2',
             'line3',

@@ -16,7 +16,7 @@ if (!isset($title)) {
 
 <div class="box box-success">
   <div class="box-header with-border">
-    <h3 class="box-title"><?=$title?></h3>
+    <h3 class="box-title"><?=$title?><small>(点击相应科目的颜色块可取消或显示相应科目的柱形图)</small></h3>
     <div class="box-tools pull-right">
       <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
       <button type="button" class="btn btn-box-tool"  id="max" ><i class="fa fa-window-maximize"></i></button>

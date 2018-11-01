@@ -21,6 +21,7 @@ if($key = array_search('zf', $subjects)){
     color:red;
   }
 </style>
+<div class="table-responsive">
 <table class="table table-bordered table-hover dataTable" style="width: 100%">
   <thead>
         <tr>
@@ -78,5 +79,6 @@ if($key = array_search('zf', $subjects)){
 	?>
 </tbody>
 </table>
+</div>
 
 

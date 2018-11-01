@@ -9,6 +9,14 @@ use yii\widgets\ActiveForm;
 $this->title = $school.'-'.$bj.'-'.$exam->title.'-'."班级成绩分析"
 ?>
 <div class="testService-default-index">
+  <div class="btn-group">
+<?= Html::a('总体成绩', ['dash','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-success']) ?>
+<?= Html::a('平均及率', ['avg','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-success']) ?>
+<?= Html::a('班级进步', ['improve','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-success']) ?>
+<?= Html::a('达标统计', ['beyondline','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-success']) ?>
+<?= Html::a('班级成绩', ['bj','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-primary']) ?>
+</div>
+<p></p>
  <?php $form = ActiveForm::begin(['method'=>'get','options'=>['class'=>'form-inline']]); ?>
   <div class="form-group">
     <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
@@ -27,7 +35,7 @@ $this->title = $school.'-'.$bj.'-'.$exam->title.'-'."班级成绩分析"
 
 	th,td{
 		text-align: center;
-		font-size: 10px;
+		font-size: 12px;
 	}
 	th{
 		background-color: #ccc;
@@ -37,6 +45,7 @@ $this->title = $school.'-'.$bj.'-'.$exam->title.'-'."班级成绩分析"
 	}
 </style>
 <div class="row">
+<div class="col-md-12 col-xs-12">
 <div class="nav-tabs-custom">
 
   <!-- Nav tabs -->
@@ -62,6 +71,7 @@ $this->title = $school.'-'.$bj.'-'.$exam->title.'-'."班级成绩分析"
   
     </div>
 <div role="tabpanel" class="tab-pane  active" id="messages">
+  <div class="table-responsive">
 <table class='table table-bordered table-hover myTable' style="width:100%">
  	<thead>
  	<tr>
@@ -121,7 +131,7 @@ foreach ($scbj as $key => $data) {
         echo $rank[$data->stu_id][$subject];
         echo "</td><td class=$color1>";
 
-        echo "<span class='$arrow' style='color:$color;font-size:1px'>";
+        echo "<span class='$arrow' style='color:$color;font-size:10px'>";
         echo abs($float);
         echo "</span>";
 
@@ -132,12 +142,13 @@ foreach ($scbj as $key => $data) {
  ?>
  </tbody>
  </table>
+</div>
     </div>
     
   </div>
 
 </div>
-
+</div>
 </div>
 </div>
   <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">

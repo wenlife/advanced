@@ -5,50 +5,49 @@ namespace backend\modules\testService\models;
 use Yii;
 
 /**
- * This is the model class for table "taskline".
+ * This is the model class for table "sc_taskline".
  *
- * @property int $id
+ * @property integer $id
  * @property string $grade
- * @property string $title
- * @property int $line1
- * @property int $line2
- * @property int $line3
- * @property int $line4
+ * @property integer $banji
+ * @property integer $line1
+ * @property integer $line2
+ * @property integer $line3
+ * @property integer $line4
  * @property string $note
  */
 class Taskline extends \yii\db\ActiveRecord
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function tableName()
     {
-        return 'taskline';
+        return 'sc_taskline';
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['grade', 'title'], 'required'],
-            [['line1', 'line2', 'line3', 'line4'], 'integer'],
+            [['grade', 'banji'], 'required'],
+            [['banji', 'line1', 'line2', 'line3', 'line4'], 'integer'],
             [['grade'], 'string', 'max' => 5],
-            [['title'], 'string', 'max' => 100],
-            [['note'], 'string', 'max' => 200],
+            [['note'], 'string', 'max' => 200]
         ];
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function attributeLabels()
     {
         return [
             'id' => 'ID',
-            'grade' => '班级',
-            'title' => '指标',
+            'grade' => '年级',
+            'banji' => '班级',
             'line1' => '重本任务',
             'line2' => '重本目标',
             'line3' => '本科任务',
