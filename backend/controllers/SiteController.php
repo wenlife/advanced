@@ -31,6 +31,14 @@ class SiteController extends Controller
     /**
      * @inheritdoc
      */
+    public function init()
+   {
+     if (Yii::$app->user->isGuest) 
+      {
+        $this->layout = '/simple';
+
+      }
+   }
     public function behaviors()
     {
         return [
