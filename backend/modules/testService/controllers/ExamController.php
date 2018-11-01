@@ -14,6 +14,17 @@ use yii\filters\VerbFilter;
  */
 class ExamController extends Controller
 {
+   
+ //  public $layout ='/main';
+
+   public function init()
+   {
+     if (Yii::$app->user->isGuest) 
+      {
+        $this->layout = '/simple';
+
+      }
+   }
     /**
      * {@inheritdoc}
      */
@@ -34,7 +45,14 @@ class ExamController extends Controller
      * @return mixed
      */
     public function actionIndex()
-    {
+    {        
+
+      if(Yii::$app->user->isGuest)
+        {
+            $this->redirect(['exam/forteacher']);
+        }
+
+
         $searchModel = new ExamSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -42,6 +60,13 @@ class ExamController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionForteacher()
+    {
+        $exams = Exam::find()->all();
+        return $this->render('forteacher',['exams'=>$exams]);
+
     }
 
     /**

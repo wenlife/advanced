@@ -7,7 +7,7 @@ class CommonFunction{
 
 	static function getSubjects()
 	{
-    $subjects = [
+    	$subjects = [
 		    'yw'=>'语文','ds'=>'数学','yy'=>'英语',
 		    'wl'=>'物理','hx'=>'化学','sw'=>'生物',
 		    'zz'=>'政治','ls'=>'历史','dl'=>'地理',

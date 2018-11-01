@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\modules\testService\models\Taskline */
 
-$this->title = $model->title;
+$this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Tasklines', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'grade',
-            'title',
+            'banji',
             'line1',
             'line2',
             'line3',

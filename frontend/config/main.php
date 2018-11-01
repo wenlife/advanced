@@ -15,6 +15,10 @@ return [
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
+             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+        ],
+        'session' => [
+            'name' => 'advanced-frontend',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

@@ -22,6 +22,14 @@ use backend\libary\CommonFunction;
  */
 class AnalysisController extends Controller
 {
+
+   public function init()
+       {
+         if (Yii::$app->user->isGuest) 
+          {
+            $this->layout = '/simple';
+          }
+       }
     /**
      * 返回本次考试各个学校的统计情况
      * @return string

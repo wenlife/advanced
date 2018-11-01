@@ -5,26 +5,25 @@ namespace backend\modules\testService\forms;
 use yii\base\Model;
 use yii\web\UploadedFile;
 
-class UploadXml extends Model
+class UploadExcel extends Model
 {
     /**
-     * @var UploadedXml
+     * @var UploadedExcel
      */
     public $url;
     public $file;
 
-    public $exam;
+    public $var1;
 
-    public $type;
+    public $var2;
 	
 
     public function rules()
     {
         return [
             [['file'], 'file', 'skipOnEmpty' => false, 'extensions' => 'xls,xlsx'],
-            ['exam', 'required'],
-            ['type', 'required'],
-
+            ['var1', 'required'],
+            ['var2', 'required'],
         ];
     }
     

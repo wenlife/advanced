@@ -1,25 +1,46 @@
 <?php
 use yii\helpers\Url;
 use yii\bootstrap\Tabs;
+use yii\helpers\Html;
 use backend\libary\CommonFunction;
 $subject_name = CommonFunction::getSubjects();
 $this->title = $exam->title."--考试成绩分析";
+$this->params['breadcrumbs'][] = '总体成绩分析（表格显示不全时可以左右拖动）';
 ?>
 <div class="testService-default-index">
+ <?php 
+ if (!Yii::$app->user->isGuest) {
+ ?>
 <a href="<?=Url::toRoute(['import','id'=>$exam->id])?>" class="btn btn-primary">导入成绩</a>
 <a href="<?=Url::toRoute(['respond','id'=>$exam->id])?>" class="btn btn-primary">班级对应</a>
 <a href="<?=Url::toRoute(['clean','id'=>$exam->id])?>" class="btn btn-danger">清空成绩</a>
+<?php }else{
+$school = "市七中";
+?>
+<div class="btn-group">
+    <?= Html::a('总体成绩', ['dash','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-success']) ?>
+    <?= Html::a('平均及率', ['avg','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-success']) ?>
+    <?= Html::a('班级进步', ['improve','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-success']) ?>
+    <?= Html::a('达标统计', ['beyondline','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-success']) ?>
+    <?= Html::a('班级成绩', ['bj','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-success']) ?>
+</div>
+<?php
+}
+?>
 <p></p>
 <div class="row">
 <div class="nav-tabs-custom">
   <!-- Nav tabs -->
+ 
+
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">理科统计</a></li>
     <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">文科统计</a></li>
-    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">理科成绩</a></li>
-    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">文科成绩</a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">理科前10</a></li>
+    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">文科前10</a></li>
 
   </ul>
+
 <style type="text/css">
 	th,td{
 		text-align: center;
@@ -29,8 +50,8 @@ $this->title = $exam->title."--考试成绩分析";
 
   <!-- Tab panes -->
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="home">
-    	<table class="table table-bordered table-hover">
+    <div role="tabpanel" class="tab-pane active table-responsive" id="home">
+    	<table class="table table-bordered table-hover ">
         <thead>
     		<tr>
     			<th>学校</th>
@@ -72,7 +93,7 @@ $this->title = $exam->title."--考试成绩分析";
       </tbody>
     	</table>
     </div>
-    <div role="tabpanel" class="tab-pane" id="settings">
+    <div role="tabpanel" class="tab-pane table-responsive" id="settings">
     	<table class="table table-bordered myTable2">
         <thead>
     		<tr>
@@ -113,7 +134,7 @@ $this->title = $exam->title."--考试成绩分析";
       </tbody>
     	</table>
     </div>
-    <div role="tabpanel" class="tab-pane" id="profile">
+    <div role="tabpanel" class="tab-pane table-responsive" id="profile">
 	<table class='table table-bordered myTable3'>
  	<thead>
  	<tr>
@@ -154,7 +175,7 @@ foreach ($scLike as $key => $data) {
  </tbody>
  </table>
     </div>
-    <div role="tabpanel" class="tab-pane" id="messages">
+    <div role="tabpanel" class="tab-pane table-responsive" id="messages">
 
   <table class='table table-bordered myTable4'>
  	<thead>
