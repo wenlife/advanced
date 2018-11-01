@@ -4,10 +4,10 @@ use yii\bootstrap\Tabs;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
+$this->title = '班级对应设置';
 //var_export($compare);
 //exit();
 ?>
-<h1>七中班级对应设置</h1>
 <div class="testService-default-index">
 <hr>
 <div class="row">

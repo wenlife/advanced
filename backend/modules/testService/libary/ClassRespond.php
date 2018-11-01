@@ -5,18 +5,36 @@ use backend\libary\CommonFunction;
 use backend\modules\school\models\TeachManage;
 use backend\modules\school\models\TeachYearManage;
 use backend\modules\testService\models\Exam;
+use backend\modules\testService\models\Classmap;
 
 class ClassRespond{
 	public $respond;
 	function __construct(){
-		$reload = unserialize(file_get_contents('respond'));
-		$this->respond = $reload;
+		////$reload = unserialize(file_get_contents('respond'));
+		//$this->respond = $reload;
 
 	}
 
-	public function writeRespond($data)
+	public static function writeRespond($school,$grade,$data)
 	{
-
+		foreach ($data as $key => $value) {
+			$excel_class_name = $value;
+			$system_class_id = $key;
+			$mapModel = Classmap::find()->where(['school'=>$school,'excel_class_name'=>$excel_class_name])->one();
+			if ($mapModel) {
+				$mapModel->system_class_id = $system_class_id;
+			}else{
+				$mapModel = new Classmap();
+				$mapModel->school = $school;
+				$mapModel->grade = $grade;
+				$mapModel->excel_class_name = $excel_class_name;
+				$mapModel->system_class_id = $system_class_id;
+				if(!$mapModel->save())
+				{
+					exit(var_export($mapModel->getErrors()));
+				}
+			}
+		}
 	}
 
 	public function getTeachers($school,$exam)
@@ -28,24 +46,19 @@ class ClassRespond{
 		  $testDate =  $test->date;
 		  $year = TeachYearManage::find()->where(['and',['<','start_date',$testDate],['>','end_date',$testDate]])->one();
 		 // exit(var_export($year->id));
-		  $year_id = $year->id;
+		  $year_id = $year->id;//学期的ID
 		}
-		$respond = $this->respond;
-		if (isset($respond[$school])) {
-			$respond = $respond[$school];
-		}else{
-			return array();
-		}
-		
+
+		$map = Classmap::find()->where(['school'=>$school,'grade'=>$test->stu_grade])->all();
 		$re = array();
-		foreach ($respond as $class_db_id => $class_banji_name) {
+		foreach ($map as $map_key => $map_value) {
 			foreach (CommonFunction::getAllTeachDuty() as $subject => $subject_name) {
 				$teach = TeachManage::find()
-				                  ->where(['class_id'=>$class_db_id,'subject'=>$subject])
+				                  ->where(['class_id'=>$map_value->system_class_id,'subject'=>$subject])
 				                  ->andWhere(['year_id'=>$year_id])
 				                  ->one();
 			    if (isset($teach->teacher->name)) {
-			    	$re[$class_banji_name][$subject] = $teach->teacher->name;
+			    	$re[$map_value->excel_class_name][$subject] = $teach->teacher->name;
 			    }
 				
 			}

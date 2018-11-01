@@ -17,6 +17,7 @@ use backend\modules\testService\libary\ClassRespond;
 use backend\modules\school\models\TeachClass;
 use PHPExcel;
 use backend\libary\CommonFunction;
+use backend\modules\testService\models\Classmap;
 /**
  * Default controller for the `testService` module
  */
@@ -80,31 +81,43 @@ class AnalysisController extends Controller
     */
     public function actionRespond($id)
     {
+        $mySchool = "市七中";
+        if($exam = Exam::findOne($id))
+        {
+             $grade = $exam->stu_grade;
+        }
         $datalk = new DataColl();
-        $datalk->loadData($id,'市七中');
+        $datalk->loadData($id,$mySchool);
         $datawk = new DataColw();
-        $datawk->loadData($id,'市七中');
+        $datawk->loadData($id,$mySchool);
         $bjlk = $datalk->getClassList();
         $bjwk = $datawk->getClassList();
 
         $bj = array_merge($bjlk,$bjwk);
         sort($bj);//班级排序
-        $classes = TeachClass::find()->all();
+
+        $classes = TeachClass::find()->where(['school'=>$mySchool,'grade'=>$grade])->all();
         //设置班级对应关系
         if(Yii::$app->request->post())
         {
             $post = Yii::$app->request->post();
             $re = array();
             foreach ($post as $bj_key => $class_id) {
+             //   echo $class_id;
                 if (is_numeric($class_id)) {
                      $re[$class_id] = $bj[$bj_key];
                 }
             }
+
             //对学校进行设置；
             $store[$post['school']] = $re;
-            file_put_contents('respond',serialize($store));
-            $reload = unserialize(file_get_contents('respond'));
-            $reload = $reload[$post['school']];
+            ClassRespond::writeRespond($post['school'],$grade,$re);
+
+            // file_put_contents('respond',serialize($store));
+            // $reload = unserialize(file_get_contents('respond'));
+            // $reload = $reload[$post['school']];
+            $reload = $re;
+
             $view_res = array();
             foreach ($reload as $key2 => $value2) {
                 $banji = TeachClass::find()->where(['id'=>$key2])->one();

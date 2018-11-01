@@ -12,6 +12,7 @@ use yii\widgets\ActiveForm;
 <a href="<?=Url::toRoute(['index','id'=>$exam])?>" class="btn btn-primary">返回</a>
 <hr>
 <div class="row">
+<div class="col-md-4 col-xs-6">
 <table class="table table-borderd">
   <thead>
     <tr>
@@ -31,5 +32,6 @@ use yii\widgets\ActiveForm;
     ?>
   </tbody>
 </table>
+</div>
 </div>
 </div>

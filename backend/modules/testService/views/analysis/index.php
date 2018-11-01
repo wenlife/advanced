@@ -29,6 +29,7 @@ $school = "市七中";
 ?>
 <p></p>
 <div class="row">
+ <div class="col-md-12 col-xs-12">
 <div class="nav-tabs-custom">
   <!-- Nav tabs -->
  
@@ -219,7 +220,7 @@ foreach ($scWenke as $key => $data) {
 </div>
 </div>
 </div>
-
+</div>
 </div>
 </div>
 <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
