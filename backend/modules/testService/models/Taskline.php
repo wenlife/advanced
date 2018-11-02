@@ -3,7 +3,7 @@
 namespace backend\modules\testService\models;
 
 use Yii;
-
+use backend\modules\school\models\TeachClass;
 /**
  * This is the model class for table "sc_taskline".
  *
@@ -38,6 +38,8 @@ class Taskline extends \yii\db\ActiveRecord
             [['note'], 'string', 'max' => 200]
         ];
     }
+
+    
 
     /**
      * @inheritdoc

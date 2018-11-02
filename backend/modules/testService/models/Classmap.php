@@ -42,6 +42,8 @@ class Classmap extends \yii\db\ActiveRecord
        return  $this->hasOne(TeachClass::className(),['id'=>'system_class_id']);
     }
 
+
+
     /**
      * @inheritdoc
      */

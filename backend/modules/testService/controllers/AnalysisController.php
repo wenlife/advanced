@@ -324,6 +324,16 @@ class AnalysisController extends Controller
         if (!$exam) {
            return $this->render('error',['message'=>'您选择的考试不存在！']);
         }
+
+        $linetypearr = ['grade','subject'];
+        if ($post = Yii::$app->request->post()) {
+            if (in_array($post['linetype'], $linetypearr)) {
+                 $linetype = $post['linetype'];
+             } 
+        }else{
+            $linetype = current($linetypearr);
+        }
+
         //该次考试 所选学校的文理科成绩信息
         $datalk = new DataColl();
         $sclk = $datalk->loadData($exam,$school);
@@ -332,23 +342,26 @@ class AnalysisController extends Controller
         $scwk = $datawk->loadData($exam,$school);
         $avgwkSchool = $datawk->getAvg();
 
-                //所选考试和学校的班级文理科班级列表
+       //所选考试和学校的班级文理科班级列表
         $bjlk = $datalk->getClassList();
         $bjwk = $datawk->getClassList();
           //任教对应关系读取；
         $resModel = new ClassRespond();
         $resTeacher = $resModel->getTeachers($school,$exam);
 
-        $datalk->loadData($exam,$school,null,'zf desc','grade');
-        $datawk->loadData($exam,$school,null,'zf desc','grade');
+        $datalk->loadData($exam,$school,null,'zf desc',$linetype);
+        $datawk->loadData($exam,$school,null,'zf desc',$linetype);
 
-        $schoolLineStudentListlk = $datalk->getDistinct('stu_id','zf desc','grade');
-        $schoolLineStudentListwk = $datawk->getDistinct('stu_id','zf desc','grade');
+        $schoolLineStudentListlk = $datalk->getDistinct('stu_id','zf desc',$linetype);
+        $schoolLineStudentListwk = $datawk->getDistinct('stu_id','zf desc',$linetype);
         $lkzfline = $datalk->getColomnMin('zf');
         $wkzfline = $datawk->getColomnMin('zf');
 
         $lk_uponline = $datalk->getUponLine($exam,$school,$schoolLineStudentListlk);
         $wk_uponline = $datawk->getUponLine($exam,$school,$schoolLineStudentListwk);
+
+        //获取每个班的任务
+        $resTask = $resModel->getLineTask($school,$exam,$linetype);
 
 
         return $this->render('beyondline',[
@@ -361,6 +374,8 @@ class AnalysisController extends Controller
             'wksubjects'=>$datawk->getSubjects(),
             'lksubjects'=>$datalk->getSubjects(),
             'resTeacher'=>$resTeacher,
+            'resTask'=>$resTask,
+            'linetype'=>$linetype,
         ]);
 
 

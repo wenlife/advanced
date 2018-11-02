@@ -54,9 +54,9 @@ class ClassRespond{
 		foreach ($map as $map_key => $map_value) {
 			foreach (CommonFunction::getAllTeachDuty() as $subject => $subject_name) {
 				$teach = TeachManage::find()
-				                  ->where(['class_id'=>$map_value->system_class_id,'subject'=>$subject])
-				                  ->andWhere(['year_id'=>$year_id])
-				                  ->one();
+		                  ->where(['class_id'=>$map_value->system_class_id,'subject'=>$subject])
+		                  ->andWhere(['year_id'=>$year_id])
+		                  ->one();
 			    if (isset($teach->teacher->name)) {
 			    	$re[$map_value->excel_class_name][$subject] = $teach->teacher->name;
 			    }
@@ -65,6 +65,29 @@ class ClassRespond{
 		}
 		//var_export($re);
 			//	exit();
+		return $re;
+
+	}
+
+
+	public function getLineTask($school,$exam,$type)
+	{
+		if ($exam) {
+		  $test = Exam::findOne($exam);
+		}
+		$map = Classmap::find()->where(['school'=>$school,'grade'=>$test->stu_grade])->all();
+		$re = array();
+		foreach ($map as $keymap => $valuemap) {
+			if ($type =='grade') {
+				$re[$valuemap->excel_class_name]['task'] = $valuemap->systitle->taskline->line1;
+				$re[$valuemap->excel_class_name]['target'] = $valuemap->systitle->taskline->line2;
+			}elseif($type=='subject'){
+				$re[$valuemap->excel_class_name]['task'] = $valuemap->systitle->taskline->line3;
+				$re[$valuemap->excel_class_name]['target'] = $valuemap->systitle->taskline->line4;
+			}
+			
+		}
+
 		return $re;
 
 	}

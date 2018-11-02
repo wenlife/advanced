@@ -3,7 +3,7 @@
 namespace backend\modules\school\models;
 
 use Yii;
-
+use backend\modules\testService\models\Taskline;
 /**
  * This is the model class for table "teach_class".
  *
@@ -39,6 +39,12 @@ class TeachClass extends \yii\db\ActiveRecord
             [['school'], 'string', 'max' => 100],
             [['note'], 'string', 'max' => 500],
         ];
+    }
+
+
+    public function getTaskline()
+    {
+       return  $this->hasOne(Taskline::className(),['grade'=>'grade','banji'=>'serial']);
     }
 
     /**

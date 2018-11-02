@@ -17,15 +17,14 @@ $this->params['breadcrumbs'][] = '达标率（表格显示不全时可以左右�
     <?= Html::a('班级成绩', ['bj','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-success']) ?>
 </div>
 <p></p>
-<?php $form = ActiveForm::begin(['method'=>'get','options'=>['class'=>'form-inline']]); ?>
-<div class="form-group">
-    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+<?php $form = ActiveForm::begin(['method'=>'post','options'=>['class'=>'form-inline']]); ?>
+  <div class="form-group">
     <div class="input-group">
-      <?=Html::DropDownList('line',null,['1'=>'本科达标','2'=>'本科目标','3'=>'重本达标','4'=>'重本目标'],['class'=>'form-control'])?>
+      <?=Html::DropDownList('linetype',$linetype,['grade'=>'重本','subject'=>'本科'],['class'=>'form-control'])?>
     </div>
   </div>
   <button type="submit" class="btn btn-success">查询</button>
-  <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
 <p></p>
 <div class="testService-default-index">
 <div class="row">
@@ -50,6 +49,7 @@ $this->params['breadcrumbs'][] = '达标率（表格显示不全时可以左右�
           //'scAna'=>$scAnal,
           'bjs'=>$bjlk,
           'resTeacher'=>$resTeacher,
+          'resTask'=>$resTask,
           'subjects'=>$lksubjects,
           'uponline'=>$lkuponline,
           'type'=>'lk',
@@ -62,6 +62,7 @@ $this->params['breadcrumbs'][] = '达标率（表格显示不全时可以左右�
         // 'scAna'=>$scAnaw,
           'bjs'=>$bjwk,
           'resTeacher'=>$resTeacher,
+          'resTask'=>$resTask,
           'subjects'=>$wksubjects,
           'uponline'=>$wkuponline,
           'type'=>'wk',

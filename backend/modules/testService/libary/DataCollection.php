@@ -4,6 +4,7 @@ use Yii;
 use backend\modules\testService\models\Exam;
 use backend\modules\testService\models\ScLike;
 use backend\modules\testService\models\ScWenke;
+use backend\modules\school\models\TeachClass;
 /**
 * 该类完成的功能
 *@input 
@@ -24,8 +25,11 @@ class DataCollection{
 	public $lkSubject = ['yw','ds','yy','wl','hx','sw','zf'];//理科科目数组
 	public $wkSubject = ['yw','ds','yy','zz','ls','dl','zf'];//文科科目数组
     public $rank;//进行排序用的数组
-    public $line_grade=1000; //达标总数 总分
-    public $line_subject=500;//达标总数 科目
+    public $line_grade; //达标总数 重本
+    public $line_subject;//达标总数 本科
+    public $school='市七中';
+    public $test;//本次分析的考试ID
+    public $lineType;//计算的达标类型
 
 	public function __construct($type)
 	{
@@ -37,9 +41,47 @@ class DataCollection{
 			$this->subjects = $this->wkSubject;
             $this->dataModel = new ScWenke();
 		}
+
 	}
 
+    public function getline($lineType)
+    {
+        $this->lineType = $lineType;
+        if ($this->test) {
+           $exam = Exam::findOne($this->test);
+           $grade = $exam->stu_grade;
+        }
+        $classInfo = TeachClass::find()->where(['school'=>$this->school,'grade'=>$grade,'type'=>$this->type])->all();
+        $line_grade = 0;
+        $line_subject = 0;
 
+        if($classInfo){
+            foreach ($classInfo as $keyinfo => $valueinfo) {
+              // var_export($valueinfo->taskline);
+              //  exit();
+                $line_grade += $valueinfo->taskline->line1;
+            }
+            $this->line_grade = $line_grade;
+            foreach ($classInfo as $keyinfo => $valueinfo) {
+                $line_subject += $valueinfo->taskline->line3;
+            }
+            $this->line_subject = $line_subject;
+        }
+
+        switch ($lineType) {
+            case 'grade':
+                return $this->line_grade;
+                break;
+
+            case 'subject':
+                return $this->line_subject;
+                break;
+            
+            default:
+                exit(" $this->type is not a line type!");
+                break;
+        }
+    }
 
     public function getType()
     {
@@ -58,8 +100,11 @@ class DataCollection{
     * @param 考试ID（必须） 学校 班级 排序方式
     * @return 将获得内容赋值给类成员Data并返回
     */
-    public function loadData($test,$school=null,$class=null,$sort=null,$limit=null)
-    {        
+    public function loadData($test,$school=null,$class=null,$sort=null,$lineType=null)
+    {
+
+        $this->test = $test;
+        $this->school = $school;        
         $whereArray['test_id'] = $test;
         if ($school!=null) {
            $whereArray['stu_school'] = $school;
@@ -67,11 +112,15 @@ class DataCollection{
         if ($class!=null) {
            $whereArray['stu_class'] = $class;
         }
-        if ($limit=='grade') {
-           $limit = $this->line_grade;
-        }elseif ($limit=='subject') {
-            $limit = $this->line_subject;
-        }
+
+
+        $limit = $lineType?$this->getline($lineType):$lineType;
+        
+        // if ($limit=='grade') {
+        //    $limit = $this->line_grade;
+        // }elseif ($limit=='subject') {
+        //     $limit = $this->line_subject;
+        // }
         $this->whereArray = $whereArray;
         $re = $this->dataModel->find()->where($whereArray)->orderBy($sort)->limit($limit)->all();
         $this->data = $re;
@@ -92,14 +141,17 @@ class DataCollection{
     * @param  列名，数据库相关
     * @return 返回数组,仅数组，不含AR内容
     */
-    public function getDistinct($col,$orderBy=null,$limit=null)
+    public function getDistinct($col,$orderBy=null,$lineType=null)
     {
         $re = array();
-        if ($limit=='grade') {
-           $limit = $this->line_grade;
-        }elseif($limit=='subject') {
-            $limit = $this->line_subject;
-        }
+
+       $limit = $lineType?$this->getline($lineType):$lineType;
+        
+        // if ($limit=='grade') {
+        //    $limit = $this->line_grade;
+        // }elseif($limit=='subject') {
+        //     $limit = $this->line_subject;
+        // }
         $dis = $this->dataModel->find()->where($this->whereArray)->orderBy($orderBy)->select($col)->limit($limit)->distinct()->all();
 
         foreach ($dis as $key => $di) {
@@ -297,11 +349,11 @@ class DataCollection{
         $re = array();
         $pass_line = array();
         foreach ($this->subjects as $keys => $subject) {
-             $stu = $this->loadData($exam,$school,null,$subject.' desc','subject');
-             $passline[$subject] = $this->getColomnMin($subject);
+             $stu = $this->loadData($exam,$school,null,$subject.' desc',$this->lineType);//需要按科目进行降序排序,依然按照之前的达标线进行计算
+             $passline[$subject] = $this->getColomnMin($subject);//获取该科目达标最低分
               foreach ($stu as $keyStu => $valueStu) {
                  // $classList[$valueStu->stu_class] = $valueStu->stu_class;
-                  $re[$valueStu->stu_class][$subject][] = $valueStu->stu_id;
+                  $re[$valueStu->stu_class][$subject][] = $valueStu->stu_id;//达标的学生按科目、学科进行分类
               }
           }
         $re_count = array();
@@ -309,11 +361,11 @@ class DataCollection{
         foreach ($re as $class => $classArray) {
             foreach ($classArray as $subject => $subjectArray) {
 
-                $under = $re_count[$class][$subject]['uponline'] = count($subjectArray);
+                $under = $re_count[$class][$subject]['uponline'] = count($subjectArray);//统计每个班各科上线人数
 
-                $upper = $re_count[$class][$subject]['realuponline'] = count(array_intersect($subjectArray,$zflist));
+                $upper = $re_count[$class][$subject]['realuponline'] = count(array_intersect($subjectArray,$zflist));//统计有效
                 if ($re_count[$class][$subject]['uponline']>0) {
-                     $re_count[$class][$subject]['percent'] = $upper/$under;
+                     $re_count[$class][$subject]['percent'] = $upper/$under;//计算达标率
                 }else{
                      $re_count[$class][$subject]['percent'] = 0;
                 }
