@@ -378,106 +378,106 @@ class AnalysisController extends Controller
 
     }
 
-    public function actionTestdetail($school,$exam)
-    {
-        return $this->render('error',['message'=>'该功能尚未实现，敬请期待！']);
-    }
+    // public function actionTestdetail($school,$exam)
+    // {
+    //     return $this->render('error',['message'=>'该功能尚未实现，敬请期待！']);
+    // }
 
-    public function actionSchool($school,$exam)
-    {
+    // public function actionSchool($school,$exam)
+    // {
 
-        $test = Exam::find()->where(['id'=>$exam])->one();
-        if (!$exam) {
-           return $this->render('error',['message'=>'您选择的考试不存在！']);
-        }
-        //该次考试 所选学校的文理科成绩信息
-        $datalk = new DataColl();
-        $sclk = $datalk->loadData($exam,$school);
-        $avglkSchool = $datalk->getAvg();
-        $datawk = new DataColw();
-        $scwk = $datawk->loadData($exam,$school);
-        $avgwkSchool = $datawk->getAvg();
+    //     $test = Exam::find()->where(['id'=>$exam])->one();
+    //     if (!$exam) {
+    //        return $this->render('error',['message'=>'您选择的考试不存在！']);
+    //     }
+    //     //该次考试 所选学校的文理科成绩信息
+    //     $datalk = new DataColl();
+    //     $sclk = $datalk->loadData($exam,$school);
+    //     $avglkSchool = $datalk->getAvg();
+    //     $datawk = new DataColw();
+    //     $scwk = $datawk->loadData($exam,$school);
+    //     $avgwkSchool = $datawk->getAvg();
 
-        //所选考试和学校的班级文理科班级列表
-        $bjlk = $datalk->getClassList();
-        $bjwk = $datawk->getClassList();
+    //     //所选考试和学校的班级文理科班级列表
+    //     $bjlk = $datalk->getClassList();
+    //     $bjwk = $datawk->getClassList();
 
-        //考试对比数组是否存在
-        if ($test->compare) {
-            $test_compare = Exam::find()->where(['id'=>$test->compare])->one();
-            $datalk_compare = new Datacoll();
-            $sclk_compare = $datalk_compare->loadData($test_compare->id,$school);
-            $avglkSchool_compare = $datalk_compare->getAvg();
-            $datawk_compare = new Datacolw();
-            $scwk_compare = $datawk_compare->loadData($test_compare->id,$school);
-            $avgwkSchool_compare = $datawk_compare->getAvg();
-        }
+    //     //考试对比数组是否存在
+    //     if ($test->compare) {
+    //         $test_compare = Exam::find()->where(['id'=>$test->compare])->one();
+    //         $datalk_compare = new Datacoll();
+    //         $sclk_compare = $datalk_compare->loadData($test_compare->id,$school);
+    //         $avglkSchool_compare = $datalk_compare->getAvg();
+    //         $datawk_compare = new Datacolw();
+    //         $scwk_compare = $datawk_compare->loadData($test_compare->id,$school);
+    //         $avgwkSchool_compare = $datawk_compare->getAvg();
+    //     }
 
-        //所选考试和学校的班级文理科班级列表
-        $bjlk = $datalk->getClassList();
-        $bjwk = $datawk->getClassList();
+    //     //所选考试和学校的班级文理科班级列表
+    //     $bjlk = $datalk->getClassList();
+    //     $bjwk = $datawk->getClassList();
 
-        //任教对应关系读取；
-        $resModel = new ClassRespond();
-        $resTeacher = $resModel->getTeachers($school,$exam);
+    //     //任教对应关系读取；
+    //     $resModel = new ClassRespond();
+    //     $resTeacher = $resModel->getTeachers($school,$exam);
       
-        //文理科班级成绩以及班级分析数据
-        // max 最高分  avg 平均分 pass及格率 float进步率
-        $scAnal = array();
-        foreach ($bjlk as $keyl => $bjl) {
-            $datalk->loadData($exam,$school,$bjl);
-            $datalk_compare->loadData($test_compare->id,$school,$bjl);
-            $scAnal[$keyl]['max'] = $datalk->getMax();
-            $scAnal[$keyl]['avg'] = $datalk->getAvg();
-            $scAnal[$keyl]['pass'] = $datalk->getPassed();
-            $scAnal[$keyl]['float'] = $datalk->avgFloat($avglkSchool,$datalk_compare->getAvg(),$avglkSchool_compare);
-        }
-        $avgFloatw = array();//进步率数组
-        $scAnaw = array();
-        foreach ($bjwk as $keyw => $bjw) {
-            $datawk->loadData($exam,$school,$bjw);
-            $datawk_compare->loadData($test_compare->id,$school,$bjw);
-            $scAnaw[$keyw]['max'] = $datawk->getMax();
-            $scAnaw[$keyw]['avg'] = $datawk->getAvg();
-            $scAnaw[$keyw]['pass'] = $datawk->getPassed();
-            $scAnaw[$keyw]['float'] = $datawk->avgFloat($avgwkSchool,$datawk_compare->getAvg(),$avgwkSchool_compare);
-        }
+    //     //文理科班级成绩以及班级分析数据
+    //     // max 最高分  avg 平均分 pass及格率 float进步率
+    //     $scAnal = array();
+    //     foreach ($bjlk as $keyl => $bjl) {
+    //         $datalk->loadData($exam,$school,$bjl);
+    //         $datalk_compare->loadData($test_compare->id,$school,$bjl);
+    //         $scAnal[$keyl]['max'] = $datalk->getMax();
+    //         $scAnal[$keyl]['avg'] = $datalk->getAvg();
+    //         $scAnal[$keyl]['pass'] = $datalk->getPassed();
+    //         $scAnal[$keyl]['float'] = $datalk->avgFloat($avglkSchool,$datalk_compare->getAvg(),$avglkSchool_compare);
+    //     }
+    //     $avgFloatw = array();//进步率数组
+    //     $scAnaw = array();
+    //     foreach ($bjwk as $keyw => $bjw) {
+    //         $datawk->loadData($exam,$school,$bjw);
+    //         $datawk_compare->loadData($test_compare->id,$school,$bjw);
+    //         $scAnaw[$keyw]['max'] = $datawk->getMax();
+    //         $scAnaw[$keyw]['avg'] = $datawk->getAvg();
+    //         $scAnaw[$keyw]['pass'] = $datawk->getPassed();
+    //         $scAnaw[$keyw]['float'] = $datawk->avgFloat($avgwkSchool,$datawk_compare->getAvg(),$avgwkSchool_compare);
+    //     }
 
-        /*
-        * 达标统计，该段内容必须放在最后，它会完全改变datalk,datawk里的data属性；
-        * 返回各班级的达标人数，实际达标人数；
-        */
-        $datalk->loadData($exam,$school,null,'zf desc','grade');
-        $datawk->loadData($exam,$school,null,'zf desc','grade');
+    //     /*
+    //     * 达标统计，该段内容必须放在最后，它会完全改变datalk,datawk里的data属性；
+    //     * 返回各班级的达标人数，实际达标人数；
+    //     */
+    //     $datalk->loadData($exam,$school,null,'zf desc','grade');
+    //     $datawk->loadData($exam,$school,null,'zf desc','grade');
 
-        $schoolLineStudentListlk = $datalk->getDistinct('stu_id','zf desc','grade');
-        $schoolLineStudentListwk = $datawk->getDistinct('stu_id','zf desc','grade');
-        $lkzfline = $datalk->getColomnMin('zf');
-        $wkzfline = $datawk->getColomnMin('zf');
+    //     $schoolLineStudentListlk = $datalk->getDistinct('stu_id','zf desc','grade');
+    //     $schoolLineStudentListwk = $datawk->getDistinct('stu_id','zf desc','grade');
+    //     $lkzfline = $datalk->getColomnMin('zf');
+    //     $wkzfline = $datawk->getColomnMin('zf');
 
-        $lk_uponline = $datalk->getUponLine($exam,$school,$schoolLineStudentListlk);
-        $wk_uponline = $datawk->getUponLine($exam,$school,$schoolLineStudentListwk);
+    //     $lk_uponline = $datalk->getUponLine($exam,$school,$schoolLineStudentListlk);
+    //     $wk_uponline = $datawk->getUponLine($exam,$school,$schoolLineStudentListwk);
 
 
         
-        return $this->render('school',[
-            'school'=>$school,
-            'exam'=>$test,
-            'bjlk'=>$bjlk,
-            'bjwk'=>$bjwk,
-            'sclk'=>$sclk,
-            'scwk'=>$scwk,
-            'lkuponline'=>$lk_uponline,
-            'wkuponline'=>$wk_uponline,
-            'wksubjects'=>$datawk->getSubjects(),
-            'lksubjects'=>$datalk->getSubjects(),
-            'avglkSchool'=>$avglkSchool,
-            'avgwkSchool'=>$avgwkSchool,
-            'resTeacher'=>$resTeacher,
-            'scAnal'=>$scAnal,
-            'scAnaw'=>$scAnaw,
-            ]);
-    }
+    //     return $this->render('school',[
+    //         'school'=>$school,
+    //         'exam'=>$test,
+    //         'bjlk'=>$bjlk,
+    //         'bjwk'=>$bjwk,
+    //         'sclk'=>$sclk,
+    //         'scwk'=>$scwk,
+    //         'lkuponline'=>$lk_uponline,
+    //         'wkuponline'=>$wk_uponline,
+    //         'wksubjects'=>$datawk->getSubjects(),
+    //         'lksubjects'=>$datalk->getSubjects(),
+    //         'avglkSchool'=>$avglkSchool,
+    //         'avgwkSchool'=>$avgwkSchool,
+    //         'resTeacher'=>$resTeacher,
+    //         'scAnal'=>$scAnal,
+    //         'scAnaw'=>$scAnaw,
+    //         ]);
+    // }
     //班级成绩的分析
     public function actionBj($school,$exam,$bj=null,$export=0)
     {
@@ -497,6 +497,9 @@ class AnalysisController extends Controller
            $bjarr[$value] = $value;
         }
         if ($bj==null) { $bj = current($bjlk);}
+        if ($post = Yii::$app->request->post()) {
+           $bj = $post['bj'];
+        }
 
         $type = in_array($bj, $bjlk)?'lk':'wk';
 
@@ -540,7 +543,7 @@ class AnalysisController extends Controller
                 $data[$key]['username'] = $sc->stu_id;
                 $data[$key]['name'] = $sc->stu_name;
                 $data[$key]['school'] = $sc->stu_school;
-               $data[$key]['class'] = $sc->stu_class;
+                $data[$key]['class'] = $sc->stu_class;
                 foreach ($subjects as $keysubject=> $subject) {                  
                     $data[$key][$subject] = $sc->$subject;
                     if (isset($rankCompare[$sc->stu_id][$subject])) {

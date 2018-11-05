@@ -6,7 +6,6 @@
 'subjects'=> //需要展示的各个科目
 'xData'=> //展示的数据
 'xArray'=> //只剩单列的时候每个科目的X轴
-
  -->
 <?php
 if (!isset($title)) {
@@ -48,11 +47,11 @@ if (!isset($title)) {
     },
     series: [
     <?php
-      foreach ($subjects as $key => $subject) {  
+    foreach ($subjects as $key => $subject) {  
     ?>
     {
       name: '<?=$subject?>',
-      type: 'bar',
+      type: 'line',
       data: <?=trim(json_encode($xData[$subject]),'"')?>,
     },
     <?php
@@ -64,34 +63,6 @@ if (!isset($title)) {
 myChartlk.setOption(option);
 
 myChartlk.on('legendselectchanged',function(params){
-
-  yw = params.selected.yw;
-  yy = params.selected.yy;
-  ds = params.selected.ds;
-  wl = params.selected.wl;
-  hx = params.selected.hx;
-  sw = params.selected.sw;
-
-  //alert(params.selected.yw);
-if (yw&&!yy&&!ds&&!wl&&!hx&&!sw) {
-     datax = <?=trim(json_encode($xArray['yw']),'"')?>
-}else if(!yw&&yy&&!ds&&!wl&&!hx&&!sw){
-    datax = <?=trim(json_encode($xArray['yy']),'"')?>;
-}else if(!yw&&!yy&&ds&&!wl&&!hx&&!sw){
-    datax = <?=trim(json_encode($xArray['ds']),'"')?>;
-}
-else if(!yw&&!yy&&!ds&&wl&&!hx&&!sw){
-    datax = <?=trim(json_encode($xArray['wl']),'"')?>;
-}
-else if(!yw&&!yy&&!ds&&!wl&&hx&&!sw){
-    datax = <?=trim(json_encode($xArray['hx']),'"')?>;
-}
-else if(!yw&&!yy&&!ds&&!wl&&!hx&&sw){
-    datax = <?=trim(json_encode($xArray['sw']),'"')?>;
-}
-else{
-    datax = <?=trim(json_encode($xAx),'"')?>;
-}
 
 myChartlk.setOption(
     {

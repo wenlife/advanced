@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\bootstrap\Tabs;
 use backend\libary\CommonFunction;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
 //var_export($compare);
 //exit();
 $this->title = $school.'-'.$bj.'-'.$exam->title.'-'."班级成绩分析"
@@ -17,7 +18,7 @@ $this->title = $school.'-'.$bj.'-'.$exam->title.'-'."班级成绩分析"
 <?= Html::a('班级成绩', ['bj','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-primary']) ?>
 </div>
 <p></p>
- <?php $form = ActiveForm::begin(['method'=>'get','options'=>['class'=>'form-inline']]); ?>
+ <?php $form = ActiveForm::begin(['method'=>'post','options'=>['class'=>'form-inline']]); ?>
   <div class="form-group">
     <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
     <div class="input-group">
@@ -28,8 +29,7 @@ $this->title = $school.'-'.$bj.'-'.$exam->title.'-'."班级成绩分析"
   <button type="submit" class="btn btn-primary">查询</button>
   <?php ActiveForm::end(); ?>
 
-  <?=Html::a('导出成绩',['bj','school'=>$school,'exam'=>$exam->id,'export'=>'1'],['class'=>'btn btn-success pull-right'])?>
-
+  <?=Html::a('导出成绩',['bj','school'=>$school,'exam'=>$exam->id,'bj'=>$bj,'export'=>'1'],['class'=>'btn btn-success pull-right'])?>
 
 <style type="text/css">
 
@@ -51,10 +51,8 @@ $this->title = $school.'-'.$bj.'-'.$exam->title.'-'."班级成绩分析"
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
   	<li role="presentation"  class="active"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">班级成绩</a></li>
-    <li role="presentation"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">成绩统计</a></li>
     <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">统计曲线</a></li>
-    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">成绩曲线</a></li>
-  
+    <li role="presentation"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">成绩统计</a></li>
 
   </ul>
 
@@ -62,16 +60,51 @@ $this->title = $school.'-'.$bj.'-'.$exam->title.'-'."班级成绩分析"
   <!-- Tab panes -->
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane" id="home">
+        <small><内容待定></small>
+    </div>
+    <div role="tabpanel" class="tab-pane active" id="settings">
+    <?php
+    // 本页面负责展示理科成绩的图表
+    // 需要传入的数据有：
+    // 以下内容直接传入PHP数组
+    // 'xAx'=> //默认的x轴数据
+    // 'subjects'=> //需要展示的各个科目
+    // 'xData'=> //展示的数据
+    // 'xArray'=> //只剩单列的时候每个科目的X轴
+    $x = array();
+    foreach ($subjects as $ksubject => $valsubject) {
+
+
+
+      $ss = ArrayHelper::getColumn($scbj,$valsubject);
+      $x[$valsubject] = array();
+      for ($i=0; $i <=75 ; $i++) { 
+        $x[$valsubject][$i] = 0;
+      }
+      if ($valsubject=='zf') {
+        continue;
+      }
+      foreach ($ss as $keyss => $valss) {
+        $stage = floor($valss/2);
+        $x[$valsubject][$stage] ++;
+      }
+    }
+
+    // var_export($x);
+    // exit();
+
+    echo $this->render('school/chartDistribution',[
+         'title'=>'班级成绩分布',
+        'xAx'=>range(0,150,2),
+        'subjects'=>$subjects,
+        'xData'=>$x,
+    ]); 
+
+    ?>
 
     </div>
-    <div role="tabpanel" class="tab-pane" id="settings">
-
-    </div>
-    <div role="tabpanel" class="tab-pane" id="profile">
-  
-    </div>
-<div role="tabpanel" class="tab-pane  active" id="messages">
-  <div class="table-responsive">
+<div role="tabpanel" class="tab-pane active" id="messages">
+<div class="table-responsive">
 <table class='table table-bordered table-hover myTable' style="width:100%">
  	<thead>
  	<tr>
@@ -155,7 +188,7 @@ foreach ($scbj as $key => $data) {
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
-
+  $("#settings").removeClass("active");
 $('.myTable').DataTable({
   lengthChange:false,
   searching: false,

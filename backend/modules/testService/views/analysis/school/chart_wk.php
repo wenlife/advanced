@@ -101,7 +101,10 @@ myChartwk.on('legendselectchanged',function(params){
         xAxis:{
           type:'category',
           position:'botttom',
-          axisLabel:{interval: 0},
+          axisLabel:{
+            interval: 0,
+            rotate:-45,
+          },
           data:datax,
         },
       }

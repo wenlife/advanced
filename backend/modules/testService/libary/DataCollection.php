@@ -91,11 +91,9 @@ class DataCollection{
             case 'grade':
                 return $this->line_grade;
                 break;
-
             case 'subject':
                 return $this->line_subject;
-                break;
-            
+                break;          
             default:
                 exit(" $this->type is not a line type!");
                 break;
@@ -124,11 +122,6 @@ class DataCollection{
 
         $limit = $lineType?$this->getline($lineType):$lineType;
         
-        // if ($limit=='grade') {
-        //    $limit = $this->line_grade;
-        // }elseif ($limit=='subject') {
-        //     $limit = $this->line_subject;
-        // }
         $this->whereArray = $whereArray;
         $re = $this->dataModel->find()->where($whereArray)->orderBy($sort)->limit($limit)->all();
         $this->data = $re;
@@ -152,16 +145,8 @@ class DataCollection{
     public function getDistinct($col,$orderBy=null,$lineType=null)
     {
         $re = array();
-
-       $limit = $lineType?$this->getline($lineType):$lineType;
-        
-        // if ($limit=='grade') {
-        //    $limit = $this->line_grade;
-        // }elseif($limit=='subject') {
-        //     $limit = $this->line_subject;
-        // }
+        $limit = $lineType?$this->getline($lineType):$lineType;      
         $dis = $this->dataModel->find()->where($this->whereArray)->orderBy($orderBy)->select($col)->limit($limit)->distinct()->all();
-
         foreach ($dis as $key => $di) {
             $re[$key] = $di->$col;
         }
@@ -344,9 +329,6 @@ class DataCollection{
         }
         return $re;
     }
-
-
-
     /**
     *  获取达标人数的数组，该函数会改变类的参数
     *@param 考试Id 学校
@@ -372,18 +354,18 @@ class DataCollection{
 
               foreach ($stu as $keyStu => $valueStu) {
                  // $classList[$valueStu->stu_class] = $valueStu->stu_class;
-                  $re[$valueStu->stu_class][$subject][] = $valueStu->stu_id;//达标的学生按科目、学科进行分类
-                  
+                  $re[$valueStu->stu_class][$subject][] = $valueStu->stu_id;//达标的学生按科目、学科进行分类     
               }
 
           }
 
         //$['二班']['yw'] = ['111','222'];
         foreach ($re as $class => $classArray) {
-            foreach ($classArray as $subject => $subjectArray) {
-           // foreach ($this->subjects as $key2 => $subject) {    
-                $under = $re_count[$class][$subject]['uponline'] = count($subjectArray);//统计每个班各科上线人数
-                $upper = $re_count[$class][$subject]['realuponline'] = count(array_intersect($subjectArray,$zflist));//统计有效
+            //foreach ($classArray as $subject => $subjectArray) {
+            foreach ($this->subjects as $key2 => $subject) {
+                $num = isset($classArray[$subject])?$classArray[$subject]:array();//没有达标则赋值为0；
+                $under = $re_count[$class][$subject]['uponline'] = count($num);//统计每个班各科上线人数
+                $upper = $re_count[$class][$subject]['realuponline'] = count(array_intersect($num,$zflist));//统计有效
                 if ($re_count[$class][$subject]['uponline']>0) {
                      $re_count[$class][$subject]['percent'] = $upper/$under;//计算达标率
                 }else{
@@ -392,7 +374,7 @@ class DataCollection{
             }
         }
 
-        $re_count['line'] = $passline;
+        $re_count['line'] = $passline;//每科的过线分数
         return $re_count;
     }
     
@@ -413,9 +395,6 @@ class DataCollection{
     	}
     	return $compare;   	
     }
-
-
-
 
 //class end
 }
