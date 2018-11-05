@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                      	echo "</td><td>";
                      	echo $exam->date;
                      	echo "</td><td>";
-                     	echo Html::a('查看分析',['/testService/analysis/index','id'=>$exam->id],['title'=>'添加']);
+                     	echo Html::a('<i class="fa fa-play"></i>点击查看',['/testService/analysis/index','id'=>$exam->id],['title'=>'添加','class'=>"btn bg-olive"]);
                      }
 				 ?>
 				</tbody>
