@@ -39,15 +39,13 @@ use yii\helpers\ArrayHelper;
        foreach ($subjects as $keys => $subject) {
          echo "<td>教师</td><td>达标</td><td>有效</td>";
        }
-      ?>
-    
+      ?>   
   </tr>
 </thead>
 <tbody>
 	<?php
   //exit(var_export($scAna));
        foreach ($bjs as $key => $bj) {
-
         $task = ArrayHelper::getValue($resTask,"$bj.task");
        	 echo "<tr><td>";
        	 echo $bj;
@@ -80,14 +78,6 @@ use yii\helpers\ArrayHelper;
          
         }
         echo "</tr>";
-        //echo $resTeacher[$bj]['bzr'];
-         //echo  ArrayHelper::getValue($resTeacher,"$bj.brz");      //isset($resTeacher[$bj]['bzr'])?$resTeacher[$bj]['bzr']:null;
-        //$color = $scAna[$key]['float']['zf']>=0?'green':'red';
-        
-       	//echo  $uponline[$bj]['zf']['uponline'];
-        // echo "</td><td>";
-       	// echo "";
-       	//echo "</td></tr>";
        }
 	?>
 </tbody>

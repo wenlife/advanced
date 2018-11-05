@@ -5,6 +5,7 @@ use backend\modules\testService\models\Exam;
 use backend\modules\testService\models\ScLike;
 use backend\modules\testService\models\ScWenke;
 use backend\modules\school\models\TeachClass;
+use yii\helpers\ArrayHelpr;
 /**
 * 该类完成的功能
 *@input 
@@ -351,32 +352,37 @@ class DataCollection{
     *@param 考试Id 学校
     *@return 每个班级，每个学科达标人数和达标线
     */
+
+          
     public function getUponLine($exam,$school,$zflist)
     { 
         $re = array();
-        $pass_line = array();
+        $re_count = array();
+        $passline = array();
+
         foreach ($this->subjects as $keys => $subject) {
              $stu = $this->loadData($exam,$school,null,$subject.' desc',$this->lineType);//需要按科目进行降序排序,依然按照之前的达标线进行计算
              $passline[$subject] = $this->getColomnMin($subject);//获取该科目达标最低分
-             
             //重新获取成绩数据，防止有最后一个分数相同的学生
-             // $stu = $this->dataModel->find()->where(['test_id'=>$exam,'stu_school'=>$school])
-             //                                ->andWhere(['>=',$subject,$passline[$subject]])
-             //                                ->orderBy($subject.' desc')
-             //                                //->limit($this->getline($this->lineType))
-             //                                ->all();
+             $stu = $this->dataModel->find()->where(['test_id'=>$exam,'stu_school'=>$school])
+                                            ->andWhere(['>=',$subject,$passline[$subject]])
+                                            ->orderBy($subject.' desc')
+                                            //->limit($this->getline($this->lineType))
+                                            ->all();
+
               foreach ($stu as $keyStu => $valueStu) {
                  // $classList[$valueStu->stu_class] = $valueStu->stu_class;
                   $re[$valueStu->stu_class][$subject][] = $valueStu->stu_id;//达标的学生按科目、学科进行分类
+                  
               }
+
           }
-        $re_count = array();
+
         //$['二班']['yw'] = ['111','222'];
         foreach ($re as $class => $classArray) {
             foreach ($classArray as $subject => $subjectArray) {
-
+           // foreach ($this->subjects as $key2 => $subject) {    
                 $under = $re_count[$class][$subject]['uponline'] = count($subjectArray);//统计每个班各科上线人数
-
                 $upper = $re_count[$class][$subject]['realuponline'] = count(array_intersect($subjectArray,$zflist));//统计有效
                 if ($re_count[$class][$subject]['uponline']>0) {
                      $re_count[$class][$subject]['percent'] = $upper/$under;//计算达标率

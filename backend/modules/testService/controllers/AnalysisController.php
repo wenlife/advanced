@@ -357,10 +357,7 @@ class AnalysisController extends Controller
 
         $lk_uponline = $datalk->getUponLine($exam,$school,$schoolLineStudentListlk);
         $wk_uponline = $datawk->getUponLine($exam,$school,$schoolLineStudentListwk);
-         //  var_export($lk_uponline);
-         // var_export($wk_uponline);
-         // exit();
-        //获取每个班的任务
+
         $resTask = $resModel->getLineTask($school,$exam,$linetype);
 
 
