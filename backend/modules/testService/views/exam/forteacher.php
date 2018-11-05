@@ -4,11 +4,16 @@ $this->title = '考试';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="content">
+	<div class="alert alert-info alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-info"></i> Alert!</h4>
+                该网站成绩分析结果仅供参考，最终结果以年级发布为准
+              </div>
 <div class="row">
 	<div class="col-xs-12 col-md-12">
 		<div class="box box-success">
 			<div class="box-header with-border">
-			  <h3 class="box-title">考试选择<small>（该网站成绩分析结果仅供参考，最终结果以年级发布为准）</small></h3>
+			  <h3 class="box-title">考试选择</h3>
 			</div>
 			<!-- /.box-header -->
 			<div class="box-body no-padding">
