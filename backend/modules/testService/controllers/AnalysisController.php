@@ -48,10 +48,9 @@ class AnalysisController extends Controller
         $scLike  = $datalk->loadData($exam->id);
         $scWenke = $datawk->loadData($exam->id);
         $schools = $datalk->getSchoolList();//！！！学校从理科成绩中获得，所有要主要是否会出现问题
-            if (!$schools) {
-                $schools = $datawk->getSchoolList();
-                # code...
-            }
+        if (!$schools) {
+            $schools = $datawk->getSchoolList();
+        }
         $schoolsAna = array();
         $schoolsAnaW = array();
         
@@ -63,8 +62,7 @@ class AnalysisController extends Controller
             $datawk->loadData($id,$school);
             $schoolsAnaW[$key]['max'] = $datawk->getMax();
             $schoolsAnaW[$key]['avg'] = $datawk->getAvg(); 
-        }
-            
+        }     
         return $this->render('index',[
             'exam'=>$exam,
             'lksubjects'=>$datalk->getSubjects(),
@@ -345,7 +343,7 @@ class AnalysisController extends Controller
        //所选考试和学校的班级文理科班级列表
         $bjlk = $datalk->getClassList();
         $bjwk = $datawk->getClassList();
-          //任教对应关系读取；
+        //任教对应关系读取；
         $resModel = new ClassRespond();
         $resTeacher = $resModel->getTeachers($school,$exam);
 
@@ -359,7 +357,9 @@ class AnalysisController extends Controller
 
         $lk_uponline = $datalk->getUponLine($exam,$school,$schoolLineStudentListlk);
         $wk_uponline = $datawk->getUponLine($exam,$school,$schoolLineStudentListwk);
-
+         //  var_export($lk_uponline);
+         // var_export($wk_uponline);
+         // exit();
         //获取每个班的任务
         $resTask = $resModel->getLineTask($school,$exam,$linetype);
 

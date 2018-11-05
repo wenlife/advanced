@@ -43,7 +43,25 @@ class DataCollection{
 		}
 
 	}
+    public function getType()
+    {
+        return $this->type;
+    }
 
+    public function getSubjects()
+    {
+        return $this->subjects;
+    }
+    public function getData(){
+        return $this->data;
+    }
+    //返回达标总人数
+    public function getLineSum(){
+        return ['grade'=>$this->line_grade,'subject'=>$this->line_subject];
+    }
+
+
+    //获取不同类型的达标总人数
     public function getline($lineType)
     {
         $this->lineType = $lineType;
@@ -83,18 +101,7 @@ class DataCollection{
         }
     }
 
-    public function getType()
-    {
-        return $this->type;
-    }
 
-    public function getSubjects()
-    {
-        return $this->subjects;
-    }
-    public function getData(){
-        return $this->data;
-    }
     /**
     * 载入所需要的数据，根据文理科自动获取所需要的成绩数据
     * @param 考试ID（必须） 学校 班级 排序方式
@@ -351,6 +358,13 @@ class DataCollection{
         foreach ($this->subjects as $keys => $subject) {
              $stu = $this->loadData($exam,$school,null,$subject.' desc',$this->lineType);//需要按科目进行降序排序,依然按照之前的达标线进行计算
              $passline[$subject] = $this->getColomnMin($subject);//获取该科目达标最低分
+             
+            //重新获取成绩数据，防止有最后一个分数相同的学生
+             // $stu = $this->dataModel->find()->where(['test_id'=>$exam,'stu_school'=>$school])
+             //                                ->andWhere(['>=',$subject,$passline[$subject]])
+             //                                ->orderBy($subject.' desc')
+             //                                //->limit($this->getline($this->lineType))
+             //                                ->all();
               foreach ($stu as $keyStu => $valueStu) {
                  // $classList[$valueStu->stu_class] = $valueStu->stu_class;
                   $re[$valueStu->stu_class][$subject][] = $valueStu->stu_id;//达标的学生按科目、学科进行分类
