@@ -64,7 +64,7 @@ use yii\helpers\ArrayHelper;
           }else{
              $sub = "<sub class='text-danger'>$sum_num</sub>";
           }
-         echo "</td><td>"; 
+         echo '</td><td style="border-left:1px dashed green">'; 
         // $color = $scAna[$key]['float'][$subject]>=0?'green':'red';
          if ($subject=='zf') {
            echo  ArrayHelper::getValue($resTeacher,"$bj.bzr"); 

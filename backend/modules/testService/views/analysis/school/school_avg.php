@@ -41,7 +41,7 @@ foreach ($subjects as $keys => $subject) {
     		<td>@</td>
         <?php
            foreach ($subjects as $keys => $subject) {
-             echo "<td>最高</td><td>平均</td><td>及率</td>";
+             echo "<td>教师</td><td>平均</td><td>及率</td>";
            }
 
           ?>

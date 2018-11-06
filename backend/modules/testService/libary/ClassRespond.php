@@ -46,7 +46,12 @@ class ClassRespond{
 		  $testDate =  $test->date;
 		  $year = TeachYearManage::find()->where(['and',['<','start_date',$testDate],['>','end_date',$testDate]])->one();
 		 // exit(var_export($year->id));
-		  $year_id = $year->id;//学期的ID
+		  if ($year) {
+		  	$year_id = $year->id;//学期的ID
+		  }else{
+		  	return array();
+		  }
+		  
 		}
 
 		$map = Classmap::find()->where(['school'=>$school,'grade'=>$test->stu_grade])->all();
