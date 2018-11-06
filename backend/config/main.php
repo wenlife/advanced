@@ -14,12 +14,6 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [
-        // 'redactor'=>[
-        //     'class'=>'yii\redactor\RedactorModule',
-        //     'uploadDir'=>'@backend/web/upload',
-        //     'uploadUrl'=>'http://localhost:82/upload',
-        //     'imageAllowExtensions'=>['jpg','png','gif']
-        // ]
     ],
     'components' => [
         'user' => [

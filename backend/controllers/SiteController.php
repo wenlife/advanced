@@ -46,11 +46,11 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error','signup'],
+                        'actions' => ['login', 'error','signup','index'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index','list','detail','vdetail','pdetail','center','test','myclass','resetpwd','myinfo'],
+                        'actions' => ['logout','list','detail','vdetail','pdetail','center','test','myclass','resetpwd','myinfo'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -79,7 +79,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     { 
-        return $this->redirect(['site/center']);
+        return $this->redirect(['testService/exam/forteacher']);
         
         return $this->render('index');
     }
