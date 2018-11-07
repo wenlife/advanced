@@ -64,7 +64,7 @@ class ExamController extends Controller
 
     public function actionForteacher()
     {
-        $exams = Exam::find()->all();
+        $exams = Exam::find()->orderby('date desc')->all();
         return $this->render('forteacher',['exams'=>$exams]);
 
     }
