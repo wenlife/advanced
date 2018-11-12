@@ -106,7 +106,7 @@ class DataCollection{
     * @param 考试ID（必须） 学校 班级 排序方式
     * @return 将获得内容赋值给类成员Data并返回
     */
-    public function loadData($test,$school=null,$class=null,$sort=null,$lineType=null)
+    public function loadData($test,$school=null,$class=null,$sort=null,$lineType=null,$except=null)
     {
 
         $this->test = $test;
@@ -123,7 +123,18 @@ class DataCollection{
         $limit = $lineType?$this->getline($lineType):$lineType;
         
         $this->whereArray = $whereArray;
-        $re = $this->dataModel->find()->where($whereArray)->orderBy($sort)->limit($limit)->all();
+        if ($except) {
+            $re = $this->dataModel->find()
+                            ->where($whereArray)
+                            ->andWhere(['not like','note',$except])
+                            ->orderBy($sort)
+                            ->limit($limit)
+                            ->all();
+          // var_export($re);
+        //   exit();
+        }else{
+            $re = $this->dataModel->find()->where($whereArray)->orderBy($sort)->limit($limit)->all();
+        }
         $this->data = $re;
         return $re;
     }
@@ -336,21 +347,33 @@ class DataCollection{
     */
 
           
-    public function getUponLine($exam,$school,$zflist)
+    public function getUponLine($exam,$school,$zflist,$except=null)
     { 
         $re = array();
         $re_count = array();
         $passline = array();
 
         foreach ($this->subjects as $keys => $subject) {
-             $stu = $this->loadData($exam,$school,null,$subject.' desc',$this->lineType);//需要按科目进行降序排序,依然按照之前的达标线进行计算
+             $stu = $this->loadData($exam,$school,null,$subject.' desc',$this->lineType,$except);//需要按科目进行降序排序,依然按照之前的达标线进行计算
+
+             //$re = $this->dataModel->find()->where($whereArray)->orderBy($sort)->limit($limit)->all();
              $passline[$subject] = $this->getColomnMin($subject);//获取该科目达标最低分
             //重新获取成绩数据，防止有最后一个分数相同的学生
+            if ($except) {
              $stu = $this->dataModel->find()->where(['test_id'=>$exam,'stu_school'=>$school])
                                             ->andWhere(['>=',$subject,$passline[$subject]])
+                                            ->andWhere(['not like','note',$except])
                                             ->orderBy($subject.' desc')
                                             //->limit($this->getline($this->lineType))
-                                            ->all();
+                                            ->all();                # code...
+            }else{
+             $stu = $this->dataModel->find()->where(['test_id'=>$exam,'stu_school'=>$school])
+                            ->andWhere(['>=',$subject,$passline[$subject]])
+                            ->orderBy($subject.' desc')
+                            //->limit($this->getline($this->lineType))
+                            ->all();
+            }
+
 
               foreach ($stu as $keyStu => $valueStu) {
                  // $classList[$valueStu->stu_class] = $valueStu->stu_class;

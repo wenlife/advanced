@@ -7,4 +7,5 @@ $converter = new InformationConverse($model);
   echo Html::a($model->title,$converter->contentFrontView());
   echo '<span class="pull-right">'.$model->publish_date."</span>";
   echo "</li>";
-?> 
+?>
+

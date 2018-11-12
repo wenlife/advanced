@@ -10,7 +10,7 @@
     <div class="carousel-inner" role="listbox">
 <?php foreach($pictures as $key=>$picture){ ?>
       <div class="item <?php if($key==0) echo 'active'; ?>">
-      <img src="<?='http://localhost:82/'.$picture->url?>" alt="First slide image" class="center-block">
+      <img src="<?='http://localhost:83/'.$picture->url?>" style="width:100%;height:300px"  alt="First slide image" class="center-block">
         <div class="carousel-caption">
           <h3><?=$picture->headline?></h3>
           <p><?=$picture->describes?></p>

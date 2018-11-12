@@ -79,7 +79,10 @@ class SiteController extends Controller
 
     public function actionIndex()
     { 
-        return $this->redirect(['testService/exam/forteacher']);
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['testService/exam/forteacher']);
+        }
+
         
         return $this->render('index');
     }

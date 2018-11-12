@@ -50,12 +50,12 @@ class SiteController extends Controller
                 'only' => ['logout', 'signup'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['signup','index'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout','avatar','index','center','test'],
+                        'actions' => ['logout','avatar','center','test'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -94,7 +94,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->redirect(['login']);
+     //   return $this->redirect(['login']);
         $indexSettingModel = new Indexsetting();
         $indexSetting = $indexSettingModel->find()->where(['type'=>2])->one();
         if (!$indexSetting) {

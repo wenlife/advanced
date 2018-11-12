@@ -271,6 +271,7 @@ class AnalysisController extends Controller
         $scAnal = array();
         foreach ($bjlk as $keyl => $bjl) {
             $datalk->loadData($exam,$school,$bjl);
+
             $bjdata = $datalk_compare->loadData($test_compare->id,$school,$bjl);
             //上次考试没有数据
             if (empty($bjdata)) {
@@ -299,6 +300,8 @@ class AnalysisController extends Controller
         //  $scAnaw[$keyw]['pass'] = $datawk->getPassed();
             $scAnaw[$keyw]['float'] = $datawk->avgFloat($avgwkSchool,$datawk_compare->getAvg(),$avgwkSchool_compare);
         }
+
+       
 
 
         return $this->render('improve',[
@@ -347,16 +350,19 @@ class AnalysisController extends Controller
         $resModel = new ClassRespond();
         $resTeacher = $resModel->getTeachers($school,$exam);
 
-        $datalk->loadData($exam,$school,null,'zf desc',$linetype);
-        $datawk->loadData($exam,$school,null,'zf desc',$linetype);
+        $datalk->loadData($exam,$school,null,'zf desc',$linetype,'J');
+        $datawk->loadData($exam,$school,null,'zf desc',$linetype,'J');
 
         $schoolLineStudentListlk = $datalk->getDistinct('stu_id','zf desc',$linetype);
         $schoolLineStudentListwk = $datawk->getDistinct('stu_id','zf desc',$linetype);
         $lkzfline = $datalk->getColomnMin('zf');
         $wkzfline = $datawk->getColomnMin('zf');
 
-        $lk_uponline = $datalk->getUponLine($exam,$school,$schoolLineStudentListlk);
-        $wk_uponline = $datawk->getUponLine($exam,$school,$schoolLineStudentListwk);
+      //  var_export($lkzfline);
+      //  exit();
+
+        $lk_uponline = $datalk->getUponLine($exam,$school,$schoolLineStudentListlk,'J');
+        $wk_uponline = $datawk->getUponLine($exam,$school,$schoolLineStudentListwk,'J');
 
         $resTask = $resModel->getLineTask($school,$exam,$linetype);
 
