@@ -5,7 +5,7 @@ if (!isset($order)) {
 }
 ?>
 
-<div class="well">
+<div class="well item">
 <table class="table">
 
 <tr class="" style="line-height: 20px;padding-bottom:10px"><td colspan=3><?=$model->content?></td></tr>
@@ -25,5 +25,5 @@ if (!isset($order)) {
 	
 ?>
 <style type="text/css">
-	p{padding:0px; margin:0px;display: inline;}
+.item p{padding:0px; margin:0px;display: inline;}
 </style>

@@ -6,45 +6,55 @@ use yii\widgets\DetailView;
 $this->title = $model->title;
 //var_export($myAnswer);
 ?>
-<h1 class="title"><?=$model->title?><span class="glyphicon glyphicon-ok"></span>
-                                   <span class="score"><?=$score->score?>分</span>
-                  </h1>
-<div class="box-body">
-<?php 
-    $order = 0;
-    foreach ($itemsAllType as $typeKey => $items) {
-        foreach ($items as $itemKey => $item) {
-            if ($item->getViewName()=='mmo') {
-            	$order+=4;
-            }else{
-            	$order++;
+<section class="content self">
+<div class="row">
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h1 class="title"><?=$model->title?>
+        <span class="score"><?=$score->score?>分</span>
+        </h1>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <?php 
+            $order = 0;
+            foreach ($itemsAllType as $typeKey => $items) {
+                foreach ($items as $itemKey => $item) {
+                    if ($item->getViewName()=='mmo') {
+                        $order+=4;
+                    }else{
+                        $order++;
+                    }
+                //exit(var_export($stu_answer));
+                echo $this->render('display/'.$item->getViewName(),['order'=>$order,'model'=>$item,'myAnswer'=>$myAnswer]);
+                }
             }
-        //exit(var_export($stu_answer));
-	    echo $this->render('display/'.$item->getViewName(),['order'=>$order,'model'=>$item,'myAnswer'=>$myAnswer]);
-		}
-	}
-?>
+        ?>
+    </div>
 </div>
+</div>
+</section>
+
 
 <style type="text/css">
-label{
+.self label{
     font-weight: normal;
     width:100%;
     text-indent: 20px;
     line-height: 25px;
 }
-label>input{
+.self label>input{
     margin-right: 20px;
     width:30px;
 }
-label:hover{
+.self label:hover{
     background-color:white;
 }
 @font-face{
     font-family: "李旭科书法1.4";
     src:url("font/lxk.ttf");
 }
-.title{
+.self .title{
     text-align: center;
     font-family: "李旭科书法1.4";
     margin: 20px;
@@ -53,13 +63,13 @@ label:hover{
     border-bottom: 1px solid #eee;
     color:green;
 }
-.score{
+.self .score{
     float:right;
     font-size: 80px;
     color:red;
 
 }
-.grain{
+.self .grain{
     float: right;
     color:blue;
     font-size: 80px;

@@ -40,7 +40,7 @@ class SiteController extends Controller
     /**
      * @inheritdoc
      */
-    public $layout = 'center';
+    //public $layout = 'center';
 
     public function behaviors()
     {
@@ -118,53 +118,53 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionCenter()
-    {
+    // public function actionCenter()
+    // {
 
-        $userStu = User::findByUsername(Yii::$app->user->identity->username);
-        $class = userBanji::find($userStu->class)->one();
-        $teacherID = $class->xx;
+    //     $userStu = User::findByUsername(Yii::$app->user->identity->username);
+    //     $class = userBanji::find($userStu->class)->one();
+    //     $teacherID = $class->xx;
 
-        $taskModel = new Task();
-        $task = $taskModel->find()->where(['creator'=>$teacherID])->orderBy('createdate desc')->one();
-        if ($task) {
-            $testScoreModel = new TestScore();
-            $testScore = $testScoreModel->find()->where(['userid'=>Yii::$app->user->identity->username,'testid'=>$task->test])->all();
-            if (empty($testScore)) {
-                $ifTestWasDone = false;
-            }else{
-                $ifTestWasDone = 1;
-                foreach ($testScore as $k => $test) {
-                    if ($test->score > $ifTestWasDone) {
-                        $ifTestWasDone = $test->score;
-                    }
-                }
-            }
-        }else{
-            $ifTestWasDone=false;
-        }
+    //     $taskModel = new Task();
+    //     $task = $taskModel->find()->where(['creator'=>$teacherID])->orderBy('createdate desc')->one();
+    //     if ($task) {
+    //         $testScoreModel = new TestScore();
+    //         $testScore = $testScoreModel->find()->where(['userid'=>Yii::$app->user->identity->username,'testid'=>$task->test])->all();
+    //         if (empty($testScore)) {
+    //             $ifTestWasDone = false;
+    //         }else{
+    //             $ifTestWasDone = 1;
+    //             foreach ($testScore as $k => $test) {
+    //                 if ($test->score > $ifTestWasDone) {
+    //                     $ifTestWasDone = $test->score;
+    //                 }
+    //             }
+    //         }
+    //     }else{
+    //         $ifTestWasDone=false;
+    //     }
         
 
-        //$ifPaperWasDone = 
+    //     //$ifPaperWasDone = 
 
-        if(Yii::$app->user->isGuest){
-            return $this->redirect(['site/login']);
-        }else{
-            $username = Yii::$app->user->identity->username;           
-            $user = User::findByUsername($username);
-        }
+    //     if(Yii::$app->user->isGuest){
+    //         return $this->redirect(['site/login']);
+    //     }else{
+    //         $username = Yii::$app->user->identity->username;           
+    //         $user = User::findByUsername($username);
+    //     }
 
-        $itemModel = new infoitem();
-        $section1 = $itemModel->find()->where(['parentid'=>19])->all();
+    //     $itemModel = new infoitem();
+    //     $section1 = $itemModel->find()->where(['parentid'=>19])->all();
 
-        return $this->render('center',['task'=>$task,'user'=>$user,'section1'=>$section1,'ifTestWasDone'=>$ifTestWasDone]);
+    //     return $this->render('center',['task'=>$task,'user'=>$user,'section1'=>$section1,'ifTestWasDone'=>$ifTestWasDone]);
 
-    }
+    // }
 
-    public function actionTaskdetail()
-    {
-        exit('testing');
-    }
+    // public function actionTaskdetail()
+    // {
+    //     exit('testing');
+    // }
 
     public function actionAvatar()
     {
@@ -208,7 +208,7 @@ class SiteController extends Controller
 
     public function actionList($cate)
     {
-        //$this->layout = "content";
+        $this->layout = "center";
         $content = new ContentMenu();
         if (is_numeric($cate)) {
             $items = $content->find()->where(['menuid'=>$cate])->all();
@@ -244,76 +244,7 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionTest($id)
-    {
-        $testItem = new TestItem();
-        $testPaper = new Testpaper();
-        $model = $testPaper->findOne($id);
 
-        //===========================================
-        //如果该用户已经做过回答，则直接跳转到结果界面
-
-        if(Yii::$app->request->post())
-        {
-            $post = Yii::$app->request->post();
-            $score = unserialize($model->score);
-            //exit(var_export($score));
-            //检查答案，计算总分
-            $zongfen = 0;
-            foreach ($post as $itemid => $answer) {
-               $zongfen += $testItem->checkAnswer($itemid,$answer,$score);
-            }
-
-
-            $username = Yii::$app->user->identity->username;
-            $ifHasTested = TestScore::find()->where(['userid'=>$username,'testid'=>$id])->max('score');
-            if ($ifHasTested) {
-               if ($zongfen>$ifHasTested) {
-                  $testScore = TestScore::find()->where(['userid'=>$username,'testid'=>$id])->one();
-                   $testScore->answer = serialize($post);
-                   $testScore->score = $zongfen;
-                   $testScore->date = time();
-               }else{
-                  Yii::$app->getSession()->setFlash('warning','得分小于上次测试，此次结果不作保存！');
-                  return $this->redirect(['/center']);
-               }
-            }else{
-                $testScore = new TestScore();
-                $testScore->userid = $username;
-                $testScore->testid = $id;
-                $testScore->answer = serialize($post);
-                $testScore->score = $zongfen;
-                $testScore->date = time();
-            }
-
-
-
-            if ($testScore->save()) {
-                Yii::$app->getSession()->setFlash('success','测试提交成功！');
-                return $this->redirect(['/center']);
-            }else{
-                var_export($testScore->getErrors());
-                exit(0);
-            }
-
-
-        }
-        
-        $itemArray = unserialize($model->items);
-        
-        $itemForPaper = array();
-        foreach ($itemArray as $typeKey => $itemTypeArray) {
-            foreach ($itemTypeArray as $itemKey => $itemid) {
-                $item = $testItem->findItem($itemid);
-                $itemForPaper[$typeKey][$itemid] = $item;
-            }
-        }
-        ksort($itemForPaper);
-       return $this->render('test', [
-            'model' => $model,
-            'itemsAllType' => $itemForPaper
-        ]);
-    }
 
     public function actionLogin()
     {

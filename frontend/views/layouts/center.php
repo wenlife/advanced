@@ -43,7 +43,7 @@ $menuItems = [
     ['label'=>'查询成绩','url'=>['center/score']],
     ['label'=>'任务列表','url'=>['center/task']],
     ['label'=>'个人信息','url'=>['center/detail']],
-    ['label'=>'测试中心','url'=>['center/test']],
+    ['label'=>'测试中心','url'=>['center/testlist']],
 ];
 
 if (Yii::$app->user->isGuest) {
@@ -74,8 +74,6 @@ NavBar::end();
         $notice = $setting->find()->where(['type'=>3])->one();
         if($notice){
         ?>
-
-
         <div class="alert alert-success alert-dismissible" role="alert" style="margin:0px; height:auto">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
            <div class="notice">
@@ -86,25 +84,22 @@ NavBar::end();
           }
         ?>
     </div>
-
-
-
-<div class="row">
+    <div class="row">
         <section class="content-header">
-
-
-        <?=
-        Breadcrumbs::widget(
-            [
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-            ]
-        ) ?>
-    </section>
-     <section class="content">
-        <?= Alert::widget() ?>
-        <?= $content ?>
-    </section>
-</div>
+        <?=Breadcrumbs::widget(['links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],]) ?>
+        </section>
+         <section class="content">
+            <?= Alert::widget() ?>
+        <div class="row">
+            <div class="col-md-3">
+                <?=$this->render("left_bar")?>
+            </div>
+            <div class="col-md-9">
+                <?= $content ?>
+            </div>
+        </div>   
+        </section>
+    </div>
 </div>
 </div>
 

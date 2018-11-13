@@ -35,79 +35,8 @@ if(file_exists("avatar/1/$id.png"))
 <section class="content">
 
       <div class="row">
-        <div class="col-md-3">
-
-          <!-- Profile Image -->
-          <div class="box box-primary">
-            <div class="box-body box-profile">
-               <a href="index.php?r=center/avatar">
-              <img class="profile-user-img img-responsive img-circle" src=<?=$file?> alt="User profile picture">
-              </a>
-              <h3 class="profile-username text-center"><?=$detail->name?></h3>
-
-              <p class="text-muted text-center"><?=$class->title?></p>
-
-              <ul class="list-group list-group-unbordered">
-                <li class="list-group-item">
-                  <b>粉丝</b> <a class="pull-right">0</a>
-                </li>
-                <li class="list-group-item">
-                  <b>关注</b> <a class="pull-right">0</a>
-                </li>
-                <li class="list-group-item">
-                  <b>朋友</b> <a class="pull-right">0</a>
-                </li>
-              </ul>
-
-              <a href="#" class="btn btn-primary btn-block"><b>修改个人信息</b></a>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-
-          <!-- About Me Box -->
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">关于我</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <strong><i class="fa fa-book margin-r-5"></i>初中就读</strong>
-
-              <p class="text-muted">
-                攀枝花市第七高级中学校
-              </p>
-
-              <hr>
-
-              <strong><i class="fa fa-map-marker margin-r-5"></i> 家庭住址</strong>
-
-              <p class="text-muted">攀枝花市智学北路一号</p>
-
-              <hr>
-
-              <strong><i class="fa fa-pencil margin-r-5"></i>兴趣爱好</strong>
-
-              <p>
-                <span class="label label-danger">绘画</span>
-                <span class="label label-success">篮球</span>
-                <span class="label label-info">唱歌</span>
-                <span class="label label-warning">武术</span>
-                <span class="label label-primary">电子游戏</span>
-              </p>
-
-              <hr>
-
-              <strong><i class="fa fa-file-text-o margin-r-5"></i>生活格言</strong>
-
-              <p>只有不放弃，才能成功！</p>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
         <!-- /.col -->
-        <div class="col-md-9">
+        <div class="col-md-12">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#activity" data-toggle="tab">留言板</a></li>
@@ -128,7 +57,7 @@ if(file_exists("avatar/1/$id.png"))
                   </div>
                   <!-- /.user-block -->
                   <p>
-                    同学们，我们的信息技术学习网站正在开发中。改网站开发的目标是不仅让大家能够在线完成信息技术的学习和考试，同事也能完成其他科目的在线学习。同事还能查询管理自己的个人信息，并且能直接参与学校的各项事务中，还能提供选科方面的指导，还有在线娱乐的区域，还有学校内部各个年级，各个同学之间的信息交流平台，因此希望大家共同努力，建设起我们七中校园的快乐平台，请大家积极提供新功能建议和改进意见！
+                    同学们，我们的信息技术学习网站正在开发中。该网站开发的目标是不仅让大家能够在线完成信息技术的学习和考试，同时也能完成其他科目的在线学习，查询管理自己的个人信息，并且能直接参与学校的各项事务中，还能提供选科方面的指导，在线娱乐的区域。还有学校内部各个年级，各个同学之间的信息交流平台，因此希望大家共同努力，建设起我们七中校园的快乐平台，请大家积极提供新功能建议和改进意见！
                   </p>
                   <ul class="list-inline">
                     <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>

@@ -22,8 +22,8 @@ use yii\helpers\Html;
 </div>
 
 <style type="text/css">
-	p{padding:0px; margin:0px;display: inline;}
-	ul{
+.item p{padding:0px; margin:0px;display: inline;}
+.item ul{
 		margin-top: 10px;
 	}
 </style>

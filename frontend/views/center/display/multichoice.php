@@ -38,7 +38,7 @@ if(array_key_exists($model->id, $myAnswer))
 
 
 ?>
-<div class="well" style="-moz-box-shadow:2px 2px 2px 3px green; -webkit-box-shadow:2px 2px 5px green; box-shadow:2px 2px 5px green;">
+<div class="well item" style="-moz-box-shadow:2px 2px 2px 3px green; -webkit-box-shadow:2px 2px 5px green; box-shadow:2px 2px 5px green;">
 <table class="table">
 <tr>
 	<td colspan=2 style="height:40px;padding:5px;">
@@ -59,12 +59,12 @@ foreach ($choiceArr as $key => $value) {
 </table>
 </div>
 <style type="text/css">
-	p{padding:0px; margin:0px;display: inline;}
-    .glyphicon-ok{
+.item p{padding:0px; margin:0px;display: inline;}
+.item .glyphicon-ok{
     	color:green;
         font-size:15px;
     }
-    .glyphicon-remove{
+.item .glyphicon-remove{
     	color:red;
     }
 </style>

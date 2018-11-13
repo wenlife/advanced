@@ -150,6 +150,78 @@ class CenterController extends \yii\web\Controller
         ]);
     }
 
+
+    public function actionTest($id)
+    {
+        $testItem = new TestItem();
+        $testPaper = new Testpaper();
+        $model = $testPaper->findOne($id);
+
+        //===========================================
+        //如果该用户已经做过回答，则直接跳转到结果界面
+
+        if(Yii::$app->request->post())
+        {
+            $post = Yii::$app->request->post();
+            $score = unserialize($model->score);
+            //exit(var_export($score));
+            //检查答案，计算总分
+            $zongfen = 0;
+            foreach ($post as $itemid => $answer) {
+               $zongfen += $testItem->checkAnswer($itemid,$answer,$score);
+            }
+
+
+            $username = Yii::$app->user->identity->username;
+            $ifHasTested = TestScore::find()->where(['userid'=>$username,'testid'=>$id])->max('score');
+            if ($ifHasTested) {
+               if ($zongfen>$ifHasTested) {
+                  $testScore = TestScore::find()->where(['userid'=>$username,'testid'=>$id])->one();
+                   $testScore->answer = serialize($post);
+                   $testScore->score = $zongfen;
+                   $testScore->date = time();
+               }else{
+                  Yii::$app->getSession()->setFlash('warning','得分小于上次测试，此次结果不作保存！');
+                  return $this->redirect(['/center']);
+               }
+            }else{
+                $testScore = new TestScore();
+                $testScore->userid = $username;
+                $testScore->testid = $id;
+                $testScore->answer = serialize($post);
+                $testScore->score = $zongfen;
+                $testScore->date = time();
+            }
+
+
+
+            if ($testScore->save()) {
+                Yii::$app->getSession()->setFlash('success','测试提交成功！');
+                return $this->redirect(['/center']);
+            }else{
+                var_export($testScore->getErrors());
+                exit(0);
+            }
+
+
+        }
+        
+        $itemArray = unserialize($model->items);
+        
+        $itemForPaper = array();
+        foreach ($itemArray as $typeKey => $itemTypeArray) {
+            foreach ($itemTypeArray as $itemKey => $itemid) {
+                $item = $testItem->findItem($itemid);
+                $itemForPaper[$typeKey][$itemid] = $item;
+            }
+        }
+        ksort($itemForPaper);
+       return $this->render('test', [
+            'model' => $model,
+            'itemsAllType' => $itemForPaper
+        ]);
+    }
+
     public function actionScore()
     {
         $testScore = new TestScore();
@@ -162,9 +234,9 @@ class CenterController extends \yii\web\Controller
 
     public function actionTask()
     {    
-        $userStu = User::findByUsername(Yii::$app->user->identity->username);
-        $class = TeachClass::find($userStu->class)->one();
-        $teacherID = $class->xx;
+        $user = User::findByUsername(Yii::$app->user->identity->username);
+        //$class = TeachClass::find($userStu->class)->one();
+        $teacherID = TeachManage::find()->where(['class_id'=>$user->class,'subject'=>'xx'])->one();// $class->xx;
         $tasks = Task::find()->where(['creator'=>$teacherID])->orderBy('state')->all();
          return $this->render('task',['tasks'=>$tasks]);
 
@@ -179,12 +251,12 @@ class CenterController extends \yii\web\Controller
         return $this->render('detail',['detail'=>$userStu,'class'=>$class]);
     }
 
-    public function actionTest()
+    public function actionTestlist()
     {
         $paperModel = new Testpaper();
         $papers = $paperModel->find()->all();
          
-         return $this->render('test',['papers'=>$papers]);
+         return $this->render('testlist',['papers'=>$papers]);
 
     }
 

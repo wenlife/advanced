@@ -515,6 +515,7 @@ class AnalysisController extends Controller
         foreach ($bjarr1 as $key => $value) {
            $bjarr[$value] = $value;
         }
+        //获取班级 判断是否有GET和POST传入
         if ($bj==null) { $bj = current($bjlk);}
         if ($post = Yii::$app->request->post()) {
            $bj = $post['bj'];
