@@ -103,8 +103,7 @@ NavBar::end();
 
 <div class="main-footer">
     <div class="container">
-        <p class="text-center">攀枝花七中信息技术教研组</p>
-        <p class="text-center">Yii powerd</p>
+         <p class="text-center">攀枝花七中信息技术教研组 Yii powerd</p>
     </div>
 </div>
 
