@@ -5,7 +5,7 @@ use backend\modules\testService\models\Exam;
 use backend\modules\testService\models\ScLike;
 use backend\modules\testService\models\ScWenke;
 use backend\modules\school\models\TeachClass;
-use yii\helpers\ArrayHelpr;
+use yii\helpers\ArrayHelper;
 /**
 * 该类完成的功能
 *@input 
@@ -133,18 +133,6 @@ class DataCollection{
         $this->data = $query->all();
         return $this->data;
  
-        // if ($except) {
-        //     $re = $this->dataModel->find()
-        //                     ->where($whereArray)
-        //                     ->andWhere(['not like','note',$except])
-        //                     ->orderBy($sort)
-        //                     ->limit($limit)
-        //                     ->all();
-        // }else{
-        //     $re = $this->dataModel->find()->where($whereArray)->orderBy($sort)->limit($limit)->all();
-        // }
-       // $this->data = $re;
-       // return $re;
     }
 
     //获取单科最高分学生
@@ -161,15 +149,18 @@ class DataCollection{
     * @param  列名，数据库相关
     * @return 返回数组,仅数组，不含AR内容
     */
-    public function getDistinct($col,$orderBy=null,$lineType=null)
+    public function getDistinct($col,$orderBy=null,$lineType=null,$except=null)
     {
         $re = array();
         $limit = $this->getline($lineType);     
-        $dis = $this->dataModel->find()->where($this->whereArray)->orderBy($orderBy)->select($col)->limit($limit)->distinct()->all();
-        foreach ($dis as $key => $di) {
-            $re[$key] = $di->$col;
+        //$dis = $this->dataModel->find()->where($this->whereArray)->orderBy($orderBy)->select($col)->limit($limit)->distinct()->all();
+        $query = $this->dataModel->find()->where($this->whereArray);
+        if ($except) {
+            $query = $query->andWhere(['not like','note',$except]);
         }
-        return $re;
+        $dis = $query->select($col)->orderBy($orderBy)->limit($limit)->distinct()->column();
+
+         return $dis;
     }
 
     public function getSchoolList()
@@ -192,6 +183,23 @@ class DataCollection{
         }
         return $max;
 	}
+
+    public function getColomnMin($subject)
+    {
+
+        $subject_min = null;
+        foreach ($this->data as $keyd => $stu) {
+            if (isset($stu->$subject)) {
+                if ($subject_min==null) {
+                    $subject_min = $stu->$subject;
+                }elseif($subject_min>$stu->$subject){   
+                    $subject_min = $stu->$subject;
+                }
+            }
+        }
+        return $subject_min;
+
+    }
     /*
     * 返回某列平均值
     * 需要从中去掉为0分的值
@@ -220,28 +228,28 @@ class DataCollection{
         $sum = 0;
         $count = 0 ;
         $special = ['yw','ds','yy'];
-        if (in_array($col,$special)) {
-          $passline = 90;
-        }else{
-          $passline = 60;
-        }
+        $passline = in_array($col,$special)?90:60;
+        // if (in_array($col,$special)) {
+        //   $passline = 90;
+        // }else{
+        //   $passline = 60;
+        // }
         
         foreach ($this->data as $key => $value) {
-            if ($value->$col<=0) {
+            if (!isset($value->$col)||$value->$col<=0) {
                continue;
-            }
-            if (isset($value->$col)) {
+            }else{
                 $sum++;
-                if ($value->$col>=$passline) {
-                    $count++;
-                }
+                if ($value->$col>=$passline) {$count++;}
             }
         }
-        if ($sum==0) {
-            return 0;
-        }else{
-            return round($count/$sum,3);
-        }
+
+        return $sum==0?0:round($count/$sum,3);
+        // if ($sum==0) {
+        //     return 0;
+        // }else{
+        //     return round($count/$sum,3);
+        // }
     }
     /**
     * 返回所选数据里所有学生每科目的及格情况
@@ -265,22 +273,7 @@ class DataCollection{
     	}
     	return $max;
     }
-    public function getColomnMin($subject)
-    {
 
-        $subject_min = null;
-        foreach ($this->data as $keyd => $stu) {
-            if (isset($stu->$subject)) {
-                if ($subject_min==null) {
-                    $subject_min = $stu->$subject;
-                }elseif($subject_min>$stu->$subject){   
-                    $subject_min = $stu->$subject;
-                }
-            }
-        }
-        return $subject_min;
-
-    }
     /*
     * 取得各科的平均值，总分平均值为各科平均值的和
     */
@@ -364,25 +357,16 @@ class DataCollection{
         foreach ($this->subjects as $keys => $subject) {
              $stu = $this->loadData($exam,$school,null,$subject.' desc',$this->lineType,$except);//需要按科目进行降序排序,依然按照之前的达标线进行计算
 
-             //$re = $this->dataModel->find()->where($whereArray)->orderBy($sort)->limit($limit)->all();
              $passline[$subject] = $this->getColomnMin($subject);//获取该科目达标最低分
             //重新获取成绩数据，防止有最后一个分数相同的学生
-            if ($except) {
-             $stu = $this->dataModel->find()->where(['test_id'=>$exam,'stu_school'=>$school])
-                                            ->andWhere(['>=',$subject,$passline[$subject]])
-                                            ->andWhere(['not like','note',$except])
-                                            ->orderBy($subject.' desc')
-                                            //->limit($this->getline($this->lineType))
-                                            ->all();                # code...
-            }else{
-             $stu = $this->dataModel->find()->where(['test_id'=>$exam,'stu_school'=>$school])
-                            ->andWhere(['>=',$subject,$passline[$subject]])
-                            ->orderBy($subject.' desc')
-                            //->limit($this->getline($this->lineType))
-                            ->all();
-            }
+             $query = $this->dataModel->find()->where(['test_id'=>$exam,'stu_school'=>$school])->andWhere(['>=',$subject,$passline[$subject]]);
+             if ($except) {
+                 $query = $query->andWhere(['not like','note',$except]);
+             }
+             $stu = $query->orderBy($subject.' desc')->all();
 
-
+            //                 //->limit($this->getline($this->lineType))
+            //                 ->all();
               foreach ($stu as $keyStu => $valueStu) {
                  // $classList[$valueStu->stu_class] = $valueStu->stu_class;
                   $re[$valueStu->stu_class][$subject][] = $valueStu->stu_id;//达标的学生按科目、学科进行分类     

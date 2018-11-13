@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = '总体成绩分析（表格显示不全时可�
  ?>
 <a href="<?=Url::toRoute(['import','id'=>$exam->id])?>" class="btn btn-primary">导入成绩</a>
 <a href="<?=Url::toRoute(['respond','id'=>$exam->id])?>" class="btn btn-primary">班级对应</a>
-<a href="<?=Url::toRoute(['clean','id'=>$exam->id])?>" class="btn btn-danger">清空成绩</a>
+<a href="<?=Url::toRoute(['clean','id'=>$exam->id])?>" class="btn btn-danger" title="删除" aria-label="删除" data-pjax="0" data-confirm="您确定要删除此项吗？" data-method="post">清空成绩</a>
 <?php }else{
 $school = "市七中";
 ?>

@@ -18,19 +18,32 @@ use backend\modules\school\models\TeachClass;
 use PHPExcel;
 use backend\libary\CommonFunction;
 use backend\modules\testService\models\Classmap;
+use yii\filters\VerbFilter;
 /**
  * Default controller for the `testService` module
  */
 class AnalysisController extends Controller
 {
 
+
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'clean' => ['POST'],
+                ],
+            ],
+        ];
+    }
    public function init()
-       {
-         if (Yii::$app->user->isGuest) 
-          {
-            $this->layout = '/simple';
-          }
-       }
+   {
+     if (Yii::$app->user->isGuest) 
+      {
+        $this->layout = '/simple';
+      }
+   }
     /**
      * 返回本次考试各个学校的统计情况
      * @return string
@@ -353,8 +366,8 @@ class AnalysisController extends Controller
         $datalk->loadData($exam,$school,null,'zf desc',$linetype,'J');
         $datawk->loadData($exam,$school,null,'zf desc',$linetype,'J');
 
-        $schoolLineStudentListlk = $datalk->getDistinct('stu_id','zf desc',$linetype);
-        $schoolLineStudentListwk = $datawk->getDistinct('stu_id','zf desc',$linetype);
+        $schoolLineStudentListlk = $datalk->getDistinct('stu_id','zf desc',$linetype,'J');
+        $schoolLineStudentListwk = $datawk->getDistinct('stu_id','zf desc',$linetype,'J');
         $lkzfline = $datalk->getColomnMin('zf');
         $wkzfline = $datawk->getColomnMin('zf');
 
@@ -686,7 +699,11 @@ class AnalysisController extends Controller
 
     public function actionClean($id)
     {
-        exit('testing');
+        if (is_numeric($id)) {
+            ScWenke::deleteAll(['test_id'=>$id]);
+            ScLike::deleteAll(['test_id'=>$id]);
+           return $this->redirect(['index','id'=>$id]);
+        }
     }
 
 
