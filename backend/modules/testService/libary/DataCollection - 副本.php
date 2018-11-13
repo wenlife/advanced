@@ -19,7 +19,6 @@ use yii\helpers\ArrayHelpr;
 class DataCollection{
 
 	public $data; //读取的数据数组
-    public $query; //本次查询实体
     public $dataModel;//数据模型表
 	public $type;// lk or wk
 	public $subjects; //科目
@@ -66,9 +65,6 @@ class DataCollection{
     //获取不同类型的达标总人数
     public function getline($lineType)
     {
-        if($lineType==null){
-            return null;
-        }
         $this->lineType = $lineType;
         if ($this->test) {
            $exam = Exam::findOne($this->test);
@@ -80,6 +76,8 @@ class DataCollection{
 
         if($classInfo){
             foreach ($classInfo as $keyinfo => $valueinfo) {
+              // var_export($valueinfo->taskline);
+              //  exit();
                 $line_grade += $valueinfo->taskline->line1;
             }
             $this->line_grade = $line_grade;
@@ -114,37 +112,31 @@ class DataCollection{
         $this->test = $test;
         $this->school = $school;        
         $whereArray['test_id'] = $test;
-        if ($school) {
+        if ($school!=null) {
            $whereArray['stu_school'] = $school;
         }
-        if ($class) {
+        if ($class!=null) {
            $whereArray['stu_class'] = $class;
         }
+
+
+        $limit = $lineType?$this->getline($lineType):$lineType;
+        
         $this->whereArray = $whereArray;
-
-        $limit = $this->getline($lineType);//$lineType?$this->getline($lineType):$lineType;
-        $query = $this->dataModel->find()->where($whereArray);
         if ($except) {
-          $query = $query->andWhere(['not like','note',$except]);
+            $re = $this->dataModel->find()
+                            ->where($whereArray)
+                            ->andWhere(['not like','note',$except])
+                            ->orderBy($sort)
+                            ->limit($limit)
+                            ->all();
+          // var_export($re);
+        //   exit();
+        }else{
+            $re = $this->dataModel->find()->where($whereArray)->orderBy($sort)->limit($limit)->all();
         }
-        $query = $query->orderBy($sort)->limit($limit);
-
-        $this->query = $query;
-        $this->data = $query->all();
-        return $this->data;
- 
-        // if ($except) {
-        //     $re = $this->dataModel->find()
-        //                     ->where($whereArray)
-        //                     ->andWhere(['not like','note',$except])
-        //                     ->orderBy($sort)
-        //                     ->limit($limit)
-        //                     ->all();
-        // }else{
-        //     $re = $this->dataModel->find()->where($whereArray)->orderBy($sort)->limit($limit)->all();
-        // }
-       // $this->data = $re;
-       // return $re;
+        $this->data = $re;
+        return $re;
     }
 
     //获取单科最高分学生
@@ -164,7 +156,7 @@ class DataCollection{
     public function getDistinct($col,$orderBy=null,$lineType=null)
     {
         $re = array();
-        $limit = $this->getline($lineType);     
+        $limit = $lineType?$this->getline($lineType):$lineType;      
         $dis = $this->dataModel->find()->where($this->whereArray)->orderBy($orderBy)->select($col)->limit($limit)->distinct()->all();
         foreach ($dis as $key => $di) {
             $re[$key] = $di->$col;
@@ -413,19 +405,19 @@ class DataCollection{
     * 两次考试之间的最高分比较
     *
     **/
-    // public function getMaxCompare(DataCollection $dataCollection)
-    // {
-    // 	$compare = array();
-    // 	$firstMax = $this->getMax();
-    // 	$secondMax = $dataCollection->getMax();
-    // 	if ($this->getType == $dataCollection->getType()) {
-    // 		foreach ($subjects as $key => $subject) {
-    // 			$compare[$subject]['first']  = $firstMax[$subject];
-    // 			$compare[$subject]['second'] = $dataCollection[$subject];
-    // 		}
-    // 	}
-    // 	return $compare;   	
-    // }
+    public function getMaxCompare(DataCollection $dataCollection)
+    {
+    	$compare = array();
+    	$firstMax = $this->getMax();
+    	$secondMax = $dataCollection->getMax();
+    	if ($this->getType == $dataCollection->getType()) {
+    		foreach ($subjects as $key => $subject) {
+    			$compare[$subject]['first']  = $firstMax[$subject];
+    			$compare[$subject]['second'] = $dataCollection[$subject];
+    		}
+    	}
+    	return $compare;   	
+    }
 
 //class end
 }
