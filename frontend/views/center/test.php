@@ -5,7 +5,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\modules\test\models\Testpaper */
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Testpapers', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => '测试中心', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

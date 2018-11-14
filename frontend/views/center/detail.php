@@ -12,23 +12,9 @@ if(file_exists("avatar/1/$id.png"))
 {
   $file = "avatar/1/$id.png";
 }else{
-  if($detail->gender==2)
-  {
-    $file = "avatar/1/female.png";
-  }else{
-    $file = "avatar/1/male.png";
-  }
-  
+  $file = $detail->gender==2?"avatar/1/female.png":"avatar/1/male.png"; 
 }
 ?>
-<link rel="stylesheet" type="text/css" href="css/font-awesome.4.6.0.css">
-<link rel="stylesheet" href="css/amazeui.min.css">
-<link rel="stylesheet" href="css/amazeui.cropper.css">
-<link rel="stylesheet" href="css/custom_up_img.css">
-<style type="text/css">
-  .up-img-cover {width: 100px;height: 100px;}
-  .up-img-cover img{width: 100%;}
-</style>
 <div class="site-index">
 <div class="row">
 

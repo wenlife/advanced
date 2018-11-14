@@ -44,11 +44,7 @@ class CenterController extends \yii\web\Controller
             $username = Yii::$app->user->identity->username;           
             $user = User::findByUsername($username);
         }
-
-
-       // $class = TeachClass::find()->where(['id'=>$user->class])->one();
-
-
+        
         $teacherID = TeachManage::find()->where(['class_id'=>$user->class,'subject'=>'xx'])->one();// $class->xx;
 
         $taskModel = new Task();

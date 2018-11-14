@@ -1,14 +1,21 @@
 <?php
 use yii\helpers\Url;
 use common\models\user;
+use yii\helpers\Html;
 use backend\modules\test\models\TestScore;
 use backend\modules\test\models\Task;
 use backend\modules\school\models\TeachManage;
-use yii\helpers\Html;
-$id = Yii::$app->user->identity->username;
-if(file_exists("avatar/1/$id.png"))
+
+//$id = Yii::$app->user->identity->username;
+if(Yii::$app->user->isGuest){
+    return $this->redirect(['site/login']);
+}else{
+    $username = Yii::$app->user->identity->username;           
+    $user = User::findByUsername($username);
+}
+if(file_exists("avatar/1/$username.png"))
 {
-  $file = "avatar/1/$id.png";
+  $file = "avatar/1/$username.png";
 }else{
   if($user->gender==2)
   {
@@ -18,12 +25,6 @@ if(file_exists("avatar/1/$id.png"))
   }
   
 }
- if(Yii::$app->user->isGuest){
-      return $this->redirect(['site/login']);
-  }else{
-      $username = Yii::$app->user->identity->username;           
-      $user = User::findByUsername($username);
-  }
 
 $teacherID = TeachManage::find()->where(['class_id'=>$user->class,'subject'=>'xx'])->one();// $class->xx;
 
@@ -59,10 +60,16 @@ if ($task) {
 
     <ul class="list-group list-group-unbordered">
       <li class="list-group-item">
-        <b>未完成任务</b> <a class="pull-right">1,322</a>
+        <b>本学期持续</b> <a class="pull-right">2018.9.1-2019.2.10</a>
       </li>
       <li class="list-group-item">
-        <b>已完成任务</b> <a class="pull-right">543</a>
+        <b>综合评定</b> <a class="pull-right">
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star-half"></span>
+        </a>
       </li>
 
     </ul>
@@ -85,15 +92,13 @@ if ($task) {
       <tbody>
       <tr><th><?=$task->title?></th></tr>
       <tr><td><?=$task->content?></td></tr>
-      <tr><td><?=$task->feedback?></td></tr>
-      <tr><td><?=$task->enddate?></td></tr>
-      <tr><td><?=$task->teacher->name?></td></tr>
+      <tr><td><?=$task->teacher->name?><span class="pull-right"><?=$task->enddate?></span></td></tr>
       <tr><td><?php
         if ($ifTestWasDone) 
         {
           echo $ifTestWasDone."分".Html::a('(点击查看答案)',Url::toRoute(['/center/score']));
         }else{
-          echo Html::a('点击开始答题',url::toRoute(['/site/test','id'=>$task->test]));
+          echo Html::a('点击开始答题',url::toRoute(['/site/test','id'=>$task->test]),['class'=>'btn btn-primary']);
         }?></td></tr>
     </tbody>
   </table>

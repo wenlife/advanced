@@ -6,9 +6,11 @@ use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 use yii\helpers\Url;
 $this->title = '任务查询';
+$this->params['breadcrumbs'][] = $this->title;
 $id = Yii::$app->user->identity->username;
 ?>
-<div class="site-index">
+<section class="content">
+<div class="row">
   <div class="box box-primary">
     <div class="box-header with-border">
       <h3 class="box-title">查询任课教师布置的任务</h3>
@@ -41,3 +43,4 @@ $id = Yii::$app->user->identity->username;
     <!-- /.box-body -->
 </div>
 </div>
+</section>

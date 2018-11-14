@@ -4,6 +4,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 $this->title = $model->title;
+$this->params['breadcrumbs'][] = $this->title;
 //var_export($myAnswer);
 ?>
 <section class="content self">

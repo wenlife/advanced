@@ -110,37 +110,38 @@ $this->title = '学生首页';
               </div>
               <div class="row">
                 <div class="col-md-12">
-                     <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">今日学习内容</h3>
+                     <div class="box box-primary" >
+                        <div class="box-header with-border">
+                          <h3 class="box-title">今日学习内容</h3>
 
-              <div class="box-tools pull-right">
-                <span data-toggle="tooltip" title="" class="badge bg-light-blue" data-original-title="3 New Messages">3</span>
-              </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <p>
-                今天将要学习网络技术应用的第一章：校园网的基本构成
-              </p>
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer box-comments">
-              <div class="box-comment">
-                <!-- User image -->
-                <div class="comment-text">
-                      <span class="username">
-                        Maria Gonzales
-                        <span class="text-muted pull-right">8:03 PM Today</span>
-                      </span><!-- /.username -->
-                  It is a long established fact that a reader will be distracted
-                  by the readable content of a page when looking at its layout.
-                </div>
-                <!-- /.comment-text -->
-              </div>
-            </div>
-            <!-- /.box-footer-->
-          </div>
+                          <div class="box-tools pull-right">
+                            <span data-toggle="tooltip" title="" class="badge bg-light-blue" data-original-title="3 New Messages">3</span>
+                          </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body" style="min-height:200px">
+                          <p>
+                            <?=$task->feedback?>
+                            
+                          </p>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer box-comments">
+                          <div class="box-comment">
+                            <!-- User image -->
+                            <div class="comment-text">
+                                  <span class="username">
+                                    Maria Gonzales
+                                    <span class="text-muted pull-right">8:03 PM Today</span>
+                                  </span><!-- /.username -->
+                              It is a long established fact that a reader will be distracted
+                              by the readable content of a page when looking at its layout.
+                            </div>
+                            <!-- /.comment-text -->
+                          </div>
+                        </div>
+                        <!-- /.box-footer-->
+                      </div>
                   </div>
 
               </div>
@@ -179,7 +180,7 @@ $this->title = '学生首页';
                 percentage: true
             });
         $('#indicatorContainer2').radialIndicator({
-                barColor: '#3fc',
+                barColor: 'red',
                 barWidth: 10,
                 initValue: 40,
                 roundCorner : true,
