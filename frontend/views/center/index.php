@@ -9,6 +9,7 @@ $this->title = '学生首页';
 //$this->params['breadcrumbs'][] = $this->title;
 
 ?>
+
 <div class="row">
         <!-- /.col -->
         <div class="col-md-12">
@@ -60,14 +61,95 @@ $this->title = '学生首页';
                ?>
               </div>
               <div class="tab-pane  active" id="test">
+              <div class="row">
+                <div class="col-md-4">
+                     <div class="box ">                     
+                        <div class="box-body">
+                                    <div id="indicatorContainer" class="text-center">
+                                
+                                   </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                         <p class="text-center">个人任务完成</p>
+                        </div>
+                        <!-- /.box-footer-->
+                      </div>
 
-                               <div id="chartwk" style="width:100%;height:540px;"></div>
+                </div>
+                <div class="col-md-4">
+                      <div class="box ">                     
+                        <div class="box-body">
+                                    <div id="indicatorContainer1" class="text-center">
+                                
+                                   </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                             <p class="text-center">班级任务完成</p>
+                        </div>
+                        <!-- /.box-footer-->
+                      </div>
+       
+                </div> 
+                                <div class="col-md-4">
+                      <div class="box ">                     
+                        <div class="box-body">
+                                    <div id="indicatorContainer2" class="text-center">
+                                
+                                   </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                          <p class="text-center">学期时间</p>
+                        </div>
+                        <!-- /.box-footer-->
+                      </div>
+       
+                </div>   
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                     <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">今日学习内容</h3>
+
+              <div class="box-tools pull-right">
+                <span data-toggle="tooltip" title="" class="badge bg-light-blue" data-original-title="3 New Messages">3</span>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <p>
+                今天将要学习网络技术应用的第一章：校园网的基本构成
+              </p>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer box-comments">
+              <div class="box-comment">
+                <!-- User image -->
+                <div class="comment-text">
+                      <span class="username">
+                        Maria Gonzales
+                        <span class="text-muted pull-right">8:03 PM Today</span>
+                      </span><!-- /.username -->
+                  It is a long established fact that a reader will be distracted
+                  by the readable content of a page when looking at its layout.
+                </div>
+                <!-- /.comment-text -->
+              </div>
+            </div>
+            <!-- /.box-footer-->
+          </div>
+                  </div>
+
+              </div>
             
-                          </div>
+              </div>
 
 
               <div class="tab-pane" id="settings">
-                  sss
+                  
               </div>
               <!-- /.tab-pane -->
             </div>
@@ -77,102 +159,30 @@ $this->title = '学生首页';
         </div>
         <!-- /.col -->
       </div>
-<script src="js/echarts.js"></script>
-<script type="text/javascript">
-var myChartwk = echarts.init(document.getElementById('chartwk'));
-option = {
-    tooltip: {
-        trigger: 'item',
-        formatter: "{a} <br/>{b}: {c} ({d}%)"
-    },
-    legend: {
-        orient: 'vertical',
-        x: 'left',
-        data:['直达','营销广告','搜索引擎','邮件营销','联盟广告','视频广告','百度','谷歌','必应','其他']
-    },
-    series: [
-        {
-            name:'访问来源',
-            type:'pie',
-            selectedMode: 'single',
-            radius: ['10%','30%'],
 
-            label: {
-                normal: {
-                    position: 'inner'
-                }
-            },
-            labelLine: {
-                normal: {
-                    show: false
-                }
-            },
-            data:[
-                {value:535, name:'直达', selected:true},
-                {value:679, name:'营销广告'},
-                {value:1548, name:'搜索引擎'}
-            ]
-        },
-        {
-            name:'访问来源',
-            type:'pie',
-            radius: ['40%', '55%'],
-            label: {
-                normal: {
-                    formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
-                    backgroundColor: '#eee',
-                    borderColor: '#aaa',
-                    borderWidth: 1,
-                    borderRadius: 4,
-                    // shadowBlur:3,
-                    // shadowOffsetX: 2,
-                    // shadowOffsetY: 2,
-                    // shadowColor: '#999',
-                    // padding: [0, 7],
-                    rich: {
-                        a: {
-                            color: '#999',
-                            lineHeight: 22,
-                            align: 'center'
-                        },
-                        // abg: {
-                        //     backgroundColor: '#333',
-                        //     width: '100%',
-                        //     align: 'right',
-                        //     height: 22,
-                        //     borderRadius: [4, 4, 0, 0]
-                        // },
-                        hr: {
-                            borderColor: '#aaa',
-                            width: '100%',
-                            borderWidth: 0.5,
-                            height: 0
-                        },
-                        b: {
-                            fontSize: 16,
-                            lineHeight: 33
-                        },
-                        per: {
-                            color: '#eee',
-                            backgroundColor: '#334455',
-                            padding: [2, 4],
-                            borderRadius: 2
-                        }
-                    }
-                }
-            },
-            data:[
-                {value:335, name:'直达'},
-                {value:310, name:'邮件营销'},
-                {value:234, name:'联盟广告'},
-                {value:135, name:'视频广告'},
-                {value:1048, name:'百度'},
-                {value:251, name:'谷歌'},
-                {value:147, name:'必应'},
-                {value:102, name:'其他'}
-            ]
-        }
-    ]
-};
-myChartwk.setOption(option);
+
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/radialIndicator.js"></script>
+<script type="text/javascript">
+  $('#indicatorContainer').radialIndicator({
+                barColor: '#87CEEB',
+                barWidth: 10,
+                initValue: 80,
+                roundCorner : true,
+                percentage: true
+            });
+    $('#indicatorContainer1').radialIndicator({
+                barColor: '#3fc',
+                barWidth: 10,
+                initValue: 40,
+                roundCorner : true,
+                percentage: true
+            });
+        $('#indicatorContainer2').radialIndicator({
+                barColor: '#3fc',
+                barWidth: 10,
+                initValue: 40,
+                roundCorner : true,
+                percentage: true
+            });
 </script>
