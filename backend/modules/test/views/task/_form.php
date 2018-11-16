@@ -11,6 +11,8 @@ use yii\helpers\ArrayHelper;
 /* @var $form yii\widgets\ActiveForm */
 $paperModel = new TestPaper();
 $papers = $paperModel->find()->where(['state'=>1])->All();
+$test = ArrayHelper::map($papers,'id','title');
+$test[0] = "电脑桌面作业";
 //exit(ArrayHelper::map('id','title',$papers));
 ?>
 
@@ -22,9 +24,9 @@ $papers = $paperModel->find()->where(['state'=>1])->All();
 
     <?= $form->field($model, 'content')->widget('kucha\ueditor\UEditor',['clientOptions' => ['initialFrameHeight' => '200',]]); ?>
 
-    <?= $form->field($model, 'feedback')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'feedback')->widget('kucha\ueditor\UEditor',['clientOptions' => ['initialFrameHeight' => '200',]]); ?>
 
-    <?= $form->field($model, 'test')->dropDownList(ArrayHelper::map($papers,'id','title')) ?>
+    <?= $form->field($model, 'test')->dropDownList($test,['prompt'=>'选择练习题']) ?>
 
     <?= $form->field($model, 'enddate')->widget(DatePicker::className(),['dateFormat'=>'yyyy-MM-dd'])  ?>
 
