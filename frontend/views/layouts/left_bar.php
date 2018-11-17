@@ -50,9 +50,8 @@ if ($task) {
 <!-- Profile Image -->
 <div class="box box-primary">
   <div class="box-body box-profile">
-     <a href=<?=url::to(['avatar'])?> title="修改头像">
-    <img class="profile-user-img img-responsive img-circle" src=<?=$file?> alt="User profile picture">
-  </a>
+    
+  <?= \hyii2\avatar\AvatarWidget::widget(['imageUrl'=>'uploads/avatar/'.$username.'/avatar_big.png']); ?>
 
     <h3 class="profile-username text-center"><a href=<?=url::to(['detail'])?>><?=$user->name?></a></h3>
 

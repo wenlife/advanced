@@ -35,6 +35,26 @@ use backend\modules\test\libary\ItemExchange;
 class CenterController extends \yii\web\Controller
 {
 	public $layout ='center';
+    public function actions()
+        {
+            return [
+                'crop'=>[
+                    'class' => 'hyii2\avatar\CropAction',
+                    'config'=>[
+                        'bigImageWidth' => '200',     //大图默认宽度
+                        'bigImageHeight' => '200',    //大图默认高度
+                        'middleImageWidth'=> '100',   //中图默认宽度
+                        'middleImageHeight'=> '100',  //中图图默认高度
+                        'smallImageWidth' => '50',    //小图默认宽度
+                        'smallImageHeight' => '50',   //小图默认高度
+                        
+                        //头像上传目录（注：目录前不能加"/"）
+                        'uploadPath' => 'uploads/avatar',
+                    ]
+                ]
+            ]; 
+            
+        }
     public function actionIndex()
     {
 
@@ -64,6 +84,7 @@ class CenterController extends \yii\web\Controller
             }
         }else{
             $ifTestWasDone=false;
+            $task = new Task();
         }
         
         $itemModel = new infoitem();
@@ -75,34 +96,7 @@ class CenterController extends \yii\web\Controller
 
     public function actionAvatar()
     {
-
-        $model= new UploadForm();
-        if (Yii::$app->request->Post()) {
-
-           $post = Yii::$app->request->post();
-            $file_src = "src.png"; 
-            $filename162 = "upload/1.png"; 
-            $filename48 = "upload/2.png"; 
-            $filename20 = "upload/3.png";   
-
-            $src= base64_decode($_POST['pic']);
-            $pic1=base64_decode($_POST['pic1']);   
-            $pic2=base64_decode($_POST['pic2']);  
-            $pic3=base64_decode($_POST['pic3']);  
-
-            if($src) {
-                file_put_contents($file_src,$src);
-            }
-
-            file_put_contents($filename162,$pic1);
-            file_put_contents($filename48,$pic2);
-            file_put_contents($filename20,$pic3);
-            return $this->redirect(['index']);
-
-       }
-         $username = Yii::$app->user->identity->username;
-        //Session_start();       //使用SESSION前必须调用该函数。
-        $_SESSION['uid'] = $username;
+        $username = Yii::$app->user->identity->username;
          return $this->render('avatar',['username'=>$username]);
         // return 'resss';
     }

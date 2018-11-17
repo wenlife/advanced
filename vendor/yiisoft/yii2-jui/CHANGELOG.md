@@ -1,10 +1,33 @@
 Yii Framework 2 jui extension Change Log
 ========================================
 
-2.0.4 under development
+2.0.7 November 25, 2017
 -----------------------
 
-- Bug #6: When using `DatePicker` translations, asset was registered without timestamp when asset manager `$appendTimestamp` was enabled (samdark) 
+- Bug #45: Fixed missing close icon in `yii\jui\Dialog` (mtangoo)
+- Bug #46: `yii\jui\Selectable` add support for `begin()`, `end()` widget methods (fdezmc)
+- Enh #56: Use `jQuery` instead of `$` in generated code to avoid conflicts (samdark)
+- Chg #55: `yii\jui\AutoComplete::run()` now returns output instead of echoing it (unlimix)
+- Chg #72: Updated jQueryUI dependency to use `1.12.1` as minimum version (samdark)
+
+
+2.0.6 July 22, 2016
+-----------------------
+
+- Bug #36: `yii\jui\Draggable` was using wrong event names (samdark)
+- Bug #41: `yii\jui\Droppable` and `yii\jui\Resizable` were using wrong event names (samdark)
+
+
+2.0.5 March 17, 2016
+--------------------
+
+- Bug #8607: `yii\jui\Spinner` was using wrong event names (samdark)
+
+
+2.0.4 May 10, 2015
+------------------
+
+- Bug #6: When using `DatePicker` translations, asset was registered without timestamp when asset manager `$appendTimestamp` was enabled (samdark)
 - Bug (CVE-2015-3397): Using `Json::htmlEncode()` for safer JSON data encoding in HTML code (samdark, Tomasz Tokarski)
 
 

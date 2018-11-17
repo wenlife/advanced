@@ -23,8 +23,6 @@ class AppAsset extends AssetBundle
         'css/style2.css',
     ];
     public $js = [
-         'js/jquery-1.11.1.min.js',
-         'js/cropbox.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -3,8 +3,9 @@
 namespace Faker\Test\Provider;
 
 use Faker\Provider\Color;
+use PHPUnit\Framework\TestCase;
 
-class ColorTest extends \PHPUnit_Framework_TestCase
+class ColorTest extends TestCase
 {
 
     public function testHexColor()
@@ -32,6 +33,13 @@ class ColorTest extends \PHPUnit_Framework_TestCase
     {
         $regexp = '([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])';
         $this->assertRegExp('/^rgb\(' . $regexp . ',' . $regexp . ',' . $regexp . '\)$/i', Color::rgbCssColor());
+    }
+
+    public function testRgbaCssColor()
+    {
+        $regexp = '([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])';
+        $regexpAlpha = '([01]?(\.\d+)?)';
+        $this->assertRegExp('/^rgba\(' . $regexp . ',' . $regexp . ',' . $regexp . ',' . $regexpAlpha . '\)$/i', Color::rgbaCssColor());
     }
 
     public function testSafeColorName()

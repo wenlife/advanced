@@ -28,15 +28,15 @@ class ComposerStaticInit06a91eef9a5d313d334c4fdb36a28939
         array (
             'rmrevin\\yii\\fontawesome\\' => 24,
         ),
-        'p' => 
-        array (
-            'pjkui\\kindeditor\\' => 17,
-        ),
         'k' => 
         array (
             'kucha\\ueditor\\' => 14,
             'kartik\\datetime\\' => 16,
             'kartik\\base\\' => 12,
+        ),
+        'h' => 
+        array (
+            'hyii2\\avatar\\' => 13,
         ),
         'd' => 
         array (
@@ -50,12 +50,20 @@ class ComposerStaticInit06a91eef9a5d313d334c4fdb36a28939
         array (
             'Faker\\' => 6,
         ),
+        'E' => 
+        array (
+            'Egulias\\EmailValidator\\' => 23,
+        ),
+        'C' => 
+        array (
+            'Composer\\Installers\\' => 20,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'yii\\swiftmailer\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-swiftmailer',
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-swiftmailer/src',
         ),
         'yii\\jui\\' => 
         array (
@@ -63,7 +71,7 @@ class ComposerStaticInit06a91eef9a5d313d334c4fdb36a28939
         ),
         'yii\\gii\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-gii',
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-gii/src',
         ),
         'yii\\faker\\' => 
         array (
@@ -71,7 +79,7 @@ class ComposerStaticInit06a91eef9a5d313d334c4fdb36a28939
         ),
         'yii\\debug\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-debug',
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-debug/src',
         ),
         'yii\\composer\\' => 
         array (
@@ -83,7 +91,7 @@ class ComposerStaticInit06a91eef9a5d313d334c4fdb36a28939
         ),
         'yii\\bootstrap\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-bootstrap',
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-bootstrap/src',
         ),
         'yii\\' => 
         array (
@@ -93,21 +101,21 @@ class ComposerStaticInit06a91eef9a5d313d334c4fdb36a28939
         array (
             0 => __DIR__ . '/..' . '/rmrevin/yii2-fontawesome',
         ),
-        'pjkui\\kindeditor\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/pjkui/kindeditor',
-        ),
         'kucha\\ueditor\\' => 
         array (
             0 => __DIR__ . '/..' . '/kucha/ueditor',
         ),
         'kartik\\datetime\\' => 
         array (
-            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-datetimepicker',
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-datetimepicker/src',
         ),
         'kartik\\base\\' => 
         array (
-            0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base',
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base/src',
+        ),
+        'hyii2\\avatar\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hyii2/yii2-avatar',
         ),
         'dmstr\\' => 
         array (
@@ -120,6 +128,14 @@ class ComposerStaticInit06a91eef9a5d313d334c4fdb36a28939
         'Faker\\' => 
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
+        ),
+        'Egulias\\EmailValidator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/egulias/email-validator/EmailValidator',
+        ),
+        'Composer\\Installers\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
         ),
     );
 
@@ -147,6 +163,10 @@ class ComposerStaticInit06a91eef9a5d313d334c4fdb36a28939
         ),
         'D' => 
         array (
+            'Doctrine\\Common\\Lexer\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
+            ),
             'Diff' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/php-diff/lib',
