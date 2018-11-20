@@ -108,7 +108,7 @@ class DataCollection{
     * @param 考试ID（必须） 学校 班级 排序方式
     * @return 将获得内容赋值给类成员Data并返回
     */
-    public function loadData($test,$school=null,$class=null,$sort=null,$lineType=null,$except=null)
+    public function loadData($test,$school=null,$class=null,$sort='zf desc',$lineType=null,$except=null)
     {
 
         $this->test = $test;
