@@ -16,9 +16,8 @@ $this->title = '学生首页';
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#test" data-toggle="tab" aria-expanded="false">课堂任务</a></li>
-              <li class=""><a href="#content" data-toggle="tab" aria-expanded="false">信息技术学习</a></li>
-               
-              <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">视频中心</a></li>
+              <li class=""><a href="#content" data-toggle="tab" aria-expanded="false">信息技术学习</a></li>   
+              <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">信息技术练习</a></li>
             </ul>
             <div class="tab-content">
 
@@ -63,7 +62,7 @@ $this->title = '学生首页';
               <div class="tab-pane  active" id="test">
               <div class="row">
                 <div class="col-md-4">
-                     <div class="box ">                     
+                     <div class="box hover">                     
                         <div class="box-body">
                                     <div id="indicatorContainer" class="text-center">
                                 
@@ -78,7 +77,7 @@ $this->title = '学生首页';
 
                 </div>
                 <div class="col-md-4">
-                      <div class="box ">                     
+                      <div class="box hover">                     
                         <div class="box-body">
                                     <div id="indicatorContainer1" class="text-center">
                                 
@@ -93,7 +92,7 @@ $this->title = '学生首页';
        
                 </div> 
                                 <div class="col-md-4">
-                      <div class="box ">                     
+                      <div class="box hover">                     
                         <div class="box-body">
                                     <div id="indicatorContainer2" class="text-center">
                                 
@@ -204,11 +203,11 @@ var bg1 = radialIndicator('#indicatorContainer',{
             percentage: true
         });
 
-  $('.box').mouseover(function(){
+  $('.hover').mouseover(function(){
     $(this).css('border','1px solid #ccc');
     bg1.option('barColor','#ccc');
   });
-  $('.box').mouseout(function(){
+  $('.hover').mouseout(function(){
     $(this).css('border','none');
   });
 
