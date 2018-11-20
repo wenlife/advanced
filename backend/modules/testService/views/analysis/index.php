@@ -154,6 +154,7 @@ $school = "市七中";
  <tbody>
  <?php
  $scLike = array_slice($scLike,0,10);
+ $mc =1;
 foreach ($scLike as $key => $data) {
 	echo "<tr><td>";
 	echo $data->stu_id;
@@ -168,7 +169,7 @@ foreach ($scLike as $key => $data) {
     echo $data->$subject;
     echo "</td><td>";
   }
-	echo $data->mc;
+	echo $mc++;
 	echo "</td></tr>";
 
 }
@@ -195,6 +196,7 @@ foreach ($scLike as $key => $data) {
  </thead>
  <tbody>
  <?php
+ $mc=1;
  $scWenke = array_slice($scWenke,0,10);
 foreach ($scWenke as $key => $data) {
 	echo "<tr><td>";
@@ -210,7 +212,7 @@ foreach ($scWenke as $key => $data) {
     echo $data->$subject;
     echo "</td><td>";
   }
-	echo $data->mc;
+	echo $mc++;
 	echo "</td></tr>";
 
 }
