@@ -6,6 +6,7 @@ use backend\modules\testService\models\ScLike;
 use backend\modules\testService\models\ScWenke;
 use backend\modules\school\models\TeachClass;
 use yii\helpers\ArrayHelper;
+use backend\modules\testService\models\Taskline;
 /**
 * 该类完成的功能
 *@input 
@@ -17,7 +18,6 @@ use yii\helpers\ArrayHelper;
 *
 **/
 class DataCollection{
-
 	public $data; //读取的数据数组
     public $query; //本次查询实体
     public $dataModel;//数据模型表
@@ -31,6 +31,7 @@ class DataCollection{
     public $line_subject;//达标总数 本科
     public $school='市七中';
     public $test;//本次分析的考试ID
+    public $testType;
     public $lineType;//计算的达标类型
 
 	public function __construct($type)
@@ -66,40 +67,58 @@ class DataCollection{
     //获取不同类型的达标总人数
     public function getline($lineType)
     {
-        if($lineType==null){
-            return null;
-        }
-        $this->lineType = $lineType;
-        if ($this->test) {
-           $exam = Exam::findOne($this->test);
-           $grade = $exam->stu_grade;
-        }
-        $classInfo = TeachClass::find()->where(['school'=>$this->school,'grade'=>$grade,'type'=>$this->type])->all();
         $line_grade = 0;
         $line_subject = 0;
+        if($lineType!=null&&$this->test){
 
-        if($classInfo){
-            foreach ($classInfo as $keyinfo => $valueinfo) {
-                $line_grade += $valueinfo->taskline->line1;
+            $this->lineType = $lineType;
+            $exam = Exam::findOne($this->test);
+            if ($exam) {
+                $grade = $exam->stu_grade;
             }
+            $this->testType = $exam->type;
+           if ($exam->type==1) {
+                $classInfo = TeachClass::find()->where(['school'=>$this->school,'grade'=>$grade,'type'=>$this->type])->all();
+                if($classInfo){
+                    foreach ($classInfo as $keyinfo => $valueinfo) {
+                        $line_grade += $valueinfo->taskline->line1;
+                    }    
+                    foreach ($classInfo as $keyinfo => $valueinfo) {
+                        $line_subject += $valueinfo->taskline->line3;
+                    }      
+                }
+            }elseif($exam->type==2){
+                   $class = $this->type=='lk'?1000:1001;
+                   $lineAll = Taskline::findOne(['grade'=>$grade,'banji'=>$class]);
+                   $line_grade = $lineAll->line1;
+                   $line_subject = $lineAll->line3;
+            }else{
+                exit('exam type in datacollection taskline has not set!');
+            }
+
             $this->line_grade = $line_grade;
-            foreach ($classInfo as $keyinfo => $valueinfo) {
-                $line_subject += $valueinfo->taskline->line3;
-            }
             $this->line_subject = $line_subject;
+
+            switch ($lineType) {
+                case 'grade':
+                    return $this->line_grade;
+                    break;
+                case 'subject':
+                    return $this->line_subject;
+                    break;          
+                default:
+                    exit(" $this->type is not a line type!");
+                    break;
+            }
+
+           
+        }else{
+            // exit(var_export($lineType));
+           return null;
         }
 
-        switch ($lineType) {
-            case 'grade':
-                return $this->line_grade;
-                break;
-            case 'subject':
-                return $this->line_subject;
-                break;          
-            default:
-                exit(" $this->type is not a line type!");
-                break;
-        }
+       
+
     }
 
 
@@ -355,9 +374,13 @@ class DataCollection{
         $passline = array();
 
         foreach ($this->subjects as $keys => $subject) {
-             $stu = $this->loadData($exam,$school,null,$subject.' desc',$this->lineType,$except);//需要按科目进行降序排序,依然按照之前的达标线进行计算
-
-             $passline[$subject] = $this->getColomnMin($subject);//获取该科目达标最低分
+            if ($this->testType!=1) {
+               $stu = $this->loadData($exam,null,null,$subject.' desc',$this->lineType);
+            }else{
+               $stu = $this->loadData($exam,$school,null,$subject.' desc',$this->lineType,$except);//需要按科目进行降序排序,依然按照之前的达标线进行计算
+            }
+             
+            $passline[$subject] = $this->getColomnMin($subject);//获取该科目达标最低分
             //重新获取成绩数据，防止有最后一个分数相同的学生
              $query = $this->dataModel->find()->where(['test_id'=>$exam,'stu_school'=>$school])->andWhere(['>=',$subject,$passline[$subject]]);
              if ($except) {

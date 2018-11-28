@@ -5,7 +5,7 @@ use yii\bootstrap\Tabs;
 use yii\grid\GridView;
 
 
-$this->title = $school.">>".$exam->title.">>"."成绩分析";
+$this->title = $school.">>".$exam->title.">>"."进步率统计";
 $this->params['breadcrumbs'][] = '进步率（表格显示不全时可以左右拖动）';
 ?>
 <div class="btn-group">
@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = '进步率（表格显示不全时可以左右�
 	}
 </style>
   <!-- Tab panes -->
+    <!--startprint-->
   <div class="tab-content">
     
     <div role="tabpanel" class="tab-pane active" id="profile">
@@ -58,6 +59,7 @@ $this->params['breadcrumbs'][] = '进步率（表格显示不全时可以左右�
 
     </div>
   </div>
+<!--endprint-->
 </div>
 </div>
 </div>
@@ -75,3 +77,18 @@ $('.dataTable').DataTable({
 } );
 
 </script>
+<script language=javascript>
+function doPrint() {
+$('.charts').hide();
+$("#messages").addClass("active");
+bdhtml=window.document.body.innerHTML;
+
+sprnstr="<!--startprint-->";
+eprnstr="<!--endprint-->";
+prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+window.document.body.innerHTML=prnhtml;
+window.print();
+}
+</script>
+<a href="javascript:;" onClick="doPrint()">【打印】</a>

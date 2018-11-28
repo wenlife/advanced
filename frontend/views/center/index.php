@@ -130,11 +130,10 @@ $this->title = '学生首页';
                             <!-- User image -->
                             <div class="comment-text">
                                   <span class="username">
-                                    Maria Gonzales
+                                    备注
                                     <span class="text-muted pull-right">8:03 PM Today</span>
                                   </span><!-- /.username -->
-                              It is a long established fact that a reader will be distracted
-                              by the readable content of a page when looking at its layout.
+                              每节课按时完成任务，任务完成不合格的班级将会受到处罚
                             </div>
                             <!-- /.comment-text -->
                           </div>

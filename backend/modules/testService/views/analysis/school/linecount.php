@@ -22,7 +22,7 @@ use yii\helpers\ArrayHelper;
       <?php
       $subjects_name = CommonFunction::getSubjects();
        foreach ($subjects as $keys => $subject) {
-         echo "<th colspan='3'>";
+         echo "<th colspan='4'>";
          echo  ArrayHelper::getValue($subjects_name,"$subject");
          echo "/";
          echo  ArrayHelper::getValue($uponline,"line.$subject");
@@ -37,7 +37,7 @@ use yii\helpers\ArrayHelper;
     <td>任务</td><td>目标</td>
     <?php
        foreach ($subjects as $keys => $subject) {
-         echo "<td>教师</td><td>达标</td><td>有效</td>";
+         echo "<td>教师</td><td>平均</td><td>达标</td><td>有效</td>";
        }
       ?>   
   </tr>
@@ -70,6 +70,8 @@ use yii\helpers\ArrayHelper;
            echo  ArrayHelper::getValue($resTeacher,"$bj.bzr"); 
           }                     
          echo  ArrayHelper::getValue($resTeacher,"$bj.$subject");   // isset($resTeacher[$bj][$subject])?$resTeacher[$bj][$subject]:null;
+         echo "</td><td>";
+         echo number_format(ArrayHelper::getValue($scAna,"$key.avg.$subject"),2);
          echo "</td><td>";
          echo  $subjectTask.$sub; //$uponline[$bj][$subject]['uponline'];
          //echo $scAna[$key]['avg'][$subject];

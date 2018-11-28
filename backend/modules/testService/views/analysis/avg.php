@@ -3,7 +3,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\Tabs;
 use yii\grid\GridView;
-$this->title = $school.">>".$exam->title.">>"."成绩分析";
+$this->title = $school.">>".$exam->title.">>"."平均及率";
 $this->params['breadcrumbs'][] = '平均及率（表格显示不全时可以左右拖动）';
 ?>
 <div class="btn-group">
@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = '平均及率（表格显示不全时可以左�
 	}
 </style>
   <!-- Tab panes -->
+  <!--startprint-->
   <div class="tab-content">
     
     <div role="tabpanel" class="tab-pane active" id="profile">
@@ -59,6 +60,7 @@ $this->params['breadcrumbs'][] = '平均及率（表格显示不全时可以左�
             ])?>
     </div>
   </div>
+<!--endprint-->
 </div>
 </div>
 </div>
@@ -68,7 +70,7 @@ $this->params['breadcrumbs'][] = '平均及率（表格显示不全时可以左�
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
-  $("#messages").removeClass("active");
+$("#messages").removeClass("active");
 $('.dataTable').DataTable({
   lengthChange:false,
   searching: false,
@@ -77,3 +79,18 @@ $('.dataTable').DataTable({
 } );
 
 </script>
+<script language=javascript>
+function doPrint() {
+$('.charts').hide();
+$("#messages").addClass("active");
+bdhtml=window.document.body.innerHTML;
+
+sprnstr="<!--startprint-->";
+eprnstr="<!--endprint-->";
+prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+window.document.body.innerHTML=prnhtml;
+window.print();
+}
+</script>
+<a href="javascript:;" onClick="doPrint()">【打印】</a>

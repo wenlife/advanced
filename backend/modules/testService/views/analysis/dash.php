@@ -3,7 +3,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\Tabs;
 use yii\grid\GridView;
-$this->title = $school.">>".$exam->title.">>"."成绩分析";
+$this->title = $school.">>".$exam->title.">>"."总体成绩";
 $this->params['breadcrumbs'][] = '前10分析（表格显示不全时可以左右拖动）';
 ?>
 <div class="testService-default-index">

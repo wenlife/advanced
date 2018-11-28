@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="box">
   <div class="box-header with-border">
     <i class="ion ion-clipboard"></i>
-    <h3 class="box-title"></h3>
+    <h3 class="box-title">（1000/1001）的班级为该年级的全市（理科/文科）指标</h3>
   </div>
   <!-- /.box-header -->
   <div class="box-body">

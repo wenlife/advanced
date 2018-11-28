@@ -32,47 +32,58 @@
                 'items' => [
                     //主页设置
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
-                    ['label' => '主页','icon' => 'dashboard text-green', 'url' => ['/site/index']],
-                //    ['label' => '界面','icon'=>'cog', 'items'=>[
-                    ['label'=>'首页图片','icon'=>'fire','url'=>['/interface/logo']],
-                    ['label'=>'首页栏目设置','icon'=>'th','url'=>['/interface/setting']],
-                    ['label'=>'首页通知设置','icon'=>'bell','url'=>['/interface/notice']],
-               //     ]],
+                    ['label' => '主页','icon' => 'dashboard text-green', 'url' => ['/site/center']],
+                    
                     //成绩分析系统
-                    ['label' => '成绩分析系统', 'options' => ['class' => 'header']],
-                    ['label' => '考试','icon' => 'bar-chart text-red', 'url' => ['/testService/exam']],
+                    ['label' => '系统功能模块', 'options' => ['class' => 'header']],
+                    ['label' => '成绩分析模块','icon' => 'bar-chart text-red', 'url' => ['/testService/exam']],
                     //选课建议系统
-                    ['label' => '选课系统', 'options' => ['class' => 'header']],
-                    ['label' => '选课政策','icon'=>'user text-blue','url' => ['/guest/teacher']],
-                    ['label' => '学科简介','icon'=>'user text-blue','url' => ['/guest/teacher']],
-                    ['label' => '专业要求','icon'=>'user text-blue','url' => ['/guest/teacher']],
-                    ['label' => '倾向测试','icon'=>'user text-blue','url' => ['/guest/teacher']],
-                    ['label' => '综合推荐','icon'=>'user text-blue','url' => ['/guest/teacher']],
+                    ['label' => '选科指导模块','icon'=>'cog','items'=>[
+                        ['label' => '内容待定','icon'=>'user text-blue','url' => ['/guest/teacher']],
+                    ]],
                     //信息技术练习
-                    ['label' => '信息技术练习', 'options' => ['class' => 'header']],
-                    ['label' => '试题','icon'=>'globe', 'url' => ['/test/item']],
-                    ['label' => '作业','icon'=>'leaf','url' => ['/test/testpaper']],
-                    ['label' => '任务','icon'=>'tasks', 'url' => ['/test/task']],
-                    //英语单词测试
-                    ['label' => '英语测试', 'options' => ['class' => 'header']],
-                    ['label' => '单词过关','icon'=>'tasks', 'url' => ['/english/wordTest']],
+                    ['label' => '在线教学模块','icon'=>'cog','items'=>[
+                        ['label' => '试题管理','icon'=>'globe', 'url' => ['/test/item']],
+                        ['label' => '试卷管理','icon'=>'leaf','url' => ['/test/testpaper']],
+                        ['label' => '课堂任务','icon'=>'tasks', 'url' => ['/test/task']],
+                    ]],
                     //文章系统
-                    ['label' => '内容管理', 'options' => ['class' => 'header']],
-                    ['label' => '内容','icon'=>'book','url' => ['/content/contentmenu']],
-                    ['label' => '文章','icon'=>'book','url' => ['/content/article']],
-                    ['label' => '视频','icon'=>'play', 'url' => ['/content/videolist']],
-                    ['label' => '图片','icon'=>'tint', 'url' => ['/content/picturelist']],             
-                    ['label' => '栏目', 'icon'=>'tasks','url' => ['/content/infoitem']],
-                    //用户管理
-                    ['label' => '用户信息', 'options' => ['class' => 'header']],
-                    ['label'=>'管理员','icon'=>'user','url'=>['/guest/adminuser']],
-                    ['label'=>'学生','icon'=>'user','url'=> ['/guest/user']],
-                    ['label' => '教师','icon'=>'user text-blue','url' => ['/guest/teacher']],
+                    ['label' => '信息发布模块','icon'=>'cog','items'=>[
+                        ['label' => '内容','icon'=>'book','url' => ['/content/contentmenu']],
+                        ['label' => '文章','icon'=>'book','url' => ['/content/article']],
+                        ['label' => '视频','icon'=>'play', 'url' => ['/content/videolist']],
+                        ['label' => '图片','icon'=>'tint', 'url' => ['/content/picturelist']],             
+                        ['label' => '栏目', 'icon'=>'tasks','url' => ['/content/infoitem']],
+                    ]],
+
                     //用户关系
-                    ['label' => '学校结构', 'options' => ['class' => 'header']],
+                    ['label' => '学校关系系统', 'options' => ['class' => 'header']],
+                     ['label' => '报名系统','icon'=>'cog','items'=>[
+                           ['label'=>'录取表管理','icon'=>'user','url'=>['#']],
+                           ['label'=>'报名管理','icon'=>'user','url'=>['#']],
+                           ['label'=>'学生基础信息完善','icon'=>'user','url'=>['#']],
+                    ]],
+
+                    ['label' => '学校人事管理','icon'=>'cog','items'=>[
+                        ['label'=>'学生信息管理系统','icon'=>'user','url'=>['#']],
+                        ['label'=>'教师信息管理系统','icon'=>'user','url'=>['#']],
+                    ]],
+                    ['label' => '学校任教单元管理','icon'=>'cog','items'=>[
                     ['label' => '学期','icon'=>'calendar text-blue','url' => ['/school/teachyear']],
                     ['label' => '班级','icon'=>'group text-primary','url' => ['/school/teachclass']],
                     ['label' => '任教','icon'=>'tripadvisor text-primary','url' => ['/school/teachmanage']],
+                    ]],
+                    ['label' => '系统管理', 'options' => ['class' => 'header']],
+                    ['label' => '前台界面设置','icon'=>'cog','items'=>[
+                        ['label'=>'置顶图片','icon'=>'fire','url'=>['/interface/logo']],
+                        ['label'=>'前台栏目设置','icon'=>'th','url'=>['/interface/setting']],
+                        ['label'=>'学生中心通知设置','icon'=>'bell','url'=>['/interface/notice']],
+                    ]],
+                    ['label' => '系统用户管理','icon'=>'cog','items'=>[
+                        ['label'=>'管理员','icon'=>'user','url'=>['/guest/adminuser']],
+                        ['label'=>'学生用户','icon'=>'user','url'=> ['/guest/user']],
+                        ['label'=>'教师用户','icon'=>'user text-blue','url' => ['/guest/teacher']],
+                    ]],
                     //开发工具
                     ['label' => '工具', 'options' => ['class' => 'header']],
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],

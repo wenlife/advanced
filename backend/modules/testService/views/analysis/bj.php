@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 //var_export($compare);
 //exit();
-$this->title = $school.'-'.$bj.'-'.$exam->title.'-'."班级成绩分析"
+$this->title = $school.'-'.$bj.'-'.$exam->title.'-'."班级成绩"
 ?>
 <div class="testService-default-index">
   <div class="btn-group">
@@ -104,14 +104,15 @@ $this->title = $school.'-'.$bj.'-'.$exam->title.'-'."班级成绩分析"
 
     </div>
 <div role="tabpanel" class="tab-pane active" id="messages">
+<!--startprint-->
 <div class="table-responsive">
 <table class='table table-bordered table-hover myTable' style="width:100%">
  	<thead>
  	<tr>
  		<th rowspan="2">编号</th>
- 		<th rowspan="2">考号</th>
+ <!-- 		<th rowspan="2">考号</th> -->
  		<th rowspan="2">姓名</th>
- 		<th rowspan="2">学校</th>
+ 	<!-- 	<th rowspan="2">学校</th> -->
  		<th rowspan="2">班级</th>
  		<?php
             foreach ($subjects as $key => $subject) {
@@ -132,12 +133,12 @@ foreach ($scbj as $key => $data) {
 	echo "<tr><td>";
 	echo $i++;
 	echo "</td><td>";
-	echo $data->stu_id;
-	echo "</td><td>";
+	// echo $data->stu_id;
+	// echo "</td><td>";
 	echo $data->stu_name;
 	echo "</td><td>";
-	echo $data->stu_school;
-	echo "</td><td>";
+	// echo $data->stu_school;
+	// echo "</td><td>";
 	echo $data->stu_class;
 	
 	foreach ($subjects as $key => $subject) {
@@ -176,6 +177,7 @@ foreach ($scbj as $key => $data) {
  </tbody>
  </table>
 </div>
+<!--endprint-->
     </div>
     
   </div>
@@ -188,13 +190,28 @@ foreach ($scbj as $key => $data) {
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
-  $("#settings").removeClass("active");
+$("#settings").removeClass("active");
 $('.myTable').DataTable({
   lengthChange:false,
   searching: false,
   paging:false,
 } );
 </script>
+
+<script language=javascript>
+function doPrint() {
+$('.charts').hide();
+bdhtml=window.document.body.innerHTML;
+
+sprnstr="<!--startprint-->";
+eprnstr="<!--endprint-->";
+prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+window.document.body.innerHTML=prnhtml;
+window.print();
+}
+</script>
+<a href="javascript:;" onClick="doPrint()">【打印】</a>
 
  	
  

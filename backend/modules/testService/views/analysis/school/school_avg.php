@@ -20,6 +20,7 @@ foreach ($subjects as $keys => $subject) {
   }
 </style>
 <div class="table-responsive">
+
 <table class="table table-bordered table-hover dataTable" style="width: 100%">
   <thead>
     		<tr>
@@ -34,7 +35,7 @@ foreach ($subjects as $keys => $subject) {
              echo "</th>";
            }
           ?>
-    			<th colspan="2">总分</th><th>详细</th>
+    			<th colspan="2">总分</th>
     		</tr>
     	<tr>
         <td>排序</td>
@@ -45,7 +46,7 @@ foreach ($subjects as $keys => $subject) {
            }
 
           ?>
-    		<td>教师</td><td>平均</td><td>@</td>
+    		<td>教师</td><td>平均</td>
     	</tr>
   </thead>
   <tbody>
@@ -70,14 +71,17 @@ $i = 1;
     echo ArrayHelper::getValue($resTeacher,"$bj.bzr");
     echo "</td><td>";
     echo ArrayHelper::getValue($scAna,"$key.avg.zf");
-    echo "</td><td>";
-   	echo "<a href='".Url::toRoute(['bj','school'=>$school,'exam'=>$exam,'bj'=>$bj])."'>$bj</a>";
+   // echo "</td><td>";
+   //	echo "<a href='".Url::toRoute(['bj','school'=>$school,'exam'=>$exam,'bj'=>$bj])."'>$bj</a>";
    	echo "</td></tr>";
    }
 ?>
   </tbody>
 </table>
+
 </div>
+
+<div class="charts">
 <?php
   foreach ($subjects as $key => $subject) {
     foreach ($bjs as $keybj => $bj) {
@@ -88,7 +92,6 @@ $i = 1;
       // }
     }
   }
-
 if ($type=="lk") {
   echo $this->render('chart_lk',[
       'xAx'=>$bjs,
@@ -108,6 +111,7 @@ if ($type=="lk") {
 }
 
 ?>
+</div>
 
 
   

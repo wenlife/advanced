@@ -39,6 +39,12 @@ class Exam extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getTypename()
+    {
+        $arr = [1=>'校级',2=>'市级','3'=>'省级'];
+        return $arr[$this->type];
+    }
+
     /**
      * {@inheritdoc}
      */

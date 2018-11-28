@@ -70,6 +70,7 @@ foreach ($subjects as $keys => $subject) {
   </tbody>
 </table>
 </div>
+<div class="charts">
 <?php
 if ($type=='lk') {
  // var_export($teacherArr);
@@ -92,6 +93,7 @@ if ($type=='lk') {
 
 }
 ?>
+</div>
 
 
 

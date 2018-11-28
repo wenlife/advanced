@@ -359,6 +359,26 @@ class AnalysisController extends Controller
        //所选考试和学校的班级文理科班级列表
         $bjlk = $datalk->getClassList();
         $bjwk = $datawk->getClassList();
+
+        $scAnal = array();
+        foreach ($bjlk as $keyl => $bjl) {
+            $datalk->loadData($exam,$school,$bjl);
+           // $datalk_compare->loadData($test_compare->id,$school,$bjl);
+            $scAnal[$keyl]['max'] = $datalk->getMax();
+            $scAnal[$keyl]['avg'] = $datalk->getAvg();
+            $scAnal[$keyl]['pass'] = $datalk->getPassed();
+          //  $scAnal[$keyl]['float'] = $datalk->avgFloat($avglkSchool,$datalk_compare->getAvg(),$avglkSchool_compare);
+        }
+       // $avgFloatw = array();//进步率数组
+        $scAnaw = array();
+        foreach ($bjwk as $keyw => $bjw) {
+            $datawk->loadData($exam,$school,$bjw);
+        //    $datawk_compare->loadData($test_compare->id,$school,$bjw);
+            $scAnaw[$keyw]['max'] = $datawk->getMax();
+            $scAnaw[$keyw]['avg'] = $datawk->getAvg();
+            $scAnaw[$keyw]['pass'] = $datawk->getPassed();
+        //    $scAnaw[$keyw]['float'] = $datawk->avgFloat($avgwkSchool,$datawk_compare->getAvg(),$avgwkSchool_compare);
+        }
         //任教对应关系读取；
         $resModel = new ClassRespond();
         $resTeacher = $resModel->getTeachers($school,$exam);
@@ -385,6 +405,8 @@ class AnalysisController extends Controller
             'exam'=>$test,
             'bjlk'=>$bjlk,
             'bjwk'=>$bjwk,
+            'scAnal'=>$scAnal,
+            'scAnaw'=>$scAnaw,
             'lkuponline'=>$lk_uponline,
             'wkuponline'=>$wk_uponline,
             'wksubjects'=>$datawk->getSubjects(),
