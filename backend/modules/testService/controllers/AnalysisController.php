@@ -19,6 +19,10 @@ use PHPExcel;
 use backend\libary\CommonFunction;
 use backend\modules\testService\models\Classmap;
 use yii\filters\VerbFilter;
+
+use backend\modules\testService\libary\ExamAnalysis;
+use backend\modules\testService\libary\SchoolAnalysis;
+use backend\modules\testService\libary\ClassAnalysis;
 /**
  * Default controller for the `testService` module
  */
@@ -87,6 +91,29 @@ class AnalysisController extends Controller
             'schoolsAnaW'=>$schoolsAnaW,
             ]);
     }
+
+
+    public function actionTest()
+    {
+        $data = new ExamAnalysis(1,'lk');
+        //var_export($data);
+        // $schooList = $data->getSchoolList();
+
+        // foreach ($schooList as $school => $schoolAnalysis) {
+        //    $classList =  $schoolAnalysis->getClassList();
+        //    foreach ($classList as $class => $classAnalysis) {
+        //        echo $class;
+        //        var_export($classAnalysis->getAvg());
+        //    }
+        // }
+
+        // var_export($data->getMax());
+        return $this->render('test',['data'=>$data]);
+
+    }
+
+
+
     /**
     * 设置本次考试和系统里的班级对应关系
     */
