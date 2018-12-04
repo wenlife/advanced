@@ -2,11 +2,11 @@
 
 $schoolList = $data->getSchoolList();
 
-$data2 = array_filter($data->data,function($var){
-	return $var['stu_school']=="市七中"&&$var['stu_class']=="15班";
-});
+// $data2 = array_filter($data->data,function($var){
+// 	return $var['stu_school']=="市七中"&&$var['stu_class']=="15班";
+// });
 
-var_export($data2);
+// var_export($data2);
 
 
 foreach ($schoolList as $school => $schoolAnalysis) {
@@ -21,7 +21,8 @@ foreach ($schoolList as $school => $schoolAnalysis) {
 		echo "<br>";
 		echo '-'.$class.'-';
 		var_export($classAnalysis->pass);
-	//	var_export($classAnalysis->getImprove());
+		echo "<br>";
+		var_export($classAnalysis->getImprove());
 		echo "<br>";
 	}
 }

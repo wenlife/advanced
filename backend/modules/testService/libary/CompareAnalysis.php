@@ -1,61 +1,79 @@
 <?php
 namespace backend\modules\testService\libary;
 
-use yii\helpers\ArrrayHelper;
+use yii\helpers\ArrayHelper;
 use backend\modules\testService\models\Exam;
 // use backend\modules\testService\models\ScLike;
 // use backend\modules\testService\models\ScWenke;
 
 class CompareAnalysis
 {
-	public $exam_id;
-	public $typel;
-	public $school;
-	public $except;
-	public $thisSchoolAnalysis;
-	function __construct(SchoolAnalysis $schoolAnalysis)
-	{
-		$this->exam_id = $schoolAnalysis->exam;
-		$this->type = $schoolAnalysis->type;
-		$this->school = $schoolAnalysis->school;
-		$this->except = $schoolAnalysis->except;
-		$thisSchoolAnalysis = $schoolAnalysis;
+   public $thisAnalysis;
+   public $compareAnalysis;
 
-	}
+   function __construct(SchoolAnalysis $thisSchoolAnalysis,SchoolAnalysis $compareSchoolAnalysis)
+   {
+   	  $this->thisAnalysis = $thisSchoolAnalysis;
+   	  $this->compareAnalysis = $compareSchoolAnalysis;
+   }
 
-	public function getImprove()
-	{
-		$examModel = Exam::findOne($this->exam_id);
-		$compareExam_id = $examModel->compare;
+   public function generateImprove()
+   {
+   	  $classList    = $this->thisAnalysis->getClassList();
+   	  $preGradeAvg  = $this->compareAnalysis->getAvg();
+      $thisGradeAvg = $this->thisAnalysis->getAvg();
+    	foreach ($classList as $class => $classAnalysis) 
+    	{
+    		$improve       = null;
+	    	$thisClassAvg  = $classAnalysis->getAvg();
+	    	$preClassAvg   = $this->compareAnalysis->getClassAnalysis($class)->getAvg();
+	    	foreach ($this->thisAnalysis->getSubjects() as $key => $subject) {
+	    		$varunder1 = ArrayHelper::getValue($thisGradeAvg,$subject);
+	    		$varunder2 = ArrayHelper::getValue($preGradeAvg,$subject);
+	    		$varup1    = ArrayHelper::getValue($thisClassAvg,$subject);
+	    		$varup2    = ArrayHelper::getValue($preClassAvg,$subject);
+	    		if ($varunder2&&$varunder1) {
+	    			$improve[$subject] = $varup1/$varunder1 - $varup2/$varunder2;
+	    		}
+	    	}
 
-		$thisGradeAvg = 0;
-		$thisClassAvg = 0;
-		$preGradeAvg =0;
-		$preClassAvg = 0;
+	    	$classAnalysis->setImprove($improve);
 
-		//$thisSchoolAnalysis = new SchoolAnalysis($this->exam_id,$this->type,$this->school,$this->except);
-		$preSchoolAnlysis = new SchoolAnalysis($compareExam_id,$this->type,$this->school,$this->except);
+	    	$classList[$class] = $classAnalysis;
+	    }
 
-		$thisClassList = $thisSchoolAnalysis->getClassList();
-		$preClassList = $preSchoolAnlysis->getClassList();
-		$thisGradeAvg = $thisSchoolAnalysis->getAvg();
-		$preGradeAvg = $preSchoolAnlysis->getAvg();
-		unset($thisSchoolAnalysis);
-        unset($preSchoolAnlysis);
+	    $this->thisAnalysis->setClassList($classList);
+	  //  return $this->thisAnalysis;
+   }
 
-		$improve = array();
-		if ($thisGradeAvg&&$preGradeAvg) {
-			foreach ($thisClassList as $class => $classAnalysis) {
-				$thisClassAvg = $classAnalysis->getAvg();
-				$preClassAvg = $classAnalysis->getAvg();
-				foreach ($classAnalysis->getSubjects() as $key => $subject) {
-					$improve[$class][$subject] = $thisClassAvg[$subject]/$thisGradeAvg[$subject]-$preClassAvg[$subject]/$preGradeAvg[$subject];
-				}
-				
-			}
-		}
-		
-        return $improve;
+   public function generateOrder()
+   {
+   	   $orderThis = $this->thisAnalysis->getSchoolSubjectScoreArray();
+   	   $orderPre  = $this->compareAnalysis->getSchoolSubjectScoreArray();
+   	   $classList = $this->thisAnalysis->getClassList();
+   	   foreach ($classList as $class => $classAnalysis) {
+   	   	    $order = null;
+   	   	    foreach ($classAnalysis->getData() as $key_student => $studentScore) {
+   	   	  	    foreach ($this->thisAnalysis->getSubjects() as $key_subject => $subject) {
+   	   	  	  		$stuid = ArrayHelper::getValue($studentScore,'stu_id');
 
-	}
+                    $order[$stuid][$subject]['this']  = array_search(ArrayHelper::getValue($studentScore,$subject),$orderThis[$subject])+1;
+                    $order[$stuid][$subject]['pre']   = array_search(ArrayHelper::getValue($studentScore,$subject),$orderPre[$subject])+1;
+                    $order[$stuid][$subject]['float'] = $order[$stuid][$subject]['this']-$order[$stuid][$subject]['pre']; 
+   	   	  	    }
+   	   	  }
+        $classAnalysis->setOrder($order);
+        $classList[$class] = $classAnalysis;
+   	   }
+
+   	   $this->thisAnalysis->setClassList($classList);
+   	   //return $this->thisAnalysis;
+   }
+
+   public function getAnalysis()
+   {
+   	 return $this->thisAnalysis;
+   }
+
+	
 }

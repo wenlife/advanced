@@ -1,7 +1,8 @@
 <?php
 namespace backend\modules\testService\libary;
 
-use yii\helpers\ArrrayHelper;
+use yii\helpers\ArrayHelper;
+use backend\modules\testService\models\Exam;
 
 class ExamAnalysis extends Analysis
 {
@@ -23,7 +24,7 @@ class ExamAnalysis extends Analysis
 		$this->schoolList = $query->select(['stu_school'])->orderBy('stu_school')->distinct()->column();
         $schoolList = $query->select(['stu_school'])->orderBy('stu_school')->distinct()->column();
         foreach ($schoolList as $key => $school) {
-        	$schoolAnalysis[$school] = new SchoolAnalysis($this->exam,$this->type,$school,$this->except);
+        	$schoolAnalysis[$school] = new SchoolAnalysis($exam,$type,$school,$except,$this->data);
         }
 
         $this->schoolList = $schoolAnalysis;
@@ -34,12 +35,14 @@ class ExamAnalysis extends Analysis
 
 	public function getSchoolList()
 	{
-	
-		return $this->schooList();//$schoolAnalysis;
+		//exit(var_export($this->data));
+		return $this->schoolList;//$schoolAnalysis;
 	}
 
-
-
+	public function getSchoolAnalysis($school)
+	{
+		return $this->schoolList[$school];
+	}
 
 
 }

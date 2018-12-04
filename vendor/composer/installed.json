@@ -802,24 +802,24 @@
     },
     {
         "name": "kartik-v/yii2-krajee-base",
-        "version": "v2.0.1",
-        "version_normalized": "2.0.1.0",
+        "version": "v2.0.3",
+        "version_normalized": "2.0.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/kartik-v/yii2-krajee-base.git",
-            "reference": "0690e9b119d9116098cbae4f15703c14f9c264b2"
+            "reference": "11896b44c3d70666b057c9153f2f77aeeb078ff6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/0690e9b119d9116098cbae4f15703c14f9c264b2",
-            "reference": "0690e9b119d9116098cbae4f15703c14f9c264b2",
+            "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/11896b44c3d70666b057c9153f2f77aeeb078ff6",
+            "reference": "11896b44c3d70666b057c9153f2f77aeeb078ff6",
             "shasum": ""
         },
         "suggest": {
             "yiisoft/yii2-bootstrap": "for Krajee extensions to work with Bootstrap 3.x version",
             "yiisoft/yii2-bootstrap4": "for Krajee extensions to work with Bootstrap 4.x version"
         },
-        "time": "2018-11-10T11:06:12+00:00",
+        "time": "2018-11-27T03:22:26+00:00",
         "type": "yii2-extension",
         "extra": {
             "branch-alias": {
@@ -947,25 +947,29 @@
     },
     {
         "name": "phpoffice/phpexcel",
-        "version": "1.8.1",
-        "version_normalized": "1.8.1.0",
+        "version": "1.8.2",
+        "version_normalized": "1.8.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/PHPOffice/PHPExcel.git",
-            "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32"
+            "reference": "1441011fb7ecdd8cc689878f54f8b58a6805f870"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
-            "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+            "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/1441011fb7ecdd8cc689878f54f8b58a6805f870",
+            "reference": "1441011fb7ecdd8cc689878f54f8b58a6805f870",
             "shasum": ""
         },
         "require": {
+            "ext-mbstring": "*",
             "ext-xml": "*",
             "ext-xmlwriter": "*",
-            "php": ">=5.2.0"
+            "php": "^5.2|^7.0"
         },
-        "time": "2015-05-01T07:00:55+00:00",
+        "require-dev": {
+            "squizlabs/php_codesniffer": "2.*"
+        },
+        "time": "2018-11-22T23:07:24+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -975,7 +979,7 @@
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "LGPL"
+            "LGPL-2.1"
         ],
         "authors": [
             {
@@ -983,18 +987,19 @@
                 "homepage": "http://blog.maartenballiauw.be"
             },
             {
-                "name": "Mark Baker"
+                "name": "Erik Tilt"
             },
             {
                 "name": "Franck Lefevre",
-                "homepage": "http://blog.rootslabs.net"
+                "homepage": "http://rootslabs.net"
             },
             {
-                "name": "Erik Tilt"
+                "name": "Mark Baker",
+                "homepage": "http://markbakeruk.net"
             }
         ],
         "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
-        "homepage": "http://phpexcel.codeplex.com",
+        "homepage": "https://github.com/PHPOffice/PHPExcel",
         "keywords": [
             "OpenXML",
             "excel",
@@ -1425,24 +1430,24 @@
     },
     {
         "name": "yiisoft/yii2-debug",
-        "version": "2.0.14",
-        "version_normalized": "2.0.14.0",
+        "version": "2.0.13",
+        "version_normalized": "2.0.13.0",
         "source": {
             "type": "git",
             "url": "https://github.com/yiisoft/yii2-debug.git",
-            "reference": "dc5a4a8529de1a41dbb037dbabf1f3f93002f21d"
+            "reference": "b37f414959c2fafefb332020b42037cd17c1cb7f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/dc5a4a8529de1a41dbb037dbabf1f3f93002f21d",
-            "reference": "dc5a4a8529de1a41dbb037dbabf1f3f93002f21d",
+            "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/b37f414959c2fafefb332020b42037cd17c1cb7f",
+            "reference": "b37f414959c2fafefb332020b42037cd17c1cb7f",
             "shasum": ""
         },
         "require": {
             "yiisoft/yii2": "~2.0.13",
             "yiisoft/yii2-bootstrap": "~2.0.0"
         },
-        "time": "2018-09-23T21:41:04+00:00",
+        "time": "2017-12-05T07:36:23+00:00",
         "type": "yii2-extension",
         "extra": {
             "branch-alias": {
@@ -1452,7 +1457,7 @@
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
-                "yii\\debug\\": "src"
+                "yii\\debug\\": ""
             }
         },
         "notification-url": "https://packagist.org/downloads/",
