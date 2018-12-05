@@ -88,15 +88,15 @@ class DataCollection{
                     }      
                 }
             }elseif($exam->type==2){
-                   $class = $this->type=='lk'?1000:1001;
-                   $lineAll = Taskline::findOne(['grade'=>$grade,'banji'=>$class]);
-                   $line_grade = $lineAll->line1;
+                   $class        = $this->type=='lk'?1000:1001;
+                   $lineAll      = Taskline::findOne(['grade'=>$grade,'banji'=>$class]);
+                   $line_grade   = $lineAll->line1;
                    $line_subject = $lineAll->line3;
             }else{
-                exit('exam type in datacollection taskline has not set!');
+                exit('Exam type in DataCollection Taskline has not set!');
             }
 
-            $this->line_grade = $line_grade;
+            $this->line_grade   = $line_grade;
             $this->line_subject = $line_subject;
 
             switch ($lineType) {
@@ -392,7 +392,7 @@ class DataCollection{
             //                 ->all();
               foreach ($stu as $keyStu => $valueStu) {
                  // $classList[$valueStu->stu_class] = $valueStu->stu_class;
-                  $re[$valueStu->stu_class][$subject][] = $valueStu->stu_id;//达标的学生按科目、学科进行分类     
+                  $re[$valueStu->stu_class][$subject][] = $valueStu->stu_id;//达标的学生按banji、学科进行分类     
               }
 
           }
