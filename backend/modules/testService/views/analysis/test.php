@@ -15,14 +15,27 @@ foreach ($schoolList as $school => $schoolAnalysis) {
 	var_export($schoolAnalysis->getAvg());
 	echo "<br>";
 	$classList = $schoolAnalysis->getClassList();
+ $i =0;
 	foreach ($classList as $class => $classAnalysis) {
-		echo '-'.$class.'-';
+		echo '平均分-'.$class.'-';
 		var_export($classAnalysis->getAvg());
 		echo "<br>";
-		echo '-'.$class.'-';
+		echo '及格率-'.$class.'-';
 		var_export($classAnalysis->pass);
 		echo "<br>";
+		echo '进步率-'.$class.'-';
 		var_export($classAnalysis->getImprove());
 		echo "<br>";
+		echo '达标率-'.$class.'-';
+		var_export($classAnalysis->getBeyondline());
+		echo "<br>";
+		echo '教师-'.$class.'-';
+		var_export($classAnalysis->getTeachers());
+		echo "<br>";
+	    $i++;
+	    if ($i>5) {
+	    	break;
+	    }
+		
 	}
 }

@@ -15,33 +15,11 @@ class BeyondLine
 	public $school;
 	public $except;
 	public $classType;
-	//public $model;
 	public $subjects;
 	public $SchoolData;
 
-	// public function __construct($exam,$school,$classType,$except)
-	// {
-	// 	$this->exam = $exam;
-	// 	$this->school = $school;
-	// 	$this->except = $except;
-	// 	$test = Exam::findOne($exam);
+	public $allLine = ['line1','line2','line3','line4'];
 
-	// 	$this->grade = $test->stu_grade;
-	// 	$this->examType = $test->type;
-	// 	switch ($classType) {
-	// 		case 'lk':
-	// 			$this->model = new ScLike();
-	// 			$this->subjects = $this->lkSubject;
-	// 			break;
-	// 		case 'wk':
- //                $this->model = new Scwenke();
- //                $this->subjects = $this->lkSubject;
-	// 		    break;
-	// 		default:
-	// 			throw new Exception("Type var was not set in Beyondline", 1);	
-	// 			break;
-	// 	}
-	// }
     public function __construct(SchoolAnalysis $SchoolData)
 	{
 		$this->SchoolData = $SchoolData;
@@ -56,8 +34,54 @@ class BeyondLine
 		$this->examType = $test->type;
 
 	}
-
+    
     /**
+     * [对当前的SchollAnalysis对象的班级列表进行达标人数的初始化，四条线，都有达标和有效达标]
+     * @return [type] [description]
+     */
+	public function initLineCount()
+	{
+		$classList = $this->SchoolData->getClassList();
+
+		foreach ($this->allLine as $key => $line) {
+			$lineArr[$line] = $this->getLineScore($line);
+		}
+
+		foreach ($classList as $class => $classAnalysis) {
+			$classdata = $classAnalysis->data;
+			$beyonline = array();
+
+			foreach ($lineArr as $line => $subjectLineArr) {
+                
+    			if (isset($subjectLineArr['zf'])) {
+					$zfline =$subjectLineArr['zf'];
+				}else{
+					throw new Exception("getLineSum IN Beyonline class ZFline can not get!", 1);
+				}			
+
+				foreach ($this->subjects as $key => $subject) {
+					$subjectLine = $subjectLineArr[$subject];
+              
+	        		$beyonline[$subject][$line]['beyonline'] = count(array_filter($classdata,function($var)use($subject,$subjectLine){
+						return $var[$subject]>=$subjectLine;
+					}));
+				    $beyonline[$subject][$line]['realbeyonline'] = count(array_filter($classdata,function($var)use($subject,$subjectLine,$zfline){
+						if($var[$subject]>=$subjectLine&&$var['zf']>=$zfline)
+						{
+			                  return true;
+						}
+					}));
+				}
+				//$subjectLine = $subjectLineArr[$subject];
+			}
+			$classAnalysis->setBeyonline($beyonline);
+			$classList[$class] = $classAnalysis;
+		}
+		return $this->SchoolData->setClassList($classList);
+	}
+
+
+	    /**
      * @param  line1 line2 line3 line4
      * @return linesum该线的总人数
      */
@@ -69,7 +93,7 @@ class BeyondLine
 		}
         $lineSum = 0;
 	    if ($this->examType==1) {
-            $classInfo = TeachClass::find()->where(['school'=>$this->school,'grade'=>$this->grade,'type'=>$this->classType])->all();
+            $classInfo = TeachClass::find()->where(['school'=>$this->school,'grade'=>$this->grade,'type'=>$this->classType])->all();     
             if($classInfo){
                 foreach ($classInfo as $keyinfo => $valueinfo) {
                     $lineSum += $valueinfo->taskline->$line;
@@ -85,65 +109,44 @@ class BeyondLine
         }    
        return $lineSum;//=======================================
 	}
-    
+
+
     /**
-     * @param  达标线类型
-     * @return 各科达标线数组
+     * [获取当前达标线的分数，返回以科目为键的数组]
+     * @param  [type] [description]
+     * @return [type] [description]
      */
-	public function getLineScore($line='line1')
+	public function getLineScore($line)
 	{
 		$lineSum = $this->getLineSum($line);
-
-		$data = $this->examType==1?$this->SchoolData->data:$this->SchoolData->examData;
-
-		// $data=[
-		// 	['id'=>1,'name'=>'aa','yw'=>'110','ds'=>'109','yy'=>'80','wl'=>'81','hx'=>'60','sw'=>'40','zf'=>'540'],
-		// 	['id'=>2,'name'=>'bb','yw'=>'120','ds'=>'19','yy'=>'40','wl'=>'91','hx'=>'20','sw'=>'70','zf'=>'450'],
-		// 	['id'=>3,'name'=>'cc','yw'=>'140','ds'=>'119','yy'=>'140','wl'=>'51','hx'=>'50','sw'=>'50','zf'=>'580'],
-		// ];
-
-		ArrayHelper::multisort($data,'zf',SORT_DESC,SORT_NUMERIC);
-		if (isset($data[$lineSum-1]['zf'])) {
-			$zfline = $data[$lineSum-1]['zf'];
-		}else{
-			throw new Exception("getLineSum IN Beyonline class ZFline can not get!", 1);
-		}
-		//$subjectLine = array();
+		//$subjectLineArr = ['yw'=>100,'ds'=>'110','yy'=>90,'wl'=>50,'hx'=>80,'sw'=>60,'zf'=>480];
 		foreach ($this->subjects as $key => $subject) {
-			ArrayHelper::multisort($data,$subject,SORT_DESC,SORT_NUMERIC);
-			$subjectLine = $data[$lineSum-1][$subject];
-			$subjectLineArr[$subject] = $subjectLine;
+			//ArrayHelper::multisort($data,$subject,SORT_DESC,SORT_NUMERIC); multiSort效率太低，并且需要引入其他值
+			//=====================改用数据库获取相应内容==================
+			$whereCondition = $this->examType==1?['test_id'=>$this->exam,'stu_school'=>$this->school]:['test_id'=>$this->exam];
+			$query = $this->SchoolData->model->find()->where($whereCondition);
+
+			if ($this->except) {
+				//======================注意此处的排除硬编码J==========================
+                 $query = $query->andWhere(['not like','note','J']);
+                //===================================================================
+             }
+			$orderedData = $query->orderBy($subject.' desc')
+					   ->offset($lineSum-1)
+					   ->one();
+			//==============================================================
+			//$subjectLine = $data[$lineSum-1][$subject];
+			$subjectLineArr[$subject] = $orderedData->$subject;
 		}
 
-		$classList = $this->SchoolData->getClassList();
-
-		foreach ($classList as $class => $classAnalysis) {
-			$classdata = $classAnalysis->data;
-			$beyonline = array();
-			foreach ($this->subjects as $key => $subject) {
-				$subjectLine = $subjectLineArr[$subject];
-				$beyonline[$subject]['beyonline'] = count(array_filter($classdata,function($var)use($subject,$subjectLine){
-					return $var[$subject]>=$subjectLine;
-				}));
-			    $beyonline[$subject]['realbeyonline'] = count(array_filter($classdata,function($var)use($subject,$subjectLine,$zfline){
-					if($var[$subject]>=$subjectLine&&$var['zf']>=$zfline)
-					{
-		                  return true;
-					}
-				}));
-			}
-			$classAnalysis->setBeyonline($beyonline);
-			$classList[$class] = $classAnalysis;
-		}
-		var_export($subjectLine);
-		exit();
-
-
-
+	    return $subjectLineArr;
 
 	}
 
-
+	public function getInitedSchoolAnalysis()
+	{
+		return $this->SchoolData;
+	}
 }
 
 

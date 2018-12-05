@@ -20,16 +20,7 @@ class Analysis
 	public $max;
 	public $pass;
 	public $compareExam;
-	// public $yw;
-	// public $ds;
-	// public $yy;
-	// public $wl;
-	// public $hx;
-	// public $sw;
-	// public $zz;
-	// public $ls;
-	// public $dl;
-	// public $zf;
+
 
 
 	public function __construct($exam,$type,$except=null)

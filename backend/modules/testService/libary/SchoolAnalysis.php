@@ -10,14 +10,14 @@ class SchoolAnalysis extends Analysis
 
 	public $classList;
 	public $school;
-    public $examData;
+    //public $examData;
 
      function __construct($exam,$type,$school,$except,$examData)
      {
      	parent::__construct($exam,$type,$except);
 
      	$this->school = $school;
-        $this->examData = $examData;
+       // $this->examData = $examData;
 
         $this->data = array_filter($examData,function($var)use($school){
             return $var['stu_school'] == $school;

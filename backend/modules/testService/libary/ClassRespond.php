@@ -2,6 +2,7 @@
 namespace backend\modules\testService\libary;
 use Yii;
 use backend\libary\CommonFunction;
+use yii\helpers\ArrayHelper;
 use backend\modules\school\models\TeachManage;
 use backend\modules\school\models\TeachYearManage;
 use backend\modules\testService\models\Exam;
@@ -62,9 +63,7 @@ class ClassRespond{
 		                  ->where(['class_id'=>$map_value->system_class_id,'subject'=>$subject])
 		                  ->andWhere(['year_id'=>$year_id])
 		                  ->one();
-			    if (isset($teach->teacher->name)) {
-			    	$re[$map_value->excel_class_name][$subject] = $teach->teacher->name;
-			    }
+			    $re[$map_value->excel_class_name][$subject] = ArrayHelper::getValue($teach,'teacher.name');
 				
 			}
 		}

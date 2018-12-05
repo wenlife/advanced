@@ -95,14 +95,26 @@ class AnalysisController extends Controller
     }
 
 
-    public function actionTest($school='市七中',$exam=8,$bj=null,$export=0)
+    public function actionTest($school='市七中',$exam=7,$bj=null,$export=0)
     {
         $data = new ExamAnalysis($exam,'lk');
 
+        $comapreData = new ExamAnalysis($data->getCompareExam(),'lk');
+
         $schoolAnalysis = $data->getSchoolAnalysis($school);
+        $compare = new CompareAnalysis($schoolAnalysis,$comapreData->getSchoolAnalysis($school));
+
+      //  $compare->generateOrder();
+        $compare->generateImprove();
+        $schoolAnalysis = $compare->getAnalysis();
 
         $beyondline = new Beyondline($schoolAnalysis);
-        $beyondline->getLineScore('line1');
+        $beyondline->initLineCount();
+
+        $schoolAnalysis = $beyondline->getInitedSchoolAnalysis();
+
+        //var_export($schoolAnalysis);
+        //exit();
 
         
 
@@ -132,7 +144,7 @@ class AnalysisController extends Controller
         // }
 
         // var_export($data->getMax());
-        return $this->render('test',['data'=>$data]);
+        return $this->render('test',['data'=>$data,'schooldata'=>$schoolAnalysis]);
 
     }
 

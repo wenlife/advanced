@@ -2,13 +2,18 @@
 namespace backend\modules\testService\libary;
 
 use yii\helpers\ArrayHelper;
+use backend\modules\testService\models\Exam;
+use backend\modules\testService\models\Classmap;
+use backend\modules\school\models\TeachManage;
+use backend\modules\school\models\TeachYearManage;
+use backend\modules\guest\models\Teachers;
 //use backend\modules\testService\models\Exam;
 
 class ClassAnalysis extends Analysis
 {
     public $school;
 	public $class;
-	public $schoolData;
+	//public $schoolData;
 	public $improve;
 	public $order;
 	public $teacher;
@@ -20,7 +25,7 @@ class ClassAnalysis extends Analysis
 
 		$this->school = $school;
 		$this->class = $class;
-		$this->schoolData = $schoolData;
+		//$this->schoolData = $schoolData;
 
 	    $this->data = array_filter($schoolData,function($var)use($class){
             return $var['stu_class'] == $class;
@@ -56,16 +61,44 @@ class ClassAnalysis extends Analysis
 		$this->beyondline = $beyondline;
 	}
 
-	public function getBeyonline()
+	public function getBeyondline()
 	{
 		return $this->beyondline;
 	}
 
 	public function getTeachers()
 	{
-		$teachers = ClassRespond::getTeachers($this->exam,$this->school);
+		if ($this->exam) {
+		  $test = Exam::findOne($this->exam);
+		  $testDate =  $test->date;
+		  $year = TeachYearManage::find()->where(['and',['<','start_date',$testDate],['>','end_date',$testDate]])->one();
+		 // exit(var_export($year->id));
+		  if ($year) {
+		  	$year_id = $year->id;//学期的ID
+		  }else{
+		  	return array();
+		  }
+		  
+		}
 
-		return isset($teachers[$this->class])?$teachers[$this->class]:null;
+		$map = Classmap::find()->where(['school'=>$this->school,'grade'=>$test->stu_grade,'excel_class_name'=>$this->class])->one();
+		$re = array();
+		$teach = TeachManage::find()
+		          ->select(['subject','teacher.name'])
+		          ->leftJoin('Teachers AS t','t.id = teacher_id')
+                  ->where(['class_id'=>$map->system_class_id,'year_id'=>$year_id])
+                  //->andWhere(['year_id'=>$year_id])
+                  ->indexBy('subject')
+                  ->column();
+
+        var_export($teach);
+        exit();
+		//var_export($re);
+			//	exit();
+		return $re;
+		//$teachers = ClassRespond::getTeachers($this->school,$this->exam);
+
+		//return isset($teachers[$this->class])?$teachers[$this->class]:null;
 	}
 
   
