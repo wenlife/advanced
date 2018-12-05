@@ -34,7 +34,7 @@ foreach ($schoolList as $school => $schoolAnalysis) {
 		echo "<br>";
 	    $i++;
 	    if ($i>5) {
-	    	break;
+	    	//break;
 	    }
 		
 	}

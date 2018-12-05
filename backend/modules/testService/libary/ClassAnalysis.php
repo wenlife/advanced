@@ -84,18 +84,19 @@ class ClassAnalysis extends Analysis
 		$map = Classmap::find()->where(['school'=>$this->school,'grade'=>$test->stu_grade,'excel_class_name'=>$this->class])->one();
 		$re = array();
 		$teach = TeachManage::find()
-		          ->select(['subject','teacher.name'])
-		          ->leftJoin('Teachers AS t','t.id = teacher_id')
+		          ->select(['subject','teacher_id'])
+		        //  ->leftJoin('Teachers AS t','t.id = teacher_id')
                   ->where(['class_id'=>$map->system_class_id,'year_id'=>$year_id])
                   //->andWhere(['year_id'=>$year_id])
                   ->indexBy('subject')
-                  ->column();
+                  ->all();
+        $teachArr = ArrayHelper::map($teach,'subject','teacher.name');
 
-        var_export($teach);
-        exit();
+        // var_export($teachArr);
+        // exit();
 		//var_export($re);
 			//	exit();
-		return $re;
+		return $teachArr;
 		//$teachers = ClassRespond::getTeachers($this->school,$this->exam);
 
 		//return isset($teachers[$this->class])?$teachers[$this->class]:null;

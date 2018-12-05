@@ -36,11 +36,13 @@ class ExamAnalysis extends Analysis
 	public function getSchoolList()
 	{
 		//exit(var_export($this->data));
+
 		return $this->schoolList;//$schoolAnalysis;
 	}
 
 	public function getSchoolAnalysis($school)
 	{
+
 		return $this->schoolList[$school];
 	}
 

@@ -95,13 +95,14 @@ class AnalysisController extends Controller
     }
 
 
-    public function actionTest($school='市七中',$exam=7,$bj=null,$export=0)
+    public function actionTest($school="市七中",$exam=6,$bj=null,$export=0)
     {
         $data = new ExamAnalysis($exam,'lk');
 
         $comapreData = new ExamAnalysis($data->getCompareExam(),'lk');
-
+        
         $schoolAnalysis = $data->getSchoolAnalysis($school);
+
         $compare = new CompareAnalysis($schoolAnalysis,$comapreData->getSchoolAnalysis($school));
 
       //  $compare->generateOrder();
