@@ -82,7 +82,7 @@ class ClassAnalysis extends Analysis
 		}
 
 		$map = Classmap::find()->where(['school'=>$this->school,'grade'=>$test->stu_grade,'excel_class_name'=>$this->class])->one();
-		$re = array();
+		//$re = array();
 		$teach = TeachManage::find()
 		          ->select(['subject','teacher_id'])
 		        //  ->leftJoin('Teachers AS t','t.id = teacher_id')

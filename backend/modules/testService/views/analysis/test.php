@@ -1,5 +1,5 @@
 <?php
-
+$this->title = 'Data Test';
 $schoolList = $data->getSchoolList();
 
 // $data2 = array_filter($data->data,function($var){
@@ -32,10 +32,8 @@ foreach ($schoolList as $school => $schoolAnalysis) {
 		echo '教师-'.$class.'-';
 		var_export($classAnalysis->getTeachers());
 		echo "<br>";
-	    $i++;
-	    if ($i>5) {
-	    	//break;
-	    }
+	    echo '第'.++$i.'次进行';
+	    echo "<hr>";
 		
 	}
 }
