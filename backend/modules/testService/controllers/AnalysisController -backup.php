@@ -2,21 +2,19 @@
 namespace backend\modules\testService\controllers;
 use Yii;
 use yii\web\Controller;
-use yii\web\UploadedFile;
 use backend\modules\testService\forms\UploadXml;
-
 use backend\modules\testService\models\Exam;
 use backend\modules\testService\models\ScLike;
 use backend\modules\testService\models\SclikeSearch;
 use backend\modules\testService\models\ScWenke;
 use backend\modules\testService\models\ScwenkeSearch;
-
-// use backend\modules\testService\libary\DataAnalysis;
-// use backend\modules\testService\libary\DataCollection;
-// use backend\modules\testService\libary\DataColl;
-// use backend\modules\testService\libary\DataColw;
-// use backend\modules\testService\libary\ClassRespond;
-// use backend\modules\school\models\TeachClass;
+use yii\web\UploadedFile;
+use backend\modules\testService\libary\DataAnalysis;
+use backend\modules\testService\libary\DataCollection;
+use backend\modules\testService\libary\DataColl;
+use backend\modules\testService\libary\DataColw;
+use backend\modules\testService\libary\ClassRespond;
+use backend\modules\school\models\TeachClass;
 use PHPExcel;
 use backend\libary\CommonFunction;
 use backend\modules\testService\models\Classmap;
@@ -27,7 +25,9 @@ use backend\modules\testService\libary\SchoolAnalysis;
 use backend\modules\testService\libary\ClassAnalysis;
 use backend\modules\testService\libary\CompareAnalysis;
 use backend\modules\testService\libary\Beyondline;
-
+/**
+ * Default controller for the `testService` module
+ */
 class AnalysisController extends Controller
 {
 
@@ -57,11 +57,40 @@ class AnalysisController extends Controller
     public function actionIndex($id=null)
     {
 
-        $lkExamAnalysis = new ExamAnalysis($id,'lk'); 
-        $wkExamAnalysis = new ExamAnalysis($id,'wk');  
+        $exam = Exam::find()->where(['id'=>$id])->one();
+        if (!$exam) {
+           return $this->render('error',['message'=>'您选择的考试不存在！']);
+        }
+
+        $datalk = new DataColl();
+        $datawk = new DataColw();
+        $scLike  = $datalk->loadData($exam->id);
+        $scWenke = $datawk->loadData($exam->id);
+        $schools = $datalk->getSchoolList();//！！！学校从理科成绩中获得，所有要主要是否会出现问题
+        if (!$schools) {
+            $schools = $datawk->getSchoolList();
+        }
+        $schoolsAna = array();
+        $schoolsAnaW = array();
+        
+        foreach ($schools as $key => $school) {
+            $datalk->loadData($id,$school);
+            $schoolsAna[$key]['max'] = $datalk->getMax();
+            $schoolsAna[$key]['avg'] = $datalk->getAvg();
+
+            $datawk->loadData($id,$school);
+            $schoolsAnaW[$key]['max'] = $datawk->getMax();
+            $schoolsAnaW[$key]['avg'] = $datawk->getAvg(); 
+        }     
         return $this->render('index',[
-            'lkExam'=>$lkExamAnalysis,
-            'wkExam'=>$wkExamAnalysis
+            'exam'=>$exam,
+            'lksubjects'=>$datalk->getSubjects(),
+            'wksubjects'=>$datawk->getSubjects(),
+            'scLike'=>$scLike,
+            'scWenke'=>$scWenke,
+            'schools'=>$schools,
+            'schoolsAna'=>$schoolsAna,
+            'schoolsAnaW'=>$schoolsAnaW,
             ]);
     }
 
@@ -85,9 +114,95 @@ class AnalysisController extends Controller
 
         $schoolAnalysis = $beyondline->getInitedSchoolAnalysis();
 
+        //var_export($schoolAnalysis);
+        //exit();
+
+        
+
+       // $dataCompare = new ExamAnalysis($data->getCompareExam(),'lk');
+
+        //$compareSchoolAnalysis = $dataCompare->getSchoolAnalysis('市七中');
+        
+      //  $compare = new CompareAnalysis($schoolAnalysis,$compareSchoolAnalysis);
+
+       // $compare->generateImprove();
+      //  $compare->generateOrder();
+       // $schoolAnalysis = $compare->getAnalysis();
+
+       // var_export($schoolAnalysis->getClassAnalysis('15班'));
+       // exit();
+
+
+        //var_export($data);
+        // $schooList = $data->getSchoolList();
+
+        // foreach ($schooList as $school => $schoolAnalysis) {
+        //    $classList =  $schoolAnalysis->getClassList();
+        //    foreach ($classList as $class => $classAnalysis) {
+        //        echo $class;
+        //        var_export($classAnalysis->getAvg());
+        //    }
+        // }
+
+        // var_export($data->getMax());
         return $this->render('test',['data'=>$data,'schooldata'=>$schoolAnalysis]);
 
     }
+
+
+
+    /**
+    * 设置本次考试和系统里的班级对应关系
+    */
+    public function actionRespond($id)
+    {
+        $mySchool = "市七中";
+        if($exam = Exam::findOne($id))
+        {
+             $grade = $exam->stu_grade;
+        }
+        $datalk = new DataColl();
+        $datalk->loadData($id,$mySchool);
+        $datawk = new DataColw();
+        $datawk->loadData($id,$mySchool);
+        $bjlk = $datalk->getClassList();
+        $bjwk = $datawk->getClassList();
+
+        $bj = array_merge($bjlk,$bjwk);
+        sort($bj);//班级排序
+
+        $classes = TeachClass::find()->where(['school'=>$mySchool,'grade'=>$grade])->all();
+        //设置班级对应关系
+        if(Yii::$app->request->post())
+        {
+            $post = Yii::$app->request->post();
+            $re = array();
+            foreach ($post as $bj_key => $class_id) {
+             //   echo $class_id;
+                if (is_numeric($class_id)) {
+                     $re[$class_id] = $bj[$bj_key];
+                }
+            }
+
+            //对学校进行设置；
+            $store[$post['school']] = $re;
+            ClassRespond::writeRespond($post['school'],$grade,$re);
+
+            // file_put_contents('respond',serialize($store));
+            // $reload = unserialize(file_get_contents('respond'));
+            // $reload = $reload[$post['school']];
+            $reload = $re;
+
+            $view_res = array();
+            foreach ($reload as $key2 => $value2) {
+                $banji = TeachClass::find()->where(['id'=>$key2])->one();
+                $view_res[$key2] = $banji->title;
+            }
+            return $this->render('respond_display',['school'=>$post['school'],'reload'=>$reload,'view_res'=>$view_res,'exam'=>$id]);           
+        }
+        return $this->render('respond',['bj'=>$bj,'classes'=>$classes]);
+    }
+
 
     /**
     *该页面为学校成绩分析综合页面
@@ -95,12 +210,26 @@ class AnalysisController extends Controller
     **/
     public function actionDash($school,$exam)
     {
-         
-        $lkExam = new ExamAnalysis($exam,'lk');
-        $wkExam = new ExamAnalysis($exam,'wk');
+        $test = Exam::find()->where(['id'=>$exam])->one();
+        if (!$exam) {
+           return $this->render('error',['message'=>'您选择的考试不存在！']);
+        }
 
-        $lkSchool = $lkExam->getSchoolAnalysis($school);
-        $wkSchool = $wkExam->getSchoolAnalysis($school);
+        //该次考试 所选学校的文理科成绩信息
+        $datalk = new DataColl();
+        $sclk = $datalk->loadData($exam,$school);
+        $subjectmaxlk = $datalk->getSubjectMax();
+        //var_export($datalk->getSubjectMax());
+        //exit();
+       // $avglkSchool = $datalk->getAvg();
+        $datawk = new DataColw();
+        $scwk = $datawk->loadData($exam,$school);
+        $subjectmaxwk = $datawk->getSubjectMax();
+        //$maxSubject = array_merge($max1,$max2);
+        //$avgwkSchool = $datawk->getAvg();
+         if (!$scwk||!$sclk) {
+           return $this->render('error',['message'=>'您所选的考试成绩还未录入！']);
+        }
 
         $lksearchModel = new SclikeSearch();
         $lkdataProvider = $lksearchModel->search(Yii::$app->request->queryParams,$school,$exam);
@@ -108,13 +237,18 @@ class AnalysisController extends Controller
         $wkdataProvider = $wksearchModel->search(Yii::$app->request->queryParams,$school,$exam);
 
         return $this->render('dash', [
-            'lkSchool'=>$lkSchool,
-            'wkSchool'=>$wkSchool,
+            'exam'=>$test,
+            'school'=>$school,
+            'sclk'=>$sclk,
+            'scwk'=>$scwk,
+            'wksubjects'=>$datawk->getSubjects(),
+            'lksubjects'=>$datalk->getSubjects(),
             'lksearchModel'  => $lksearchModel,
             'lkdataProvider' => $lkdataProvider,
             'wksearchModel'  => $wksearchModel,
             'wkdataProvider' => $wkdataProvider,
-
+            'subjectmaxlk'=>$subjectmaxlk,
+            'subjectmaxwk'=>$subjectmaxwk,
         ]);
     }
 
@@ -448,59 +582,6 @@ class AnalysisController extends Controller
             'rankCompare'=>$rankCompare,
             'export'=>$export,
         ]);
-    }
-
-
-    /**
-    * 设置本次考试和系统里的班级对应关系
-    */
-    public function actionRespond($id)
-    {
-        $mySchool = "市七中";
-        if($exam = Exam::findOne($id))
-        {
-             $grade = $exam->stu_grade;
-        }
-        $datalk = new DataColl();
-        $datalk->loadData($id,$mySchool);
-        $datawk = new DataColw();
-        $datawk->loadData($id,$mySchool);
-        $bjlk = $datalk->getClassList();
-        $bjwk = $datawk->getClassList();
-
-        $bj = array_merge($bjlk,$bjwk);
-        sort($bj);//班级排序
-
-        $classes = TeachClass::find()->where(['school'=>$mySchool,'grade'=>$grade])->all();
-        //设置班级对应关系
-        if(Yii::$app->request->post())
-        {
-            $post = Yii::$app->request->post();
-            $re = array();
-            foreach ($post as $bj_key => $class_id) {
-             //   echo $class_id;
-                if (is_numeric($class_id)) {
-                     $re[$class_id] = $bj[$bj_key];
-                }
-            }
-
-            //对学校进行设置；
-            $store[$post['school']] = $re;
-            ClassRespond::writeRespond($post['school'],$grade,$re);
-
-            // file_put_contents('respond',serialize($store));
-            // $reload = unserialize(file_get_contents('respond'));
-            // $reload = $reload[$post['school']];
-            $reload = $re;
-
-            $view_res = array();
-            foreach ($reload as $key2 => $value2) {
-                $banji = TeachClass::find()->where(['id'=>$key2])->one();
-                $view_res[$key2] = $banji->title;
-            }
-            return $this->render('respond_display',['school'=>$post['school'],'reload'=>$reload,'view_res'=>$view_res,'exam'=>$id]);           
-        }
-        return $this->render('respond',['bj'=>$bj,'classes'=>$classes]);
     }
 
     public function actionImport($id=null)

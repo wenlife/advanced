@@ -3,27 +3,25 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\Tabs;
 use yii\grid\GridView;
-$this->title = $school.">>".$exam->title.">>"."总体成绩";
+
+$subjects = $lkSchool->getSubjects();
+$exam = $lkSchool->getExamModel();
+//$subjectTranslate = CommonFunction::getSubjects();
+
+$this->title = $lkSchool->getSchool().">>".$exam->title.">>"."总体成绩";
 $this->params['breadcrumbs'][] = '前10分析（表格显示不全时可以左右拖动）';
 ?>
 <div class="testService-default-index">
-<div class="btn-group">
-<?= Html::a('总体成绩', ['dash','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-primary']) ?>
-<?= Html::a('平均及率', ['avg','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-success']) ?>
-<?= Html::a('班级进步', ['improve','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-success']) ?>
-<?= Html::a('达标统计', ['beyondline','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-success']) ?>
-<?= Html::a('班级成绩', ['bj','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-success']) ?>
-</div>
-<p></p>
+<?=$this->render('include/nav_menu.php',['school'=>'市七中','exam'=>$exam])?>
 <div class="row">
 <div class="col-md-12 col-xs-12">
 <div class="nav-tabs-custom">  <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">理科成绩</a>
-              
+    <li role="presentation" class="active">
+        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">理科成绩</a>       
     </li>
-    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">文科成绩</a>
-              
+    <li role="presentation">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">文科成绩</a>      
     </li>
   </ul>
   <!-- Tab panes -->
@@ -50,7 +48,7 @@ $this->params['breadcrumbs'][] = '前10分析（表格显示不全时可以左�
         ],
     ]); 
     ?>
-    <?=$this->render('school/bj_score',['sc'=>$sclk,'subjects'=>$lksubjects,'subjectmax'=>$subjectmaxlk,'type'=>'lksc'])?>
+    <?=$this->render('school/bj_score',['Analysis'=>$lkSchool,'type'=>'lksc'])?>
     </div>
     <div role="tabpanel" class="tab-pane active table-responsive" id="messages">
       <?= GridView::widget([
@@ -73,7 +71,7 @@ $this->params['breadcrumbs'][] = '前10分析（表格显示不全时可以左�
         ],
       ]); 
       ?>
-      <?=$this->render('school/bj_score',['sc'=>$scwk,'subjects'=>$wksubjects,'subjectmax'=>$subjectmaxwk,'type'=>'wksc'])?>
+      <?=$this->render('school/bj_score',['Analysis'=>$wkSchool,'subjects'=>$wksubjects,'subjectmax'=>$subjectmaxwk,'type'=>'wksc'])?>
     </div>
   </div>
 </div>

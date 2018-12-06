@@ -1,6 +1,7 @@
 <?php
 namespace backend\modules\testService\libary;
 
+use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 use backend\modules\testService\models\Exam;
 
@@ -42,8 +43,14 @@ class ExamAnalysis extends Analysis
 
 	public function getSchoolAnalysis($school)
 	{
+		if (array_key_exists($school, $this->schoolList)) {
+			return $this->schoolList[$school];
+		}else{
 
-		return $this->schoolList[$school];
+			throw new Exception("school name can not find!", 1);
+			
+		}
+		
 	}
 
 

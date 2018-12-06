@@ -22,6 +22,9 @@ return array(
     'hyii2\\avatar\\' => array($vendorDir . '/hyii2/yii2-avatar'),
     'dmstr\\' => array($vendorDir . '/dmstr/yii2-adminlte-asset'),
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),
+    'Psr\\SimpleCache\\' => array($vendorDir . '/psr/simple-cache/src'),
+    'PhpOffice\\PhpSpreadsheet\\' => array($vendorDir . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet'),
     'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),
     'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src/Composer/Installers'),
+    'Complex\\' => array($vendorDir . '/markbaker/complex/classes/src'),
 );

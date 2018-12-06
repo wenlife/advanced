@@ -2,6 +2,7 @@
 namespace backend\modules\testService\libary;
 
 use yii\helpers\ArrayHelper;
+use yii\base\Exception;
 // use backend\modules\testService\models\ScLike;
 // use backend\modules\testService\models\ScWenke;
 
@@ -66,6 +67,11 @@ class SchoolAnalysis extends Analysis
         return $subjectScoreArray;
     }
 
+    public function getSchool()
+    {
+        return $this->school;
+    }
+
      public function setClassList($classList)
      {
         $this->classList = $classList;
@@ -75,6 +81,7 @@ class SchoolAnalysis extends Analysis
      {
         return $this->classList;
      }
+
 
      public function getClassAnalysis($class)
      {

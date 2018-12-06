@@ -35,7 +35,7 @@ class Analysis
 				break;
 			case 'wk':
                 $this->model = new Scwenke();
-                $this->subjects = $this->lkSubject;
+                $this->subjects = $this->wkSubject;
 			    break;
 			default:
 				exit('Type var was not set in ExamAnalysis');
@@ -55,21 +55,26 @@ class Analysis
 		foreach ($this->subjects as $key => $subject) {  
 		 	$subjectScore = ArrayHelper::getColumn($this->data,function($element)use($subject){
 		 		//exit(var_export($element));
-		 		return $element[$subject];
+		 		return isset($element[$subject])?$element[$subject]:0;
 		 	});
 		 	$subjectScore =  array_filter($subjectScore);
-		 	$this->avg[$subject] = count($subjectScore)==0?0:array_sum($subjectScore)/count($subjectScore);
-		 	$this->max[$subject] = max($subjectScore);
+		 	$this->avg[$subject] = count($subjectScore)==0?0:round(array_sum($subjectScore)/count($subjectScore),2);
+		 	$this->max[$subject] = count($subjectScore)?max($subjectScore):0;
 		 	// $this->$subject->avg = count($subjectScore)==0?0:array_sum($subjectScore)/count($subjectScore);
 		    // $this->$subject->avg = max($subjectScore);
 		 	$mainSubject = ['yw','ds','yy'];
 		 	$passLine = in_array($subject,$mainSubject)?90:60;
 		 	$passArray = array_filter($subjectScore,function($var)use($passLine){return $var>=$passLine;});
-		 	$this->pass[$subject] = count($passArray)/count($subjectScore);
+		 	$this->pass[$subject] =  count($subjectScore)?count($passArray)/count($subjectScore):0;
 		 	// $this->$subject->pass = count($passArray)/count($subjectScore);
 
 		}
 
+	}
+
+	public function getExamModel()
+	{
+		return Exam::findOne($this->exam);
 	}
 
 	public function getData()
