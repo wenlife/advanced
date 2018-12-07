@@ -83,11 +83,11 @@ class ClassRespond{
 		$re = array();
 		foreach ($map as $keymap => $valuemap) {
 			if ($type =='grade') {
-				$re[$valuemap->excel_class_name]['task'] = $valuemap->systitle->taskline->line1;
-				$re[$valuemap->excel_class_name]['target'] = $valuemap->systitle->taskline->line2;
+				$re[$valuemap->excel_class_name]['task'] = $valuemap->sysClass->taskline->line1;
+				$re[$valuemap->excel_class_name]['target'] = $valuemap->sysClass->taskline->line2;
 			}elseif($type=='subject'){
-				$re[$valuemap->excel_class_name]['task'] = $valuemap->systitle->taskline->line3;
-				$re[$valuemap->excel_class_name]['target'] = $valuemap->systitle->taskline->line4;
+				$re[$valuemap->excel_class_name]['task'] = $valuemap->sysClass->taskline->line3;
+				$re[$valuemap->excel_class_name]['target'] = $valuemap->sysClass->taskline->line4;
 			}
 			
 		}

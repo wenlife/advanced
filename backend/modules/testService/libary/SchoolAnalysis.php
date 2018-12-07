@@ -11,6 +11,7 @@ class SchoolAnalysis extends Analysis
 
 	public $classList;
 	public $school;
+    public $lineScore;
     //public $examData;
 
      function __construct($exam,$type,$school,$except,$examData)
@@ -80,6 +81,16 @@ class SchoolAnalysis extends Analysis
      public function getClassList()
      {
         return $this->classList;
+     }
+
+     public function setLineScore($scorearr)
+     {
+        $this->lineScore = $scorearr;
+     }
+
+     public function getlineScore()
+     {
+        return $this->lineScore;
      }
 
 

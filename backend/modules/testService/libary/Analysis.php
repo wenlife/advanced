@@ -17,6 +17,7 @@ class Analysis
     public $lkSubject = ['yw','ds','yy','wl','hx','sw','zf'];//理科科目数组
 	public $wkSubject = ['yw','ds','yy','zz','ls','dl','zf'];//文科科目数组
 	public $avg;
+	public $preAvg;
 	public $max;
 	public $pass;
 	public $compareExam;
@@ -75,6 +76,16 @@ class Analysis
 	public function getExamModel()
 	{
 		return Exam::findOne($this->exam);
+	}
+
+	public function setPreAvg($avg)
+	{
+		$this->preAvg = $avg;
+	}
+
+	public function getPreAvg()
+	{
+		return $this->preAvg;
 	}
 
 	public function getData()

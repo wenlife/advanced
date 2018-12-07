@@ -18,6 +18,7 @@ class ClassAnalysis extends Analysis
 	public $order;
 	public $teacher;
 	public $beyondline;
+	public $target;
 
 	function __construct($exam,$type,$school,$class,$except,$schoolData)
 	{
@@ -33,6 +34,11 @@ class ClassAnalysis extends Analysis
 
         $this->init();
 
+	}
+
+	public function getSchool()
+	{
+		return $this->school;
 	}
 
 	public function setOrder($order)
@@ -54,6 +60,16 @@ class ClassAnalysis extends Analysis
 	public function getImprove()
 	{
 		return $this->improve;
+	}
+
+	public function setTarget($target)
+	{
+		$this->target = $target;
+	}
+
+	public function getTarget()
+	{
+		return $this->target;
 	}
 
 	public function setBeyonline($beyondline)

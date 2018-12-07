@@ -5,20 +5,14 @@ use yii\bootstrap\Tabs;
 use backend\libary\CommonFunction;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-//var_export($compare);
-//exit();
-$this->title = $school.'-'.$bj.'-'.$exam->title.'-'."班级成绩"
+$subjects = $Analysis->getSubjects();
+$exam = $Analysis->getExamModel();
+$school = $Analysis->getSchool();
+$this->title = $Analysis->getSchool().'-'.$bj.'-'.$exam->title.'-'."班级成绩";
+echo $this->render('include/nav_menu.php',['school'=>$school,'exam'=>$exam]);
 ?>
 <div class="testService-default-index">
-  <div class="btn-group">
-<?= Html::a('总体成绩', ['dash','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-success']) ?>
-<?= Html::a('平均及率', ['avg','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-success']) ?>
-<?= Html::a('班级进步', ['improve','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-success']) ?>
-<?= Html::a('达标统计', ['beyondline','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-success']) ?>
-<?= Html::a('班级成绩', ['bj','school'=>$school,'exam'=>$exam->id], ['class' => 'btn btn-primary']) ?>
-</div>
-<p></p>
- <?php $form = ActiveForm::begin(['method'=>'post','options'=>['class'=>'form-inline']]); ?>
+ <?php $form = ActiveForm::begin(['action'=>['bj'],'method'=>'get','options'=>['class'=>'form-inline']]); ?>
   <div class="form-group">
     <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
     <div class="input-group">
@@ -71,34 +65,14 @@ $this->title = $school.'-'.$bj.'-'.$exam->title.'-'."班级成绩"
     // 'subjects'=> //需要展示的各个科目
     // 'xData'=> //展示的数据
     // 'xArray'=> //只剩单列的时候每个科目的X轴
-    $x = array();
-    foreach ($subjects as $ksubject => $valsubject) {
 
 
-
-      $ss = ArrayHelper::getColumn($scbj,$valsubject);
-      $x[$valsubject] = array();
-      for ($i=0; $i <=75 ; $i++) { 
-        $x[$valsubject][$i] = 0;
-      }
-      if ($valsubject=='zf') {
-        continue;
-      }
-      foreach ($ss as $keyss => $valss) {
-        $stage = floor($valss/2);
-        $x[$valsubject][$stage] ++;
-      }
-    }
-
-    // var_export($x);
-    // exit();
-
-    echo $this->render('school/chartDistribution',[
-         'title'=>'班级成绩分布',
-        'xAx'=>range(0,150,2),
-        'subjects'=>$subjects,
-        'xData'=>$x,
-    ]); 
+    // echo $this->render('school/chartDistribution',[
+    //      'title'=>'班级成绩分布',
+    //     'xAx'=>range(0,150,2),
+    //     'subjects'=>$subjects,
+    //     'xData'=>$x,
+    // ]); 
 
     ?>
 
@@ -128,32 +102,29 @@ $this->title = $school.'-'.$bj.'-'.$exam->title.'-'."班级成绩"
  <tbody>
  <?php
  $i=1;
-foreach ($scbj as $key => $data) {
+ $floatArr = $Analysis->getOrder();
+foreach ($Analysis->getData() as $key => $data) {
 
 	echo "<tr><td>";
 	echo $i++;
 	echo "</td><td>";
 	// echo $data->stu_id;
 	// echo "</td><td>";
-	echo $data->stu_name;
+	echo ArrayHelper::getValue($data,"stu_name");
 	echo "</td><td>";
 	// echo $data->stu_school;
 	// echo "</td><td>";
-	echo $data->stu_class;
+	echo ArrayHelper::getValue($data,"stu_class");
+  $username = ArrayHelper::getValue($floatArr,"stu_id");
+  $myOrder = ArrayHelper::getValue($floatArr,"$username");
 	
 	foreach ($subjects as $key => $subject) {
 		$var = $key%2;
 		$color1 = $var==0?'sub':'single';
 		echo "</td><td class=$color1>";
-		echo $data->$subject;
+		echo ArrayHelper::getValue($data,"$subject");
 		echo "</td><td class=$color1>";
-		if (isset($rankCompare[$data->stu_id][$subject])) {
-			$float = $rankCompare[$data->stu_id][$subject]-$rank[$data->stu_id][$subject];
-		}else{
-			$float = 0;
-		}
-		
-		
+     $float = ArrayHelper::getValue($myOrder,"$subject.float");
 		
         $color = $float>0?'green':'red';
         $arrow = $float>0?'glyphicon glyphicon-arrow-up':'glyphicon glyphicon-arrow-down';
@@ -162,7 +133,7 @@ foreach ($scbj as $key => $data) {
           $arrow = null;  
         }
 
-        echo $rank[$data->stu_id][$subject];
+        echo ArrayHelper::getValue($myOrder,"$subject.this");;
         echo "</td><td class=$color1>";
 
         echo "<span class='$arrow' style='color:$color;font-size:10px'>";

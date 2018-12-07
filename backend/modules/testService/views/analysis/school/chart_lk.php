@@ -6,7 +6,6 @@
 'subjects'=> //需要展示的各个科目
 'xData'=> //展示的数据
 'xArray'=> //只剩单列的时候每个科目的X轴
-
  -->
 <?php
 if (!isset($title)) {
@@ -33,7 +32,7 @@ if (!isset($title)) {
 // 指定图表的配置项和数据
   var option = {
     title: {
-      //text: '<?=$title?>'
+      text: '<?=$title?>'
     },
     tooltip: {},
     legend: {},

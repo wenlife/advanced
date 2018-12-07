@@ -6,6 +6,7 @@ use yii\base\Exception;
 use backend\modules\testService\models\Exam;
 use backend\modules\school\models\TeachClass;
 use backend\modules\testService\models\Taskline;
+use backend\modules\testService\models\Classmap;
 
 class BeyondLine
 {
@@ -47,6 +48,8 @@ class BeyondLine
 			$lineArr[$line] = $this->getLineScore($line);
 		}
 
+		$this->SchoolData->setLineScore($lineArr);//将达标分写入学校分析对象
+
 		foreach ($classList as $class => $classAnalysis) {
 			$classdata = $classAnalysis->data;
 			$beyonline = array();
@@ -62,10 +65,10 @@ class BeyondLine
 				foreach ($this->subjects as $key => $subject) {
 					$subjectLine = $subjectLineArr[$subject];
               
-	        		$beyonline[$subject][$line]['beyonline'] = count(array_filter($classdata,function($var)use($subject,$subjectLine){
+	        		$beyonline[$subject][$line]['beyondline'] = count(array_filter($classdata,function($var)use($subject,$subjectLine){
 						return $var[$subject]>=$subjectLine;
 					}));
-				    $beyonline[$subject][$line]['realbeyonline'] = count(array_filter($classdata,function($var)use($subject,$subjectLine,$zfline){
+				    $beyonline[$subject][$line]['realbeyondline'] = count(array_filter($classdata,function($var)use($subject,$subjectLine,$zfline){
 						if($var[$subject]>=$subjectLine&&$var['zf']>=$zfline)
 						{
 			                  return true;
@@ -78,6 +81,53 @@ class BeyondLine
 			$classList[$class] = $classAnalysis;
 		}
 		return $this->SchoolData->setClassList($classList);
+	}
+
+	/**
+	 * [功能x2： 1.写入达标分，2.在每个班级中写入当前达标线每科的达标和有效达标]
+	 * @param  [string] $line [达标线]
+	 * @return [SchoolAnalysis] [初始化的学校分析对象]
+	 */
+	public function getLineCount($line)
+	{
+		if(!in_array($line, $this->allLine)){throw new Exception("the line name was not in system setting!", 1);}
+
+		$classList = $this->SchoolData->getClassList();
+		$lineScore = $this->getLineScore($line);
+
+		$this->SchoolData->setLineScore($lineScore);//将达标分写入学校分析对象
+        
+		foreach ($classList as $class => $classAnalysis) {
+			$classdata = $classAnalysis->data;
+            //班级的当前达标线设置目标
+			$target = Classmap::find()->where(['school'=>$this->school,'grade'=>$this->grade,'excel_class_name'=>$class])
+                         ->one()->sysClass->taskline->$line;
+			$beyonline = array();
+			if (isset($lineScore['zf'])) {
+				$zfline =$lineScore['zf'];
+			}else{
+				throw new Exception("getLineSum IN Beyonline class ZFline can not get!", 1);
+			}
+
+			foreach ($this->subjects as $key => $subject) {
+				$subjectLine = $lineScore[$subject];
+          
+        		$beyonline[$subject]['beyondline'] = count(array_filter($classdata,function($var)use($subject,$subjectLine){
+					return $var[$subject]>=$subjectLine;
+				}));
+			    $beyonline[$subject]['realbeyondline'] = count(array_filter($classdata,
+			    	function($var)use($subject,$subjectLine,$zfline){
+					 if($var[$subject]>=$subjectLine&&$var['zf']>=$zfline){return true;
+					}
+				}));
+			}
+				//$subjectLine = $lineScore[$subject];
+            $classAnalysis->setTarget($target);
+			$classAnalysis->setBeyonline($beyonline);
+			$classList[$class] = $classAnalysis;
+		}
+		return $this->SchoolData->setClassList($classList);
+
 	}
 
 

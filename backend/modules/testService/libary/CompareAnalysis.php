@@ -22,6 +22,7 @@ class CompareAnalysis
    	  $classList    = $this->thisAnalysis->getClassList();
    	  $preGradeAvg  = $this->compareAnalysis->getAvg();
       $thisGradeAvg = $this->thisAnalysis->getAvg();
+      $this->thisAnalysis->setPreAvg($preGradeAvg);
     	foreach ($classList as $class => $classAnalysis) 
     	{
     		$improve       = null;
@@ -33,14 +34,17 @@ class CompareAnalysis
 	    		$varup1    = ArrayHelper::getValue($thisClassAvg,$subject);
 	    		$varup2    = ArrayHelper::getValue($preClassAvg,$subject);
 	    		if ($varunder2&&$varunder1) {
-	    			$improve[$subject] = $varup1/$varunder1 - $varup2/$varunder2;
+	    			$improve[$subject] = round($varup1/$varunder1 - $varup2/$varunder2,3);
 	    		}
 	    	}
 
 	    	$classAnalysis->setImprove($improve);
+        $classAnalysis->setPreAvg($preClassAvg);
 
 	    	$classList[$class] = $classAnalysis;
 	    }
+
+
 
 	    $this->thisAnalysis->setClassList($classList);
 	  //  return $this->thisAnalysis;

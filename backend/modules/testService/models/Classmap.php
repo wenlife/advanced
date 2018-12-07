@@ -37,7 +37,7 @@ class Classmap extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getSystitle()
+    public function getSysClass()
     {
        return  $this->hasOne(TeachClass::className(),['id'=>'system_class_id']);
     }

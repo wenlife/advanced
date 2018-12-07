@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = '前10分析（表格显示不全时可以左�
         ],
       ]); 
       ?>
-      <?=$this->render('school/bj_score',['Analysis'=>$wkSchool,'subjects'=>$wksubjects,'subjectmax'=>$subjectmaxwk,'type'=>'wksc'])?>
+      <?=$this->render('school/bj_score',['Analysis'=>$wkSchool,'type'=>'wksc'])?>
     </div>
   </div>
 </div>
