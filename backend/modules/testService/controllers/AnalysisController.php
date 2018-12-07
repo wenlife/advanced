@@ -205,12 +205,20 @@ class AnalysisController extends Controller
         }
 
         $examAnalysis = array_key_exists($bj,$lkClassList)?$lkExam:$wkExam;
+        $type = array_key_exists($bj,$lkClassList)?'lk':'wk';
+        $comapreData = new ExamAnalysis($examAnalysis->getCompareExam(),$type);
+        $schoolAnalysis = $examAnalysis->getSchoolAnalysis($school);
+
+        $Compare = new CompareAnalysis($schoolAnalysis,$comapreData->getSchoolAnalysis($school));
+        $Compare->generateOrder();
+        $schoolAnalysis = $Compare->getAnalysis();
+        $class =  $schoolAnalysis->getClassAnalysis($classlist[$bj]);
 
         //$this->export('班级成绩',null,$scbj);
         return $this->render('bj',[
             'bj'=>$bj,
             'bjarr'=>$classlist,
-            'Analysis'=>$examAnalysis->getSchoolAnalysis($school)->getClassAnalysis($classlist[$bj])
+            'Analysis'=>$class
         ]);
     }
 

@@ -12,7 +12,7 @@ $this->title = $Analysis->getSchool().'-'.$bj.'-'.$exam->title.'-'."班级成绩
 echo $this->render('include/nav_menu.php',['school'=>$school,'exam'=>$exam]);
 ?>
 <div class="testService-default-index">
- <?php $form = ActiveForm::begin(['action'=>['bj'],'method'=>'get','options'=>['class'=>'form-inline']]); ?>
+ <?php $form = ActiveForm::begin(['action'=>['/testService/analysis/bj','exam'=>$exam->id,'school'=>$school],'method'=>'get','options'=>['class'=>'form-inline']]); ?>
   <div class="form-group">
     <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
     <div class="input-group">
@@ -102,7 +102,7 @@ echo $this->render('include/nav_menu.php',['school'=>$school,'exam'=>$exam]);
  <tbody>
  <?php
  $i=1;
- $floatArr = $Analysis->getOrder();
+$floatArr = $Analysis->getOrder();
 foreach ($Analysis->getData() as $key => $data) {
 
 	echo "<tr><td>";
