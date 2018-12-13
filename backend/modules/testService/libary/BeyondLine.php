@@ -7,7 +7,10 @@ use backend\modules\testService\models\Exam;
 use backend\modules\school\models\TeachClass;
 use backend\modules\testService\models\Taskline;
 use backend\modules\testService\models\Classmap;
-
+/**
+ * 该类主要负责处理达标率的计算
+ * 计算有两种情况，4条达标线
+ */
 class BeyondLine
 {
 	public $exam;
@@ -152,7 +155,9 @@ class BeyondLine
         }elseif($this->examType==2){
                $class   = $this->classType=='lk'?1000:1001;
                $lineAll = Taskline::findOne(['grade'=>$this->grade,'banji'=>$class]);
-               $lineSum = $lineAll->$line;
+               $lineSum = $lineAll?$lineAll->$line:0;
+ 
+
         }else{
             throw new Exception("Exam type in DataCollection Taskline has not set!", 1);
             

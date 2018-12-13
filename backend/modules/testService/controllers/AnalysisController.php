@@ -76,7 +76,7 @@ class AnalysisController extends Controller
 
         $compare = new CompareAnalysis($schoolAnalysis,$comapreData->getSchoolAnalysis($school));
 
-      //  $compare->generateOrder();
+        $compare->generateOrder();
         $compare->generateImprove();
         $schoolAnalysis = $compare->getAnalysis();
 
@@ -86,6 +86,48 @@ class AnalysisController extends Controller
         $schoolAnalysis = $beyondline->getInitedSchoolAnalysis();
 
         return $this->render('test',['data'=>$data,'schooldata'=>$schoolAnalysis]);
+
+    }
+    
+    /**
+     * 该类负责导出本次成绩分析数据      
+     * @return []
+     */
+    public function export($school,$exam,$type)
+    {
+        $data = new ExamAnalysis($exam,$type);
+
+        $comapreData = new ExamAnalysis($data->getCompareExam(),$type);
+        
+        $schoolAnalysis = $data->getSchoolAnalysis($school);
+
+        $compare = new CompareAnalysis($schoolAnalysis,$comapreData->getSchoolAnalysis($school));
+
+        $compare->generateOrder();
+        $compare->generateImprove();
+        $schoolAnalysis = $compare->getAnalysis();
+
+        $beyondline = new Beyondline($schoolAnalysis);
+        $beyondline->initLineCount();
+
+        $schoolAnalysis = $beyondline->getInitedSchoolAnalysis();
+        //数据初始化完成；
+
+        $exportArray = array();
+
+        $header = ['班级'];
+        $subjects = $data->getSubjects();
+        foreach ($subjects as $key => $subject) {
+            array_push($header,$subject);
+         } 
+        $exportArray[] = $header;
+        $lineScore = $school->getLineScore();
+        $gradeAvg = $school->getAvg();
+        foreach ($subjects as $key => $subject) {
+            array_push($header,$subject);
+        } 
+
+
 
     }
 

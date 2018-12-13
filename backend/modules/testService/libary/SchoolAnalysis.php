@@ -32,19 +32,6 @@ class SchoolAnalysis extends Analysis
         $classList = array_unique($classList);
         sort($classList);
 
-
-
-  //    	$query = $this->model->find()->where(['test_id'=>$exam,'stu_school'=>$school]);
-  //    	if ($except) {
-
-	 //    $query = $query->andWhere(['not like','note',$except]);
-
-		// }
-
-		// $this->data = $query->orderBy('zf desc')->asArray()->all();
-
-		// $classList = $query->select(['stu_class'])->orderBy('stu_class')->distinct()->column();
-
 		foreach ($classList as $key => $class) {
         	$classAnalysis[$class]= new ClassAnalysis($exam,$type,$school,$class,$except,$this->data);
         }

@@ -68,8 +68,8 @@ class TeachmanageController extends Controller
                    
                 }
             }
-         //var_export($subjectWithBzr);
-         //exit();
+        //  var_export($teachArray);
+        // exit();
 
          //   $all = $teachma::find()->where(['year_id'=>$year])->all();
 

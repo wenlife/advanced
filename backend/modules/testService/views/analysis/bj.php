@@ -8,7 +8,7 @@ use yii\helpers\ArrayHelper;
 $subjects = $Analysis->getSubjects();
 $exam = $Analysis->getExamModel();
 $school = $Analysis->getSchool();
-$this->title = $Analysis->getSchool().'-'.$bj.'-'.$exam->title.'-'."班级成绩";
+$this->title = $Analysis->getSchool().'-'.$Analysis->getClass().'-'.$exam->title.'-'."班级成绩";
 echo $this->render('include/nav_menu.php',['school'=>$school,'exam'=>$exam]);
 ?>
 <div class="testService-default-index">
@@ -103,6 +103,8 @@ echo $this->render('include/nav_menu.php',['school'=>$school,'exam'=>$exam]);
  <?php
  $i=1;
 $floatArr = $Analysis->getOrder();
+//var_export($floatArr);
+//exit();
 foreach ($Analysis->getData() as $key => $data) {
 
 	echo "<tr><td>";
@@ -115,7 +117,7 @@ foreach ($Analysis->getData() as $key => $data) {
 	// echo $data->stu_school;
 	// echo "</td><td>";
 	echo ArrayHelper::getValue($data,"stu_class");
-  $username = ArrayHelper::getValue($floatArr,"stu_id");
+  $username = ArrayHelper::getValue($data,"stu_id");
   $myOrder = ArrayHelper::getValue($floatArr,"$username");
 	
 	foreach ($subjects as $key => $subject) {

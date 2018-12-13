@@ -41,6 +41,11 @@ class ClassAnalysis extends Analysis
 		return $this->school;
 	}
 
+	public function getClass()
+	{
+		return $this->class;
+	}
+
 	public function setOrder($order)
 	{
 		$this->order = $order;
@@ -106,6 +111,7 @@ class ClassAnalysis extends Analysis
                   //->andWhere(['year_id'=>$year_id])
                   ->indexBy('subject')
                   ->all();
+
         $teachArr = ArrayHelper::map($teach,'subject','teacher.name');
 
         // var_export($teachArr);

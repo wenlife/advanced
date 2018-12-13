@@ -97,6 +97,10 @@ class ComposerStaticInit06a91eef9a5d313d334c4fdb36a28939
         array (
             'Faker\\' => 6,
         ),
+        'E' => 
+        array (
+            'Egulias\\EmailValidator\\' => 23,
+        ),
         'C' => 
         array (
             'Composer\\Installers\\' => 20,
@@ -107,7 +111,7 @@ class ComposerStaticInit06a91eef9a5d313d334c4fdb36a28939
     public static $prefixDirsPsr4 = array (
         'yii\\swiftmailer\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-swiftmailer',
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-swiftmailer/src',
         ),
         'yii\\jui\\' => 
         array (
@@ -181,6 +185,10 @@ class ComposerStaticInit06a91eef9a5d313d334c4fdb36a28939
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
         ),
+        'Egulias\\EmailValidator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/egulias/email-validator/EmailValidator',
+        ),
         'Composer\\Installers\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
@@ -208,6 +216,10 @@ class ComposerStaticInit06a91eef9a5d313d334c4fdb36a28939
         ),
         'D' => 
         array (
+            'Doctrine\\Common\\Lexer\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
+            ),
             'Diff' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/php-diff/lib',
